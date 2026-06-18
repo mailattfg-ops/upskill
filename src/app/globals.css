@@ -1,26 +1,205 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Cal Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/cal-sans@latest/latin-400-normal.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/dm-sans@latest/latin-400-normal.woff2) format('woff2');
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a; /* Slate 900 */
+  --accent-blue: #2563eb; /* Royal blue */
+  --accent-blue-hover: #1d4ed8;
+  --gray-muted: #475569; /* Slate 600 */
+  --card-border: rgba(0, 0, 0, 0.05);
+  /* Figma design tokens */
+  --Brand-Blue: #4879FF;
+  --secondary-text-grey: #727272;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-blue-hover: var(--accent-blue-hover);
+  --color-gray-muted: var(--gray-muted);
+  --color-card-border: var(--card-border);
+  --font-sans: var(--font-geist-sans), Inter, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+  --font-sh-grotesk: 'Sh Ad Grotesk', var(--font-sans);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom visual styles */
+.text-gradient {
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Custom transition utility */
+.hover-scale {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-scale:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* ── All custom typography classes wrapped in @layer components ──
+   This ensures Tailwind v4 cascade order is respected correctly    */
+@layer components {
+
+  /* Hero heading — ~15% scaled down */
+  .hero-heading {
+    font-family: 'Cal Sans', var(--font-sans);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+    line-height: 100%;
+    letter-spacing: 0em;
+    text-align: center;
+    color: var(--Brand-Blue);
+  }
+
+  /* Hero subtitle — ~15% scaled down */
+  .hero-subtext {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 100%;
+    letter-spacing: -0.03em;
+    text-align: center;
+    color: var(--secondary-text-grey);
+  }
+
+  /* Section heading — ~15% scaled down */
+  .section-heading {
+    font-family: 'Cal Sans', var(--font-sans);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 34px;
+    line-height: 110%;
+    letter-spacing: 0em;
+    text-align: center;
+    color: var(--Brand-Blue);
+  }
+
+  /* Section description — ~15% scaled down */
+  .section-description {
+    font-family: 'DM Sans', var(--font-sans);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 28px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #5C5C5C;
+  }
+
+  /* Card heading — ~15% scaled down */
+  .card-heading {
+    font-family: 'Cal Sans', var(--font-sans);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 29px;
+    line-height: 35px;
+    letter-spacing: 0px;
+    color: #ffffff;
+    max-width: 359px;
+  }
+
+  /* Centre white card heading variant — dark text */
+  .card-heading-dark {
+    font-family: 'Cal Sans', var(--font-sans);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 29px;
+    line-height: 35px;
+    letter-spacing: 0px;
+    color: #0f172a;
+    max-width: 359px;
+  }
+
+  /* Card body text — ~15% scaled down */
+  .card-body {
+    font-family: var(--font-sans); /* Geist */
+    font-weight: 400;
+    font-style: normal;
+    font-size: 17px;
+    line-height: 21px;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    max-width: 386px;
+  }
+
+  /* Centre white card body — dark text */
+  .card-body-dark {
+    font-family: var(--font-sans); /* Geist */
+    font-weight: 400;
+    font-style: normal;
+    font-size: 17px;
+    line-height: 21px;
+    letter-spacing: -0.03em;
+    color: #5C5C5C;
+    max-width: 386px;
+  }
+
+  /* ── Responsive breakpoints (all classes ~15% scaled down) ── */
+  @media (min-width: 640px) {
+    .hero-heading  { font-size: 36px; }
+    .hero-subtext  { font-size: 13px; }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-heading        { font-size: 40px; }
+    .hero-subtext        { font-size: 13px; }
+    .section-heading     { font-size: 44px; }
+    .section-description { font-size: 15px; }
+    .card-heading        { font-size: 24px; }
+    .card-heading-dark   { font-size: 24px; }
+    .card-body           { font-size: 15px; }
+    .card-body-dark      { font-size: 15px; }
+  }
+
+  @media (min-width: 1280px) {
+    .hero-heading        { font-size: 50px; }
+    .hero-subtext        { font-size: 15px; }
+    .section-heading     { font-size: 54px; }
+    .section-description { font-size: 17px; }
+    .card-heading        { font-size: 27px; }
+    .card-heading-dark   { font-size: 27px; }
+    .card-body           { font-size: 16px; }
+    .card-body-dark      { font-size: 16px; }
+  }
+
+  @media (min-width: 1536px) {
+    .hero-heading        { font-size: 66px; }
+    .hero-subtext        { font-size: 17px; }
+    .section-heading     { font-size: 66px; }
+    .section-description { font-size: 18px; }
+    .card-heading        { font-size: 30px; }
+    .card-heading-dark   { font-size: 30px; }
+    .card-body           { font-size: 18px; }
+    .card-body-dark      { font-size: 18px; }
+  }
+
 }
