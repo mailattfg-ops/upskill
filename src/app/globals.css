@@ -28,7 +28,7 @@
   --secondary-text-grey: #727272;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent-blue: var(--accent-blue);
@@ -38,6 +38,18 @@
   --font-sans: var(--font-geist-sans), Inter, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
   --font-sh-grotesk: 'Sh Ad Grotesk', var(--font-sans);
+
+  /* New Brand Colors */
+  --color-brand-blue: #4879ff;
+  --color-brand-blue-alt: #4576ff;
+  --color-light-blue-tint: #ebf1ff;
+  --color-dark-navy: #161c2d;
+  --color-near-black: #1b1b1b;
+  --color-gray-mid: #727272;
+  --color-gray-light: #8e8e8e;
+  --color-gray-dark: #5c5c5c;
+  --color-gray-2f: #2f2f2f;
+  --color-surface-light: #f2f2f2;
 }
 
 body {
@@ -67,139 +79,168 @@ body {
    This ensures Tailwind v4 cascade order is respected correctly    */
 @layer components {
 
-  /* Hero heading — ~15% scaled down */
-  .hero-heading {
+  /* H1 Display / Hero */
+  .text-display-hero {
     font-family: 'Cal Sans', var(--font-sans);
     font-weight: 400;
-    font-style: normal;
-    font-size: 30px;
+    font-size: 42px; /* Responsive mobile base */
     line-height: 100%;
     letter-spacing: 0em;
-    text-align: center;
-    color: var(--Brand-Blue);
+  }
+  
+  /* Section Title */
+  .text-section-title {
+    font-family: 'Cal Sans', var(--font-sans);
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.15;
+    letter-spacing: 0em;
   }
 
-  /* Hero subtitle — ~15% scaled down */
-  .hero-subtext {
+  /* Card Heading */
+  .text-card-heading {
+    font-family: var(--font-sans);
+    font-weight: 500; /* Medium */
+    font-size: 24px;
+    line-height: 113%;
+    letter-spacing: -0.04em;
+  }
+
+  /* Sub-Heading */
+  .text-sub-heading {
+    font-family: 'Cal Sans', var(--font-sans);
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 41px;
+    letter-spacing: 0em;
+  }
+
+  /* Level Number */
+  .text-level-number {
+    font-family: 'Inter', var(--font-sans);
+    font-weight: 800; /* Extra Bold */
+    font-size: 30px;
+    line-height: 120%;
+    letter-spacing: 0em;
+  }
+
+  /* Body Large */
+  .text-body-large {
     font-family: var(--font-sans);
     font-weight: 400;
-    font-style: normal;
-    font-size: 12px;
+    font-size: 20px;
+    line-height: 113%;
+    letter-spacing: -0.04em;
+  }
+
+  /* Level Label */
+  .text-level-label {
+    font-family: 'Inter', var(--font-sans);
+    font-weight: 500; /* Medium */
+    font-size: 20px;
+    line-height: 120%;
+    letter-spacing: 0em;
+  }
+
+  /* Body Vision */
+  .text-body-vision {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 18px;
     line-height: 100%;
     letter-spacing: -0.03em;
-    text-align: center;
-    color: var(--secondary-text-grey);
   }
 
-  /* Section heading — ~15% scaled down */
-  .section-heading {
-    font-family: 'Cal Sans', var(--font-sans);
+  /* Body Default */
+  .text-body-default {
+    font-family: var(--font-sans);
     font-weight: 400;
-    font-style: normal;
-    font-size: 34px;
-    line-height: 110%;
+    font-size: 16px;
+    line-height: 100%;
+    letter-spacing: -0.03em;
+  }
+
+  /* List / Caption */
+  .text-list-caption {
+    font-family: 'Inter', var(--font-sans);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
     letter-spacing: 0em;
-    text-align: center;
-    color: var(--Brand-Blue);
   }
 
-  /* Section description — ~15% scaled down */
-  .section-description {
-    font-family: 'DM Sans', var(--font-sans);
+  /* Nav Links */
+  .text-nav-links {
+    font-family: 'Inter', var(--font-sans);
+    font-weight: 700; /* Bold */
+    font-size: 15px;
+    line-height: 24px;
+    letter-spacing: 0em;
+  }
+
+  /* Footer Nav Links */
+  .text-footer-nav {
+    font-family: var(--font-sans);
+    font-weight: 700; /* Bold */
+    font-size: 14.8px;
+    line-height: 20px;
+    letter-spacing: -0.025em;
+  }
+
+  /* CTA Button */
+  .text-cta-btn {
+    font-family: 'Inter', var(--font-sans);
+    font-weight: 500; /* Medium */
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: -0.028em;
+  }
+
+  /* Copyright */
+  .text-copyright {
+    font-family: 'Inter', var(--font-sans);
     font-weight: 400;
-    font-style: normal;
     font-size: 12px;
-    line-height: 28px;
+    line-height: 16px;
     letter-spacing: 0em;
-    text-align: center;
-    color: #5C5C5C;
   }
 
-  /* Card heading — ~15% scaled down */
-  .card-heading {
-    font-family: 'Cal Sans', var(--font-sans);
-    font-weight: 400;
-    font-style: normal;
-    font-size: 29px;
-    line-height: 35px;
-    letter-spacing: 0px;
-    color: #ffffff;
-    max-width: 359px;
-  }
-
-  /* Centre white card heading variant — dark text */
-  .card-heading-dark {
-    font-family: 'Cal Sans', var(--font-sans);
-    font-weight: 400;
-    font-style: normal;
-    font-size: 29px;
-    line-height: 35px;
-    letter-spacing: 0px;
-    color: #0f172a;
-    max-width: 359px;
-  }
-
-  /* Card body text — ~15% scaled down */
-  .card-body {
-    font-family: var(--font-sans); /* Geist */
-    font-weight: 400;
-    font-style: normal;
-    font-size: 17px;
-    line-height: 21px;
-    letter-spacing: -0.03em;
-    color: #ffffff;
-    max-width: 386px;
-  }
-
-  /* Centre white card body — dark text */
-  .card-body-dark {
-    font-family: var(--font-sans); /* Geist */
-    font-weight: 400;
-    font-style: normal;
-    font-size: 17px;
-    line-height: 21px;
-    letter-spacing: -0.03em;
-    color: #5C5C5C;
-    max-width: 386px;
-  }
-
-  /* ── Responsive breakpoints (all classes ~15% scaled down) ── */
+  /* ── Responsive scale adjustments ── */
   @media (min-width: 640px) {
-    .hero-heading  { font-size: 36px; }
-    .hero-subtext  { font-size: 13px; }
+    .text-display-hero  { font-size: 52px; }
+    .text-section-title  { font-size: 44px; }
   }
 
   @media (min-width: 1024px) {
-    .hero-heading        { font-size: 40px; }
-    .hero-subtext        { font-size: 13px; }
-    .section-heading     { font-size: 44px; }
-    .section-description { font-size: 15px; }
-    .card-heading        { font-size: 24px; }
-    .card-heading-dark   { font-size: 24px; }
-    .card-body           { font-size: 15px; }
-    .card-body-dark      { font-size: 15px; }
+    .text-display-hero  { font-size: 68px; }
+    .text-section-title  { font-size: 54px; }
+    .text-card-heading   { font-size: 32px; }
+    .text-body-large     { font-size: 24px; }
+    .text-body-default   { font-size: 18px; }
   }
 
   @media (min-width: 1280px) {
-    .hero-heading        { font-size: 50px; }
-    .hero-subtext        { font-size: 15px; }
-    .section-heading     { font-size: 54px; }
-    .section-description { font-size: 17px; }
-    .card-heading        { font-size: 27px; }
-    .card-heading-dark   { font-size: 27px; }
-    .card-body           { font-size: 16px; }
-    .card-body-dark      { font-size: 16px; }
+    .text-display-hero  { font-size: 78px; }
+    .text-section-title  { font-size: 64px; }
+    .text-card-heading   { font-size: 38px; }
+    .text-body-large     { font-size: 28px; }
+    .text-body-vision    { font-size: 24px; }
+    .text-body-default   { font-size: 20px; }
   }
 
-  @media (min-width: 1536px) {
-    .hero-heading        { font-size: 66px; }
-    .hero-subtext        { font-size: 17px; }
-    .section-heading     { font-size: 66px; }
-    .section-description { font-size: 18px; }
-    .card-heading        { font-size: 30px; }
-    .card-heading-dark   { font-size: 30px; }
-    .card-body           { font-size: 18px; }
-    .card-body-dark      { font-size: 18px; }
+  /* Exact 1728px Canvas Target Specs */
+  @media (min-width: 1600px) {
+    .text-display-hero  { font-size: 90px; }
+    .text-section-title  { font-size: 71px; }
+    .text-card-heading   { font-size: 44px; }
+    .text-sub-heading    { font-size: 40px; }
+    .text-level-number   { font-size: 38px; }
+    .text-body-large     { font-size: 32px; }
+    .text-level-label    { font-size: 28px; }
+    .text-body-vision    { font-size: 28px; }
+    .text-body-default   { font-size: 24px; }
+    .text-list-caption   { font-size: 16.5px; }
   }
 
 }
+

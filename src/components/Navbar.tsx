@@ -22,85 +22,82 @@ export default function Navbar() {
     <header className="absolute top-0 left-0 w-full z-50">
       {/* Desktop Layout - Max width 1728px container */}
       {/* Desktop Layout - Max width 1728px container */}
-      <div className="mx-auto w-full max-w-[1728px] pt-[20px] px-[25px] relative hidden xl:flex items-center">
+      <div className="mx-auto w-full max-w-[1728px] pt-[20px] px-[48px] relative hidden xl:flex items-center justify-center">
         
-        {/* Left Column: Logo Spacer (Guarantees logo never gets crushed) */}
-        <div className="flex-1 flex justify-start min-w-[220px]">
-          <Link href="/" className="relative w-[147px] h-[48px] block group z-50">
-            {/* Using the original logo image */}
-            <Image
-              src="/footer_logo.png"
-              alt="Upskill Logo"
-              fill
-              className={`object-contain transition-transform group-hover:translate-y-[-2px] ${isCfaPage ? 'brightness-0 invert' : ''}`}
-              priority
-            />
-          </Link>
-        </div>
+        {/* Centered Visible Nav Block (934px wide, Y-centered, 77px high) */}
+        <div className="w-full max-w-[934px] h-[77px] flex items-center justify-between bg-transparent">
+          
+          {/* Left Side: Logo + Nav Links (Gap: 24px) */}
+          <div className="flex items-center gap-[24px]">
+            {/* Logo */}
+            <Link href="/" className="relative w-[147px] h-[48px] block group z-50">
+              <Image
+                src="/footer_logo.png"
+                alt="Upskill Logo"
+                fill
+                className={`object-contain transition-transform group-hover:translate-y-[-2px] ${isCfaPage ? 'brightness-0 invert' : ''}`}
+                priority
+              />
+            </Link>
 
-        {/* Center Column: Nav Bar Container */}
-        <div className="shrink-0 flex justify-center px-4 z-50">
-          <nav className="flex items-center justify-center gap-4 2xl:gap-[80px] h-[45px]">
-            {/* Nav bar name box */}
-            <div className="flex items-center gap-[16px] 2xl:gap-[34px] h-[45px]">
+            {/* Links Block (Gap: 24px) */}
+            <nav className="flex items-center gap-[24px] z-50">
               <Link 
                 href="/" 
-                className={`flex items-center justify-center transition-colors font-[Inter,sans-serif] font-bold text-[15.1px] leading-[24px] whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-[#4879FF] hover:text-blue-800'}`}
+                className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-brand-blue hover:text-blue-800'}`}
               >
                 Home
               </Link>
               <Link 
                 href="/#about-company" 
-                className={`flex items-center justify-center transition-colors font-sans font-bold text-[14.8px] leading-[20px] tracking-[-0.25px] whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-[#4879FF]'}`}
+                className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
               >
                 About
               </Link>
               <Link 
                 href="/what-is-cfa" 
-                className={`flex items-center justify-center transition-colors font-sans font-bold text-[15.1px] leading-[24px] whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-[#4879FF]'}`}
+                className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
               >
                 What is CFA?
               </Link>
               <Link 
                 href="/#why-choose-us" 
-                className={`flex items-center justify-center transition-colors font-sans font-bold text-[15.1px] leading-[24px] whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-[#4879FF]'}`}
+                className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
               >
                 Program
               </Link>
               <Link 
                 href="/#testimonials" 
-                className={`flex items-center justify-center transition-colors font-[Inter,sans-serif] font-bold text-[15.1px] leading-[24px] whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-[#4879FF]'}`}
+                className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
               >
                 Testimonials
               </Link>
               <Link 
                 href="/#blogs" 
-                className={`flex items-center justify-center transition-colors font-[Inter,sans-serif] font-bold text-[15.1px] leading-[24px] whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-[#4879FF]'}`}
+                className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
               >
                 Blog
               </Link>
               <Link 
                 href="/#contact" 
-                className={`flex items-center justify-center transition-colors font-sans font-bold text-[15.1px] leading-[24px] whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-[#4879FF]'}`}
+                className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
               >
                 Contact Us
               </Link>
-            </div>
+            </nav>
+          </div>
 
-            {/* Book Free Session Button */}
-            <Link
-              href="/#contact"
-              className={`w-[154px] h-[45px] shrink-0 rounded-full flex items-center justify-center transition-all hover:shadow-md ${isCfaPage ? 'bg-white text-[#4879FF] hover:bg-gray-50' : 'bg-[#4879FF] text-white hover:bg-blue-700 shadow-sm'}`}
-            >
-              <span className="font-sans font-medium text-[13px] whitespace-nowrap">
-                Book Free Session
-              </span>
-            </Link>
-          </nav>
+          {/* Right Side: CTA Button */}
+          <Link
+            href="/#contact"
+            className={`w-[154px] h-[45px] rounded-full flex items-center justify-center transition-all hover:shadow-md z-50 ${isCfaPage ? 'bg-white text-brand-blue hover:bg-gray-50' : 'bg-brand-blue text-white hover:bg-blue-700 shadow-sm'}`}
+          >
+            <span className="text-cta-btn whitespace-nowrap">
+              Book Free Session
+            </span>
+          </Link>
+
         </div>
-
-        {/* Right Column: Empty spacer to perfectly balance the logo side for mathematical centering */}
-        <div className="flex-1 min-w-[220px]"></div>
       </div>
 
       {/* Mobile/Tablet Fallback Layout (Under 1280px) */}
