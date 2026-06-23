@@ -2,8 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "./home/footer";
+import { supabase } from "@/lib/supabaseClient";
 
-const testimonials = [
+const STATIC_TESTIMONIALS = [
   {
     name: "Michelle Chen",
     role: "Investment Analyst",
@@ -42,7 +43,52 @@ const testimonials = [
   }
 ];
 
-export default function Home() {
+const STATIC_BLOGS = [
+  {
+    id: "static-blog-1",
+    title: "How to Start Preparing for CFA Level I While Working Full-Time",
+    description: "Learn practical strategies to balance your study schedule with a demanding career.",
+    read_time: "5 min read",
+    publish_date: "March 17, 2025",
+    image: "/blog_laptop_charts.webp?v=5",
+  },
+  {
+    id: "static-blog-2",
+    title: "Top Mistakes CFA Candidates Make During Exam Preparation",
+    description: "Avoid common study habits that slow down progress and affect exam performance.",
+    read_time: "8 Min Read",
+    publish_date: "March 17, 2025",
+    image: "/blog_exam_writing.webp?v=5",
+  }
+];
+
+export default async function Home() {
+  // Fetch testimonials
+  let testimonialsList: any[] = [];
+  try {
+    const { data } = await supabase.from("testimonials").select("*");
+    testimonialsList = data || [];
+  } catch (err) {
+    console.error("Supabase testimonials fetch error:", err);
+  }
+  if (testimonialsList.length === 0) {
+    testimonialsList = STATIC_TESTIMONIALS;
+  }
+
+  // Filter visibility: hide testimonials if `is_visible` is false (default to show if column is missing)
+  const visibleTestimonials = testimonialsList.filter((t) => t.is_visible !== false);
+
+  // Fetch blogs
+  let blogsList: any[] = [];
+  try {
+    const { data } = await supabase.from("blogs").select("*").order("publish_date", { ascending: false }).limit(2);
+    blogsList = data || [];
+  } catch (err) {
+    console.error("Supabase blogs fetch error:", err);
+  }
+  if (blogsList.length === 0) {
+    blogsList = STATIC_BLOGS;
+  }
   return (
     <div className="relative min-h-screen bg-white font-sans text-gray-900 overflow-x-hidden">
       {/* Navigation Header */}
@@ -501,11 +547,10 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Testimonials Flex Container — Responsive & dynamic with flexbox */}
-        <div className="mx-auto w-full max-w-[1511.03px] flex flex-wrap justify-center gap-8 md:gap-[40.84px]">
-          {testimonials.map((t, idx) => (
+         <div className="mx-auto w-full max-w-[1511.03px] flex flex-wrap justify-center gap-8 md:gap-[40.84px]">
+          {visibleTestimonials.map((t, idx) => (
             <div
-              key={idx}
+              key={t.id || idx}
               className="flex flex-col w-full md:flex-1 md:min-w-[320px] max-w-[476.43px] p-6 md:px-[31.31px] md:py-[32px] bg-white border-[1.36px] border-[#D5D5D5] rounded-[44px] shadow-xs hover:shadow-md transition-all duration-300"
             >
               {/* Header: Avatar & Name/Role */}
@@ -559,77 +604,44 @@ export default function Home() {
 
           {/* Blog Cards Grid — Figma: width: 1587px, height: 554px, gap: 45px */}
           <div className="mt-6 md:mt-8 lg:mt-10 w-full max-w-[1587px] flex flex-col md:flex-row gap-[20px] lg:gap-[30px] xl:gap-[45px] z-20 justify-center items-stretch">
-            
-            {/* Card 1 */}
-            <div className="flex flex-col md:flex-row flex-1 max-w-full md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300">
-              {/* Image Box */}
-              <div className="relative w-full md:w-[49%] h-[220px] md:h-auto min-h-[260px] md:min-h-[320px] lg:min-h-[350px] xl:min-h-[420px] 2xl:min-h-[554px] flex-shrink-0 bg-[#EEEEEE]">
-                <Image
-                  src="/blog_laptop_charts.webp?v=5"
-                  alt="How to Start Preparing for CFA Level I"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 49vw"
-                  className="object-cover"
-                />
-              </div>
-              {/* Details Box */}
-              <div className="flex-1 p-6 md:p-4 md:pl-6 lg:p-6 lg:pl-8 xl:p-10 xl:pl-12 flex flex-col justify-center bg-white min-h-[300px]">
-                <div className="flex flex-col gap-[8px] xl:gap-[12px] 2xl:gap-[16px]">
-                  {/* Eyebrow */}
-                  <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-[#2530FF] whitespace-nowrap">
-                    5 min read
-                  </span>
-                  {/* Heading */}
-                  <h3 className="font-['Cal_Sans'] font-normal text-[22px] md:text-[16px] lg:text-[18px] xl:text-[22px] 2xl:text-[34px] leading-[103%] text-black tracking-normal mt-1 xl:mt-2">
-                    How to Start Preparing for CFA Level I While Working Full-Time
-                  </h3>
-                  {/* Description */}
-                  <p className="font-sans font-normal text-[14px] md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[21px] leading-[120%] text-[#727272] tracking-[-3%] mt-1 xl:mt-2">
-                    Learn practical strategies to balance your study schedule with a demanding career.
-                  </p>
+            {blogsList.map((blog, idx) => (
+              <div
+                key={blog.id || idx}
+                className="flex flex-col md:flex-row flex-1 max-w-full md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300"
+              >
+                {/* Image Box */}
+                <div className="relative w-full md:w-[49%] h-[220px] md:h-auto min-h-[260px] md:min-h-[320px] lg:min-h-[350px] xl:min-h-[420px] 2xl:min-h-[554px] flex-shrink-0 bg-[#EEEEEE]">
+                  <Image
+                    src={blog.image}
+                    alt={blog.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 49vw"
+                    className="object-cover"
+                  />
                 </div>
-                {/* Date */}
-                <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-6 xl:mt-8 2xl:mt-12 block">
-                  March 17, 2025
-                </span>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="flex flex-col md:flex-row flex-1 max-w-full md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300">
-              {/* Image Box */}
-              <div className="relative w-full md:w-[49%] h-[220px] md:h-auto min-h-[260px] md:min-h-[320px] lg:min-h-[350px] xl:min-h-[420px] 2xl:min-h-[554px] flex-shrink-0 bg-[#EEEEEE]">
-                <Image
-                  src="/blog_exam_writing.webp?v=5"
-                  alt="Top Mistakes CFA Candidates Make"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 49vw"
-                  className="object-cover"
-                />
-              </div>
-              {/* Details Box */}
-              <div className="flex-1 p-6 md:p-4 md:pl-6 lg:p-6 lg:pl-8 xl:p-10 xl:pl-12 flex flex-col justify-center bg-white min-h-[300px]">
-                <div className="flex flex-col gap-[8px] xl:gap-[12px] 2xl:gap-[16px]">
-                  {/* Eyebrow */}
-                  <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-[#2530FF] whitespace-nowrap">
-                    8 Min Read
+                {/* Details Box */}
+                <div className="flex-1 p-6 md:p-4 md:pl-6 lg:p-6 lg:pl-8 xl:p-10 xl:pl-12 flex flex-col justify-center bg-white min-h-[300px]">
+                  <div className="flex flex-col gap-[8px] xl:gap-[12px] 2xl:gap-[16px]">
+                    {/* Eyebrow */}
+                    <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-[#2530FF] whitespace-nowrap">
+                      {blog.read_time}
+                    </span>
+                    {/* Heading */}
+                    <h3 className="font-['Cal_Sans'] font-normal text-[22px] md:text-[16px] lg:text-[18px] xl:text-[22px] 2xl:text-[34px] leading-[103%] text-black tracking-normal mt-1 xl:mt-2">
+                      {blog.title}
+                    </h3>
+                    {/* Description */}
+                    <p className="font-sans font-normal text-[14px] md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[21px] leading-[120%] text-[#727272] tracking-[-3%] mt-1 xl:mt-2">
+                      {blog.description}
+                    </p>
+                  </div>
+                  {/* Date */}
+                  <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-6 xl:mt-8 2xl:mt-12 block">
+                    {blog.publish_date}
                   </span>
-                  {/* Heading */}
-                  <h3 className="font-['Cal_Sans'] font-normal text-[22px] md:text-[16px] lg:text-[18px] xl:text-[22px] 2xl:text-[34px] leading-[103%] text-black tracking-normal mt-1 xl:mt-2">
-                    Top Mistakes CFA Candidates Make During Exam Preparation
-                  </h3>
-                  {/* Description */}
-                  <p className="font-sans font-normal text-[14px] md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[21px] leading-[120%] text-[#727272] tracking-[-3%] mt-1 xl:mt-2">
-                    Avoid common study habits that slow down progress and affect exam performance.
-                  </p>
                 </div>
-                {/* Date */}
-                <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-6 xl:mt-8 2xl:mt-12 block">
-                  March 17, 2025
-                </span>
               </div>
-            </div>
-
+            ))}
           </div>
 
           {/* View all articles button — Figma: width 259px, height 66px */}

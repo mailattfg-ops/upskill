@@ -39,6 +39,121 @@ export default function AdminPage() {
     image: "/student_michelle.webp",
   });
 
+  // Image upload states
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadFeedback, setUploadFeedback] = useState<{ type: "success" | "error" | ""; text: string }>({ type: "", text: "" });
+
+  // Client-side image resizing and compression
+  const compressAndResizeImage = (file: File, maxWidth = 200, maxHeight = 200): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            resolve(event.target?.result as string);
+            return;
+          }
+
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+          resolve(dataUrl);
+        };
+        img.onerror = (err) => reject(err);
+      };
+      reader.onerror = (err) => reject(err);
+    });
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    setUploadFeedback({ type: "", text: "" });
+
+    try {
+      // 1. Compress image client-side to keep base64 or upload extremely lightweight (~10KB)
+      const base64Data = await compressAndResizeImage(file);
+
+      // 2. Try Supabase Storage upload
+      const fileExt = file.name.split(".").pop() || "jpg";
+      const fileName = `avatar_${Date.now()}.${fileExt}`;
+
+      try {
+        const res = await fetch(base64Data);
+        const blob = await res.blob();
+
+        const { data, error } = await supabase.storage
+          .from("testimonials")
+          .upload(fileName, blob, {
+            contentType: "image/jpeg",
+            cacheControl: "3600",
+            upsert: true,
+          });
+
+        if (error) throw error;
+
+        const { data: publicUrlData } = supabase.storage
+          .from("testimonials")
+          .getPublicUrl(fileName);
+
+        if (publicUrlData?.publicUrl) {
+          setTestimonialFormData((prev) => ({
+            ...prev,
+            image: publicUrlData.publicUrl,
+          }));
+          setUploadFeedback({
+            type: "success",
+            text: "Image uploaded to storage successfully!",
+          });
+        } else {
+          throw new Error("Failed to get public URL");
+        }
+      } catch (storageErr: any) {
+        console.warn("Storage upload failed, falling back to base64 inline image:", storageErr.message);
+        setTestimonialFormData((prev) => ({
+          ...prev,
+          image: base64Data,
+        }));
+        setUploadFeedback({
+          type: "success",
+          text: "Uploaded (saved in-database fallback).",
+        });
+      }
+    } catch (err: any) {
+      setUploadFeedback({
+        type: "error",
+        text: `Error processing image: ${err.message}`,
+      });
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+
   // Check auth status
   useEffect(() => {
     // Check standard Supabase session
@@ -219,6 +334,7 @@ export default function AdminPage() {
               role: testimonialFormData.role,
               text: testimonialFormData.text,
               image: testimonialFormData.image,
+              is_visible: true,
             },
           ]);
         if (error) throw error;
@@ -230,14 +346,29 @@ export default function AdminPage() {
         image: "/student_michelle.webp",
       });
       setEditingTestimonial(null);
+      setUploadFeedback({ type: "", text: "" });
       fetchData();
     } catch (err: any) {
       alert("Error saving testimonial: " + err.message);
     }
   };
 
+  const handleToggleTestimonialVisibility = async (id: string, currentVal: boolean) => {
+    try {
+      const { error } = await supabase
+        .from("testimonials")
+        .update({ is_visible: !currentVal })
+        .eq("id", id);
+      if (error) throw error;
+      fetchData();
+    } catch (err: any) {
+      alert("Error toggling visibility: " + err.message);
+    }
+  };
+
   const handleTestimonialEdit = (testimonial: any) => {
     setEditingTestimonial(testimonial);
+    setUploadFeedback({ type: "", text: "" });
     setTestimonialFormData({
       name: testimonial.name,
       role: testimonial.role,
@@ -551,16 +682,72 @@ export default function AdminPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1">
-                    Avatar Image URL
+                    Student Photo / Avatar
                   </label>
-                  <input
-                    type="text"
-                    required
-                    value={testimonialFormData.image}
-                    onChange={(e) => setTestimonialFormData({ ...testimonialFormData, image: e.target.value })}
-                    placeholder="e.g., /student_michelle.webp"
-                    className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
-                  />
+                  
+                  {/* Visual Preview & Upload Actions */}
+                  <div className="mt-1 flex items-center gap-4 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                    <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-200 shrink-0 border border-slate-300 flex items-center justify-center relative">
+                      {testimonialFormData.image ? (
+                        <img 
+                          src={testimonialFormData.image} 
+                          alt="Preview" 
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%2394a3b8"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>';
+                          }}
+                        />
+                      ) : (
+                        <svg className="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      )}
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="testimonial-photo-upload"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                      <label 
+                        htmlFor="testimonial-photo-upload" 
+                        className="inline-flex items-center px-2.5 py-1.5 border border-slate-300 shadow-sm text-xs font-semibold rounded text-slate-700 bg-white hover:bg-slate-50 focus:outline-none cursor-pointer transition-all"
+                      >
+                        {uploadingImage ? "Processing..." : "Choose File"}
+                      </label>
+                      <p className="text-[10px] text-slate-400 mt-1">
+                        PNG, JPG, WEBP. Auto-compressed.
+                      </p>
+                    </div>
+                  </div>
+
+                  {uploadFeedback.text && (
+                    <p className={`text-[11px] mt-1 font-semibold ${
+                      uploadFeedback.type === "success" ? "text-emerald-600" : "text-red-500"
+                    }`}>
+                      {uploadFeedback.text}
+                    </p>
+                  )}
+
+                  <div className="mt-3">
+                    <label className="block text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-1">
+                      Or paste direct image URL / Path
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={testimonialFormData.image}
+                      onChange={(e) => {
+                        setTestimonialFormData({ ...testimonialFormData, image: e.target.value });
+                        setUploadFeedback({ type: "", text: "" });
+                      }}
+                      placeholder="e.g., /student_michelle.webp"
+                      className="w-full h-9 px-3 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-[#4576FF]"
+                    />
+                  </div>
                 </div>
                 <div className="flex gap-3 pt-2">
                   <button
@@ -574,6 +761,7 @@ export default function AdminPage() {
                       type="button"
                       onClick={() => {
                         setEditingTestimonial(null);
+                        setUploadFeedback({ type: "", text: "" });
                         setTestimonialFormData({
                           name: "",
                           role: "",
@@ -671,33 +859,54 @@ export default function AdminPage() {
                       <tr className="border-b border-slate-100 bg-slate-50/55 text-slate-500 font-medium">
                         <th className="p-4">Student</th>
                         <th className="p-4">Comment</th>
+                        <th className="p-4">Status</th>
                         <th className="p-4 text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {testimonials.map((t) => (
-                        <tr key={t.id} className="hover:bg-slate-50/40">
-                          <td className="p-4 whitespace-nowrap">
-                            <div className="font-semibold text-slate-900">{t.name}</div>
-                            <div className="text-slate-500 text-xs mt-0.5">{t.role}</div>
-                          </td>
-                          <td className="p-4 max-w-sm truncate text-slate-600">{t.text}</td>
-                          <td className="p-4 text-right whitespace-nowrap space-x-2">
-                            <button
-                              onClick={() => handleTestimonialEdit(t)}
-                              className="px-2.5 py-1.5 text-xs font-semibold border border-slate-200 text-slate-600 bg-white rounded hover:bg-slate-50 cursor-pointer"
-                            >
-                              Edit
-                            </button>
-                            <button
-                              onClick={() => handleTestimonialDelete(t.id)}
-                              className="px-2.5 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded cursor-pointer"
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
+                      {testimonials.map((t) => {
+                        const isVisible = t.is_visible !== false;
+                        return (
+                          <tr key={t.id} className="hover:bg-slate-50/40">
+                            <td className="p-4 whitespace-nowrap">
+                              <div className="font-semibold text-slate-900">{t.name}</div>
+                              <div className="text-slate-500 text-xs mt-0.5">{t.role}</div>
+                            </td>
+                            <td className="p-4 max-w-sm truncate text-slate-600">{t.text}</td>
+                            <td className="p-4 whitespace-nowrap">
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                                isVisible ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                              }`}>
+                                {isVisible ? "Visible" : "Hidden"}
+                              </span>
+                            </td>
+                            <td className="p-4 text-right whitespace-nowrap space-x-2">
+                              <button
+                                onClick={() => handleToggleTestimonialVisibility(t.id, isVisible)}
+                                className={`px-2.5 py-1.5 text-xs font-semibold rounded cursor-pointer ${
+                                  isVisible 
+                                    ? "text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200" 
+                                    : "text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200"
+                                }`}
+                              >
+                                {isVisible ? "Hide" : "Show"}
+                              </button>
+                              <button
+                                onClick={() => handleTestimonialEdit(t)}
+                                className="px-2.5 py-1.5 text-xs font-semibold border border-slate-200 text-slate-600 bg-white rounded hover:bg-slate-50 cursor-pointer"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => handleTestimonialDelete(t.id)}
+                                className="px-2.5 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded cursor-pointer"
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
