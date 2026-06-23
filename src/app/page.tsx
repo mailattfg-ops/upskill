@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import Footer from "./home/footer";
+import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabaseClient";
 
 const STATIC_TESTIMONIALS = [

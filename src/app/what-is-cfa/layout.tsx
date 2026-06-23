@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Footer from "@/app/home/footer";
+import Footer from "@/components/Footer";
 
 export default function WhatIsCfaLayout({
   children,

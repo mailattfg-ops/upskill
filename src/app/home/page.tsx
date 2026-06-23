@@ -1,6 +1,6 @@
 import Hero from "./hero";
 import AboutSection from "./about";
-import Footer from "./footer";
+import Footer from "@/components/Footer";
 
 export default function About() {
   return (
