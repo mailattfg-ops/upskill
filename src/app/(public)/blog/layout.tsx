@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Blog Details | UP SKILL",
@@ -12,11 +10,6 @@ export default function BlogLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <div className="relative min-h-screen bg-white font-sans text-gray-900 overflow-x-hidden">
-      <Navbar />
-      {children}
-      <Footer />
-    </div>
-  );
+  return <>{children}</>;
 }
+

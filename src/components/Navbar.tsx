@@ -17,16 +17,17 @@ export default function Navbar() {
   // Default to standard (white pill) styling if not mounted to prevent hydration mismatch,
   // but once mounted, check if we are on the what-is-cfa page.
   const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/contact' || pathname === '/blog');
-  const isBlogPage = mounted && pathname.startsWith('/blogs');
+  const isBlogPage = false;
+  // const isBlogPage = mounted && pathname.startsWith('/blogs');
 
   return (
     <header className={`absolute top-0 left-0 w-full z-50 ${isBlogPage ? 'bg-[#1B1B1B]' : 'bg-transparent'}`}>
       {/* Desktop Layout - Max width 1728px container with 113px padding on large screen */}
       <div className={`mx-auto w-full max-w-[1728px] px-6 lg:px-12 xl:px-[113px] relative hidden xl:flex items-center justify-center ${isBlogPage ? 'py-0' : 'pt-[20px]'}`}>
-        
+
         {/* Centered Visible Nav Block (1503px content width, Y-centered, 77px high) */}
         <div className="w-full max-w-[1503px] h-[77px] flex items-center justify-between bg-transparent">
-          
+
           {/* Left Side: Logo container to balance centering */}
           <div className="w-[160px] flex items-center shrink-0">
             {/* Logo */}
@@ -43,44 +44,44 @@ export default function Navbar() {
 
           {/* Centered Links Block (Gap: 32px for blog, 24px for others) */}
           <nav className={`flex items-center z-50 ${isBlogPage ? 'gap-[32px]' : 'gap-[24px]'}`}>
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-brand-blue hover:text-blue-800'}`}
             >
               Home
             </Link>
-            <Link 
-              href="/#about-company" 
+            <Link
+              href="/#about-company"
               className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
             >
               About
             </Link>
-            <Link 
-              href="/what-is-cfa" 
+            <Link
+              href="/what-is-cfa"
               className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
             >
               What is CFA?
             </Link>
-            <Link 
-              href="#" 
+            <Link
+              href="#"
               className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
             >
               Program
             </Link>
-            <Link 
-              href="/#testimonials" 
+            <Link
+              href="/#testimonials"
               className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
             >
               Testimonials
             </Link>
-            <Link 
-              href="/#blogs" 
+            <Link
+              href="/#blogs"
               className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
             >
               Blog
             </Link>
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
             >
               Contact Us
@@ -91,13 +92,12 @@ export default function Navbar() {
           <div className="w-[160px] flex justify-end shrink-0">
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-booking-modal'))}
-              className={`w-[154px] h-[45px] rounded-full flex items-center justify-center transition-all hover:shadow-md z-50 cursor-pointer ${
-                isBlogPage 
-                  ? 'border border-[#4879FF] text-[#4879FF] bg-transparent hover:bg-[#4879FF]/10' 
-                  : isCfaPage 
-                    ? 'bg-white text-brand-blue hover:bg-gray-50' 
-                    : 'bg-brand-blue text-white hover:bg-blue-700 shadow-sm'
-              }`}
+              className={`w-[154px] h-[45px] rounded-full flex items-center justify-center transition-all hover:shadow-md z-50 cursor-pointer ${isBlogPage
+                ? 'border border-[#4879FF] text-[#4879FF] bg-transparent hover:bg-[#4879FF]/10'
+                : isCfaPage
+                  ? 'bg-white text-brand-blue hover:bg-gray-50'
+                  : 'bg-brand-blue text-white hover:bg-blue-700 shadow-sm'
+                }`}
             >
               <span className="text-cta-btn whitespace-nowrap">
                 Book Free Session
@@ -119,7 +119,7 @@ export default function Navbar() {
             priority
           />
         </Link>
-        
+
         <button
           onClick={() => setIsOpen(!isOpen)}
           className={`p-2 focus:outline-none ${isCfaPage || isBlogPage ? 'text-white' : 'text-gray-600 hover:text-gray-900'}`}

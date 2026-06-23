@@ -1,7 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabaseClient";
 
 const STATIC_TESTIMONIALS = [
@@ -90,9 +88,7 @@ export default async function Home() {
     blogsList = STATIC_BLOGS;
   }
   return (
-    <div className="relative min-h-screen bg-white font-sans text-gray-900 overflow-x-hidden">
-      {/* Navigation Header */}
-      <Navbar />
+    <>
 
       {/* Hero Section */}
       <section className="relative pt-[112px] pb-0 md:pt-[120px] lg:pt-[140px] xl:pt-[160px] px-0 overflow-visible bg-white">
@@ -699,9 +695,6 @@ export default async function Home() {
       </section>
 
 
-      {/* Footer — Figma: Group 1321319586, width 1920px, height 229px */}
-      <Footer />
-
-    </div>
+    </>
   );
 }
