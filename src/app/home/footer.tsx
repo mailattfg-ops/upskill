@@ -19,7 +19,7 @@ export default function Footer() {
               />
             </div>
             <p className="text-gray-mid font-normal text-[15px] leading-[22px]">
-              Building elite finance professionals in Saudi Arabia with confidence.
+              Helping CFA candidates across Saudi Arabia prepare with confidence.
             </p>
           </div>
 
@@ -36,15 +36,15 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 3: Our Company */}
+          {/* Column 3: For Schools */}
           <div className="flex flex-col justify-start flex-1 min-w-[120px] gap-[16px]">
             <span className="text-footer-nav text-[#1b1b1b]">
-              Our Company
+              For Schools
             </span>
             <div className="flex flex-col gap-[10px] text-[14.8px] text-gray-mid">
               <Link href="/#testimonials" className="hover:text-brand-blue transition-colors">Testimonials</Link>
               <Link href="/#blogs" className="hover:text-brand-blue transition-colors">Blog</Link>
-              <Link href="/#contact" className="hover:text-brand-blue transition-colors">Contact</Link>
+              <Link href="/contact" className="hover:text-brand-blue transition-colors">Contact</Link>
             </div>
           </div>
 
@@ -54,8 +54,8 @@ export default function Footer() {
               Contact
             </span>
             <div className="flex flex-col gap-[10px] text-[14.8px] text-gray-mid">
-              <span className="text-gray-mid">+966 544 544 321</span>
-              <span className="text-gray-mid">contact@upskill.com.sa</span>
+              <span className="text-gray-mid">Email: hello@upskillcfa.sa</span>
+              <span className="text-gray-mid">WhatsApp: +966 XX XXX XXXX</span>
 
               {/* Social Icons row */}
               <div className="flex gap-[11px] items-center mt-2">
@@ -108,10 +108,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom Copyright */}
-        <div className="w-full h-px bg-gray-200 mt-4" />
-        <div className="flex justify-between items-center text-copyright text-gray-mid">
-          <span>&copy; {new Date().getFullYear()} Upskill CFA. All rights reserved.</span>
-          <span>Designed &amp; Developed by Think Forge Global</span>
+        <div className="mt-6 md:mt-8 flex justify-center text-[12px] text-gray-mid font-sans pb-4">
+          <span>&copy; 2026 Upskill CFA. Made with ✨ for dreamers.</span>
         </div>
       </div>
     </footer>

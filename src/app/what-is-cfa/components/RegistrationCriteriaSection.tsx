@@ -3,7 +3,7 @@ export default function RegistrationCriteriaSection() {
     <section className="relative w-full px-6 py-12 md:py-20 flex flex-col items-center bg-white z-10">
       
       {/* Title & Sub-copy */}
-      <div className="text-center mb-[60px] max-w-[928px] flex flex-col items-center gap-6">
+      <div className="text-center mb-[60px] max-w-[928px] flex flex-col items-center gap-[16px]">
         <h2 className="text-section-title text-[#161c2d]">
           Registration Criteria <br className="sm:hidden" /> and Requirements
         </h2>

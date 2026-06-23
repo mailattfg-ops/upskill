@@ -49,16 +49,16 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-8 pb-0 md:pt-10 lg:pt-12 xl:pt-16 px-0 overflow-visible bg-white">
+      <section className="relative pt-[112px] pb-0 md:pt-[120px] lg:pt-[140px] xl:pt-[160px] px-0 overflow-visible bg-white">
         <div className="mx-auto max-w-[1474px] flex flex-col items-center text-center gap-4 md:gap-5 px-6">
 
           {/* Main Headline */}
-          <h1 className="hero-heading max-w-none animate-fade-in">
+          <h1 className="font-['Cal_Sans'] font-normal text-[30px] sm:text-[36px] lg:text-[40px] xl:text-[50px] 2xl:text-[66px] leading-[1.15] text-[#4879FF] text-center max-w-none animate-fade-in">
             Upskilling Tomorrow's <br className="hidden sm:inline" /> CFA Charterholder
           </h1>
 
           {/* Subtitle */}
-          <p className="hero-subtext max-w-[928px] w-full px-4">
+          <p className="font-sans font-normal text-[12px] sm:text-[13px] xl:text-[15px] 2xl:text-[17px] leading-[1.35] text-center text-[#727272] max-w-[928px] w-full px-4">
             Expert-led offline CFA training designed for ambitious students, <br className="hidden md:inline" /> professionals, or anyone who aspires to become a CFA across Saudi Arabia.
           </p>
 
@@ -101,52 +101,63 @@ export default function Home() {
             </div>
 
           </div>
+
+          {/* Gradient Overlay Container at the bottom (1728 x 309px in Figma) */}
+          <div 
+            className="absolute bottom-0 left-0 right-0 w-full z-10 h-[180px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[309px] pointer-events-none"
+            style={{
+              background: "linear-gradient(180deg, rgba(69, 118, 255, 0) 0%, #4576FF 100%)"
+            }}
+          />
+
           {/* Metrics Row — sitting at the bottom of the container */}
-          <div className="absolute bottom-0 left-0 right-0 w-full z-10 flex justify-center items-end h-[180px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[309px]">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-white text-center px-4 w-full max-w-7xl pb-[2%] sm:pb-[3%] xl:pb-[4%]">
+          {false && (
+            <div className="absolute bottom-0 left-0 right-0 w-full z-10 flex justify-center items-end h-[180px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[309px]">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-white text-center px-4 w-full max-w-7xl pb-[2%] sm:pb-[3%] xl:pb-[4%]">
 
-              {/* Metric 1 */}
-              <div className="flex flex-col justify-center items-center gap-[6px] md:gap-[15.08px]">
-                <span className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[24px] md:text-[27px] lg:text-[30px] xl:text-[36px] leading-[88%] tracking-normal text-center">
-                  CFA Levels
-                </span>
-                <span className="font-sans font-normal text-[10px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[19px] leading-[100%] tracking-[-0.03em] text-center text-blue-100/90">
-                  I, II &amp; III Covered
-                </span>
+                {/* Metric 1 */}
+                <div className="flex flex-col justify-center items-center gap-[6px] md:gap-[15.08px]">
+                  <span className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[24px] md:text-[27px] lg:text-[30px] xl:text-[36px] leading-[88%] tracking-normal text-center">
+                    CFA Levels
+                  </span>
+                  <span className="font-sans font-normal text-[10px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[19px] leading-[100%] tracking-[-0.03em] text-center text-blue-100/90">
+                    I, II &amp; III Covered
+                  </span>
+                </div>
+
+                {/* Metric 2 */}
+                <div className="flex flex-col justify-center items-center gap-[6px] md:gap-[15.08px]">
+                  <span className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[24px] md:text-[27px] lg:text-[30px] xl:text-[36px] leading-[88%] tracking-normal text-center">
+                    200+
+                  </span>
+                  <span className="font-sans font-normal text-[10px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[19px] leading-[100%] tracking-[-0.03em] text-center text-blue-100/90">
+                    Students Mentored
+                  </span>
+                </div>
+
+                {/* Metric 3 */}
+                <div className="flex flex-col justify-center items-center gap-[6px] md:gap-[15.08px]">
+                  <span className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[24px] md:text-[27px] lg:text-[30px] xl:text-[36px] leading-[88%] tracking-normal text-center">
+                    8+
+                  </span>
+                  <span className="font-sans font-normal text-[10px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[19px] leading-[100%] tracking-[-0.03em] text-center text-blue-100/90">
+                    Years of Experience
+                  </span>
+                </div>
+
+                {/* Metric 4 */}
+                <div className="flex flex-col justify-center items-center gap-[6px] md:gap-[15.08px]">
+                  <span className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[24px] md:text-[27px] lg:text-[30px] xl:text-[36px] leading-[88%] tracking-normal text-center">
+                    87%
+                  </span>
+                  <span className="font-sans font-normal text-[10px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[19px] leading-[100%] tracking-[-0.03em] text-center text-blue-100/90">
+                    Student Pass Rate
+                  </span>
+                </div>
+
               </div>
-
-              {/* Metric 2 */}
-              <div className="flex flex-col justify-center items-center gap-[6px] md:gap-[15.08px]">
-                <span className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[24px] md:text-[27px] lg:text-[30px] xl:text-[36px] leading-[88%] tracking-normal text-center">
-                  200+
-                </span>
-                <span className="font-sans font-normal text-[10px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[19px] leading-[100%] tracking-[-0.03em] text-center text-blue-100/90">
-                  Students Mentored
-                </span>
-              </div>
-
-              {/* Metric 3 */}
-              <div className="flex flex-col justify-center items-center gap-[6px] md:gap-[15.08px]">
-                <span className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[24px] md:text-[27px] lg:text-[30px] xl:text-[36px] leading-[88%] tracking-normal text-center">
-                  8+
-                </span>
-                <span className="font-sans font-normal text-[10px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[19px] leading-[100%] tracking-[-0.03em] text-center text-blue-100/90">
-                  Years of Experience
-                </span>
-              </div>
-
-              {/* Metric 4 */}
-              <div className="flex flex-col justify-center items-center gap-[6px] md:gap-[15.08px]">
-                <span className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[24px] md:text-[27px] lg:text-[30px] xl:text-[36px] leading-[88%] tracking-normal text-center">
-                  87%
-                </span>
-                <span className="font-sans font-normal text-[10px] sm:text-[13px] md:text-[14px] lg:text-[15px] xl:text-[19px] leading-[100%] tracking-[-0.03em] text-center text-blue-100/90">
-                  Student Pass Rate
-                </span>
-              </div>
-
             </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -160,12 +171,12 @@ export default function Home() {
         <div className="mx-auto flex flex-col items-center gap-6 mb-14 md:mb-16">
 
           {/* Heading — Figma: Cal Sans 90px, #4879FF, 608×180px, top:1191 left:570 (1728px frame) */}
-          <h2 className="section-heading w-full max-w-[800px]">
+          <h2 className="font-['Cal_Sans'] font-normal text-[34px] lg:text-[44px] xl:text-[54px] 2xl:text-[66px] leading-[1.15] text-[#4879FF] text-center w-full max-w-[800px]">
             Why Should You <br /> Choose Us
           </h2>
 
           {/* Subtitle — Figma: DM Sans 24px, #5C5C5C, 1128×56px, line-height 32px, top:1393 left:300 */}
-          <p className="section-description w-full max-w-[1128px] overflow-visible px-4">
+          <p className="font-['DM_Sans'] font-normal text-[12px] lg:text-[15px] xl:text-[17px] 2xl:text-[18px] leading-[28px] text-center text-[#5C5C5C] w-full max-w-[1128px] overflow-visible px-4">
             Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.
           </p>
         </div>
@@ -173,25 +184,16 @@ export default function Home() {
         {/* Outer group — Figma: 1503×547px, top:-37px, border-radius:71px, border:1px
             overflow:visible so left/right cards (top:-37px) extend above the border    */}
         <div
-          className="mx-auto w-full max-w-[1503px] flex flex-col md:flex-row md:items-start"
-          style={{
-            marginTop: "clamp(-16px, -2.5vw, -37px)",
-            minHeight: "clamp(300px, 30vw, 547px)",
-            gap: "clamp(8px, 1.5vw, 22px)",
-            overflow: "visible",
-          }}
+          className="mx-auto w-full max-w-[1503px] flex flex-col md:flex-row md:items-start gap-6 md:gap-[22px] mt-4 md:mt-[-37px] min-h-none md:min-h-[547px] overflow-visible"
         >
 
           {/* ── LEFT CARD — Blue ──
               Figma: 486×441px, top:-37px (extends 37px above outer group top)
               border-radius: 71px                                                  */}
           <div
-            className="flex-1 flex flex-col justify-between p-6 sm:p-8 lg:p-10 xl:p-12 bg-[#4879FF] text-white rounded-[71px]"
+            className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-[#4879FF] text-white rounded-[40px] md:rounded-[71px] w-full md:max-w-[486px] h-auto md:h-[441px] mt-0 md:-mt-[37px]"
             style={{
-              maxWidth: "486px",
-              height: "clamp(260px, 24vw, 441px)",
-              marginTop: "clamp(-16px, -2vw, -37px)",
-              flexShrink: 0,
+              flexShrink: 1,
             }}
           >
             {/* Clock icon */}
@@ -203,10 +205,10 @@ export default function Home() {
             </div>
             {/* Content group — Figma: 386×201px */}
             <div className="w-full max-w-[386px]">
-              <h3 className="card-heading mb-4">
+              <h3 className="font-['Cal_Sans'] font-normal text-[29px] lg:text-[24px] xl:text-[27px] 2xl:text-[30px] leading-[35px] text-white w-full max-w-[359px] mb-4">
                 Flexible Scheduling
               </h3>
-              <p className="card-body">
+              <p className="font-sans font-normal text-[17px] lg:text-[15px] xl:text-[16px] 2xl:text-[18px] leading-[21px] text-white w-full max-w-[386px]">
                 Attend sessions that fit around your work, university, or professional commitments.
               </p>
             </div>
@@ -216,12 +218,9 @@ export default function Home() {
               Figma: 487×441px, top:69px, left:508px (of 1503px group)
               border-radius: 71px, border: 1px                              */}
           <div
-            className="flex-1 flex flex-col justify-between p-6 sm:p-8 lg:p-10 xl:p-12 bg-white rounded-[71px] border border-[#D0DCFF] shadow-sm"
+            className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-white rounded-[40px] md:rounded-[71px] border border-[#D0DCFF] shadow-sm w-full md:max-w-[487px] h-auto md:h-[441px] mt-0 md:mt-[69px]"
             style={{
-              maxWidth: "487px",
-              height: "clamp(260px, 24vw, 441px)",
-              marginTop: "clamp(12px, 3vw, 69px)",
-              flexShrink: 0,
+              flexShrink: 1,
             }}
           >
             {/* Calendar icon */}
@@ -233,10 +232,10 @@ export default function Home() {
             </div>
             {/* Content group */}
             <div className="w-full max-w-[386px]">
-              <h3 className="card-heading-dark mb-4">
+              <h3 className="font-['Cal_Sans'] font-normal text-[29px] lg:text-[24px] xl:text-[27px] 2xl:text-[30px] leading-[35px] text-[#0f172a] w-full max-w-[359px] mb-4">
                 Personalised Study Plan
               </h3>
-              <p className="card-body-dark">
+              <p className="font-sans font-normal text-[17px] lg:text-[15px] xl:text-[16px] 2xl:text-[18px] leading-[21px] text-[#5C5C5C] w-full max-w-[386px]">
                 Every student learns differently. Your preparation strategy is tailored around your schedule, strengths, and target exam date.
               </p>
             </div>
@@ -246,12 +245,9 @@ export default function Home() {
               Figma: 486×441px, top:-37px (extends 37px above outer group top)
               left:1017px, border-radius: 71px                                    */}
           <div
-            className="flex-1 flex flex-col justify-between p-6 sm:p-8 lg:p-10 xl:p-12 bg-[#4879FF] text-white rounded-[71px]"
+            className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-[#4879FF] text-white rounded-[40px] md:rounded-[71px] w-full md:max-w-[486px] h-auto md:h-[441px] mt-0 md:-mt-[37px]"
             style={{
-              maxWidth: "486px",
-              height: "clamp(260px, 24vw, 441px)",
-              marginTop: "clamp(-16px, -2vw, -37px)",
-              flexShrink: 0,
+              flexShrink: 1,
             }}
           >
             {/* Cert icon */}
@@ -265,10 +261,10 @@ export default function Home() {
             </div>
             {/* Content group */}
             <div className="w-full max-w-[386px]">
-              <h3 className="card-heading mb-4">
+              <h3 className="font-['Cal_Sans'] font-normal text-[29px] lg:text-[24px] xl:text-[27px] 2xl:text-[30px] leading-[35px] text-white w-full max-w-[359px] mb-4">
                 Expert Guidance &amp; Proven Results
               </h3>
-              <p className="card-body">
+              <p className="font-sans font-normal text-[17px] lg:text-[15px] xl:text-[16px] 2xl:text-[18px] leading-[21px] text-white w-full max-w-[386px]">
                 Learn directly from an experienced CFA Charterholder with real-world finance expertise.
               </p>
             </div>
@@ -282,10 +278,10 @@ export default function Home() {
       ───────────────────────────────────────────────────────── */}
       <section id="about-company" className="w-full bg-white pt-10 pb-16 md:pb-20 lg:pt-12 lg:pb-24 xl:pt-[59px] xl:pb-28 px-6 overflow-hidden">
         <div className="mx-auto max-w-7xl flex flex-col items-center gap-6 mb-8 md:mb-12 lg:mb-16">
-          <h2 className="section-heading w-full max-w-[800px]">
+          <h2 className="font-['Cal_Sans'] font-normal text-[34px] lg:text-[44px] xl:text-[54px] 2xl:text-[66px] leading-[1.15] text-[#4879FF] text-center w-full max-w-[800px]">
             About the company
           </h2>
-          <p className="section-description w-full max-w-[1128px]">
+          <p className="font-['DM_Sans'] font-normal text-[12px] lg:text-[15px] xl:text-[17px] 2xl:text-[18px] leading-[28px] text-center text-[#5C5C5C] w-full max-w-[1128px]">
             Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.
           </p>
         </div>
@@ -418,7 +414,7 @@ export default function Home() {
         </div>
 
         {/* Mobile Layout */}
-        <div className="block md:hidden w-full relative">
+        <div className="block md:hidden w-full relative px-6">
           {/* Header */}
           <h2 className="font-['Cal_Sans'] font-normal text-[24px] leading-tight text-center text-[#4576FF] mb-4">
             Path to the <br /> CFA Charter
@@ -430,7 +426,7 @@ export default function Home() {
           </p>
 
           {/* Timeline channel and steps wrapper */}
-          <div className="relative pl-8 flex flex-col gap-10">
+          <div className="relative pl-8 pr-4 flex flex-col gap-10">
             
             {/* Timeline Central/Left line */}
             <div className="absolute left-[16px] top-2 bottom-2 w-[4px] bg-[#4576FF] rounded-full" />
@@ -438,7 +434,7 @@ export default function Home() {
             {/* Step 1 */}
             <div className="relative flex flex-col gap-2">
               {/* Node */}
-              <div className="absolute left-[-24px] top-[8px] -translate-x-1/2 w-4 h-4 rounded-full bg-[#4576FF] border-[3px] border-[#DBE5FF] z-10" />
+              <div className="absolute left-[-16px] top-[8px] -translate-x-1/2 w-4 h-4 rounded-full bg-[#4576FF] border-[3px] border-[#DBE5FF] z-10" />
               <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
                 Apply for a Free Consultation
               </h3>
@@ -450,7 +446,7 @@ export default function Home() {
             {/* Step 2 */}
             <div className="relative flex flex-col gap-2">
               {/* Node (Active/Selected state) */}
-              <div className="absolute left-[-24px] top-[8px] -translate-x-1/2 w-6 h-6 rounded-full bg-[#4576FF]/20 border-[3px] border-[#4576FF] z-10 flex items-center justify-center">
+              <div className="absolute left-[-16px] top-[8px] -translate-x-1/2 w-6 h-6 rounded-full bg-[#4576FF]/20 border-[3px] border-[#4576FF] z-10 flex items-center justify-center">
                 <div className="w-2 h-2 rounded-full bg-[#4576FF]" />
               </div>
               <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
@@ -464,7 +460,7 @@ export default function Home() {
             {/* Step 3 */}
             <div className="relative flex flex-col gap-2">
               {/* Node */}
-              <div className="absolute left-[-24px] top-[8px] -translate-x-1/2 w-4 h-4 rounded-full bg-[#4576FF] border-[3px] border-[#DBE5FF] z-10" />
+              <div className="absolute left-[-16px] top-[8px] -translate-x-1/2 w-4 h-4 rounded-full bg-[#4576FF] border-[3px] border-[#DBE5FF] z-10" />
               <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
                 Get Matched with a Study Plan
               </h3>
@@ -476,7 +472,7 @@ export default function Home() {
             {/* Step 4 */}
             <div className="relative flex flex-col gap-2">
               {/* Node */}
-              <div className="absolute left-[-24px] top-[8px] -translate-x-1/2 w-4 h-4 rounded-full bg-[#4576FF] border-[3px] border-[#DBE5FF] z-10" />
+              <div className="absolute left-[-16px] top-[8px] -translate-x-1/2 w-4 h-4 rounded-full bg-[#4576FF] border-[3px] border-[#DBE5FF] z-10" />
               <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
                 Pass Your CFA Exam with Confidence
               </h3>
@@ -496,11 +492,11 @@ export default function Home() {
         {/* Section Header */}
         <div className="mx-auto flex flex-col items-center gap-6 md:gap-[23px] mb-14 md:mb-16">
           {/* Heading — Figma: Cal Sans 90px, #4879FF */}
-          <h2 className="section-heading w-full max-w-[800px] h-auto text-center flex items-center justify-center">
+          <h2 className="font-['Cal_Sans'] font-normal text-[34px] lg:text-[44px] xl:text-[54px] 2xl:text-[66px] leading-[1.15] text-[#4879FF] text-center w-full max-w-[800px] h-auto flex items-center justify-center">
             Hear From <br /> Our Students
           </h2>
           {/* Subtitle — Figma: DM Sans 24px, #5C5C5C */}
-          <p className="section-description w-full max-w-[1128px] h-auto text-center px-4 flex items-center justify-center">
+          <p className="font-['DM_Sans'] font-normal text-[12px] lg:text-[15px] xl:text-[17px] 2xl:text-[18px] leading-[28px] text-center text-[#5C5C5C] w-full max-w-[1128px] h-auto px-4 flex items-center justify-center">
             Pass your CFA exams with Upskill and join the elite community of CFA charter holders.
           </p>
         </div>
@@ -510,7 +506,7 @@ export default function Home() {
           {testimonials.map((t, idx) => (
             <div
               key={idx}
-              className="flex flex-col flex-1 min-w-[320px] max-w-[476.43px] p-6 md:px-[31.31px] md:py-[32px] bg-white border-[1.36px] border-[#D5D5D5] rounded-[44px] shadow-xs hover:shadow-md transition-all duration-300"
+              className="flex flex-col w-full md:flex-1 md:min-w-[320px] max-w-[476.43px] p-6 md:px-[31.31px] md:py-[32px] bg-white border-[1.36px] border-[#D5D5D5] rounded-[44px] shadow-xs hover:shadow-md transition-all duration-300"
             >
               {/* Header: Avatar & Name/Role */}
               <div className="flex items-center gap-[23.14px]">
@@ -577,23 +573,23 @@ export default function Home() {
                 />
               </div>
               {/* Details Box */}
-              <div className="flex-1 p-6 md:p-4 md:pl-6 lg:p-6 lg:pl-8 xl:p-10 xl:pl-12 flex flex-col justify-between bg-white min-h-[300px]">
-                <div className="flex flex-col gap-[8px]">
+              <div className="flex-1 p-6 md:p-4 md:pl-6 lg:p-6 lg:pl-8 xl:p-10 xl:pl-12 flex flex-col justify-center bg-white min-h-[300px]">
+                <div className="flex flex-col gap-[8px] xl:gap-[12px] 2xl:gap-[16px]">
                   {/* Eyebrow */}
                   <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-[#2530FF] whitespace-nowrap">
                     5 min read
                   </span>
                   {/* Heading */}
-                  <h3 className="font-['Cal_Sans'] font-normal text-[22px] md:text-[16px] lg:text-[18px] xl:text-[22px] 2xl:text-[34px] leading-[103%] text-black tracking-normal mt-2">
+                  <h3 className="font-['Cal_Sans'] font-normal text-[22px] md:text-[16px] lg:text-[18px] xl:text-[22px] 2xl:text-[34px] leading-[103%] text-black tracking-normal mt-1 xl:mt-2">
                     How to Start Preparing for CFA Level I While Working Full-Time
                   </h3>
                   {/* Description */}
-                  <p className="font-sans font-normal text-[14px] md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[21px] leading-[120%] text-[#727272] tracking-[-3%] mt-4">
+                  <p className="font-sans font-normal text-[14px] md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[21px] leading-[120%] text-[#727272] tracking-[-3%] mt-1 xl:mt-2">
                     Learn practical strategies to balance your study schedule with a demanding career.
                   </p>
                 </div>
                 {/* Date */}
-                <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-8 block">
+                <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-6 xl:mt-8 2xl:mt-12 block">
                   March 17, 2025
                 </span>
               </div>
@@ -612,23 +608,23 @@ export default function Home() {
                 />
               </div>
               {/* Details Box */}
-              <div className="flex-1 p-6 md:p-4 md:pl-6 lg:p-6 lg:pl-8 xl:p-10 xl:pl-12 flex flex-col justify-between bg-white min-h-[300px]">
-                <div className="flex flex-col gap-[8px]">
+              <div className="flex-1 p-6 md:p-4 md:pl-6 lg:p-6 lg:pl-8 xl:p-10 xl:pl-12 flex flex-col justify-center bg-white min-h-[300px]">
+                <div className="flex flex-col gap-[8px] xl:gap-[12px] 2xl:gap-[16px]">
                   {/* Eyebrow */}
                   <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-[#2530FF] whitespace-nowrap">
                     8 Min Read
                   </span>
                   {/* Heading */}
-                  <h3 className="font-['Cal_Sans'] font-normal text-[22px] md:text-[16px] lg:text-[18px] xl:text-[22px] 2xl:text-[34px] leading-[103%] text-black tracking-normal mt-2">
+                  <h3 className="font-['Cal_Sans'] font-normal text-[22px] md:text-[16px] lg:text-[18px] xl:text-[22px] 2xl:text-[34px] leading-[103%] text-black tracking-normal mt-1 xl:mt-2">
                     Top Mistakes CFA Candidates Make During Exam Preparation
                   </h3>
                   {/* Description */}
-                  <p className="font-sans font-normal text-[14px] md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[21px] leading-[120%] text-[#727272] tracking-[-3%] mt-4">
+                  <p className="font-sans font-normal text-[14px] md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[21px] leading-[120%] text-[#727272] tracking-[-3%] mt-1 xl:mt-2">
                     Avoid common study habits that slow down progress and affect exam performance.
                   </p>
                 </div>
                 {/* Date */}
-                <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-8 block">
+                <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-6 xl:mt-8 2xl:mt-12 block">
                   March 17, 2025
                 </span>
               </div>

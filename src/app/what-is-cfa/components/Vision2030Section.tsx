@@ -5,7 +5,7 @@ export default function Vision2030Section() {
     <section className="relative w-full px-6 py-16 md:py-24 bg-white flex flex-col items-center z-10">
       
       {/* Title & Sub-copy */}
-      <div className="text-center mb-[60px] max-w-[928px] flex flex-col items-center gap-6">
+      <div className="text-center mb-[60px] max-w-[928px] flex flex-col items-center gap-[16px]">
         <h2 className="text-section-title text-[#1b1b1b]">
           CFA &amp; Saudi Vision 2030
         </h2>
@@ -18,7 +18,7 @@ export default function Vision2030Section() {
       <div className="flex flex-col lg:flex-row gap-5 max-w-[1474px] w-full items-stretch justify-center">
         
         {/* Left Text Box: 804px wide on desktop */}
-        <div className="w-full lg:w-[804px] bg-surface-light rounded-[30px] p-8 md:p-12 flex flex-col justify-center shrink-0">
+        <div className="w-full lg:w-[804px] bg-surface-light rounded-[30px] p-8 md:p-12 flex flex-col justify-center">
           <p className="text-body-default text-gray-mid text-left leading-[1.35]">
             The transformation brought about by Saudi Arabia's Vision 2030 entails one of the most revolutionary changes being implemented by a nation in recent times. Saudi Arabia transforms from reliance on oil to establishing itself as one of the top nations in the world, creating investment opportunities. At the very center of this revolution is the creation of the Financial Sector Development Program (FSDP) to create an efficient market in the Kingdom through the presence of its capital markets, the establishment of mega sovereign wealth funds such as the Public Investment Fund (PIF) and the development of Riyadh into one of the best cities globally for Vision 2030 to become a success. Saudi Arabia requires some of the most talented individuals who possess skills in areas like asset management and portfolio strategies.
           </p>
@@ -27,13 +27,13 @@ export default function Vision2030Section() {
           </p>
         </div>
 
-        {/* Right Image Box: 650px wide on desktop, 580px height */}
-        <div className="relative w-full lg:w-[650px] min-h-[350px] lg:h-[580px] rounded-[30px] overflow-hidden flex-shrink-0 bg-gray-100 shadow-sm">
+        {/* Right Image Box: 650px wide on desktop — stretches to match text block height */}
+        <div className="relative w-full lg:w-[650px] min-h-[420px] lg:min-h-0 self-stretch rounded-[30px] overflow-hidden bg-gray-100 shadow-sm">
           <Image
             src="/saudi_vision_2030.jpg"
             alt="Saudi Arabia Vision 2030 Kingdom Centre"
             fill
-            className="object-cover"
+            className="object-cover object-center"
             priority
           />
         </div>

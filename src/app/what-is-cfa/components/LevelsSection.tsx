@@ -74,11 +74,11 @@ export default function LevelsSection() {
       </div>
 
       {/* Cards Container: 1512px max width on desktop, 37.8px gap between cards */}
-      <div className="flex flex-col lg:flex-row items-stretch justify-center gap-[37.8px] w-full max-w-[1512px]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 items-stretch justify-center gap-6 lg:gap-[37.8px] w-full max-w-[1512px]">
         {levelsData.map((data, idx) => (
           <div 
             key={idx} 
-            className="flex flex-col bg-white border border-gray-100 rounded-[9.45px] p-[28.35px] gap-[28.35px] shadow-sm transition-all duration-300 hover:shadow-md w-full lg:w-[479px] shrink-0"
+            className="flex flex-col bg-white border border-gray-100 rounded-[9.45px] p-[28.35px] gap-[28.35px] shadow-sm transition-all duration-300 hover:shadow-md w-full"
           >
             {/* Level Badge Header */}
             <div className="flex flex-col gap-1">
@@ -116,7 +116,7 @@ export default function LevelsSection() {
             </div>
 
             {/* Skills Section */}
-            <div className="flex flex-col gap-4 mt-auto">
+            <div className="flex flex-col gap-4">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-near-black">
                 Practical Skills Modules
               </h4>

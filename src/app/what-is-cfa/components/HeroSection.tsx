@@ -10,7 +10,7 @@ export default function HeroSection() {
       />
 
       {/* Centered Content Wrapper: 1728px max-width */}
-      <div className="relative z-10 w-full max-w-[1728px] pt-[176px] pb-12 px-6 lg:px-[113px] text-center flex flex-col items-center gap-[34px]">
+      <div className="relative z-10 w-full max-w-[1728px] pt-[176px] pb-12 px-6 lg:px-[113px] text-center flex flex-col items-center gap-[18px]">
         {/* Title: What is CFA? */}
         <h1 className="text-display-hero text-brand-blue tracking-tight">
           What is CFA?
