@@ -5,6 +5,7 @@ import Image from "next/image";
 import DateRangePicker from "./DateRangePicker";
 import { TimePicker } from "@/components/ui/time-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function BookingModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -115,9 +116,30 @@ export default function BookingModal() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
+
+    try {
+      const { error } = await supabase.from("bookings").insert([
+        {
+          name: formData.name,
+          age: parseInt(formData.age, 10) || null,
+          qualification: formData.qualification,
+          employment_status: formData.employmentStatus,
+          current_company: formData.currentCompany,
+          whatsapp_number: `${formData.countryCode} ${formData.whatsappNumber}`,
+          preferred_date: formData.preferredDate,
+          preferred_time: formData.preferredTime,
+        },
+      ]);
+      if (error) {
+        console.error("Error inserting booking:", error);
+      }
+    } catch (err) {
+      console.error("Supabase insert exception:", err);
+    }
+
     setTimeout(() => {
       setIsOpen(false);
       setFormData({

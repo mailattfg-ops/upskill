@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -20,9 +21,27 @@ export default function ContactPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
+
+    try {
+      const { error } = await supabase.from("contacts").insert([
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || null,
+          cfa_level: formData.cfaLevel || null,
+          message: formData.message,
+        },
+      ]);
+      if (error) {
+        console.error("Error inserting contact message:", error);
+      }
+    } catch (err) {
+      console.error("Supabase insert exception:", err);
+    }
+
     setTimeout(() => {
       setSubmitted(false);
       setFormData({
