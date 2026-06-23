@@ -1,0 +1,713 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
+
+export default function AdminPage() {
+  const [session, setSession] = useState<any>(null);
+  const [authError, setAuthError] = useState("");
+  const [authLoading, setAuthLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  // Local fallback login state
+  const [isLocalAdmin, setIsLocalAdmin] = useState(false);
+
+  // Tabs: "blogs" | "testimonials"
+  const [activeTab, setActiveTab] = useState<"blogs" | "testimonials">("blogs");
+
+  // Data lists
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [loadingData, setLoadingData] = useState(false);
+
+  // Forms
+  const [editingBlog, setEditingBlog] = useState<any>(null);
+  const [blogFormData, setBlogFormData] = useState({
+    title: "",
+    description: "",
+    read_time: "5 min read",
+    publish_date: new Date().toISOString().split("T")[0],
+    image: "/program_hero.png",
+  });
+
+  const [editingTestimonial, setEditingTestimonial] = useState<any>(null);
+  const [testimonialFormData, setTestimonialFormData] = useState({
+    name: "",
+    role: "",
+    text: "",
+    image: "/student_michelle.webp",
+  });
+
+  // Check auth status
+  useEffect(() => {
+    // Check standard Supabase session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    // Check local fallback login from localStorage
+    const localAdmin = localStorage.getItem("upskill_local_admin");
+    if (localAdmin === "true") {
+      setIsLocalAdmin(true);
+    }
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Fetch data when authenticated
+  useEffect(() => {
+    if (session || isLocalAdmin) {
+      fetchData();
+    }
+  }, [session, isLocalAdmin, activeTab]);
+
+  const fetchData = async () => {
+    setLoadingData(true);
+    try {
+      if (activeTab === "blogs") {
+        const { data, error } = await supabase
+          .from("blogs")
+          .select("*")
+          .order("publish_date", { ascending: false });
+        if (error) throw error;
+        setBlogs(data || []);
+      } else {
+        const { data, error } = await supabase
+          .from("testimonials")
+          .select("*")
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        setTestimonials(data || []);
+      }
+    } catch (err: any) {
+      console.error(`Error fetching ${activeTab}:`, err.message);
+    } finally {
+      setLoadingData(false);
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthError("");
+    setAuthLoading(true);
+
+    try {
+      // 1. Try standard Supabase Auth
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        // 2. Fallback: If Supabase Auth is not set up / users table empty, check local override credentials
+        if (email === "admin@upskill.com" && password === "admin123") {
+          localStorage.setItem("upskill_local_admin", "true");
+          setIsLocalAdmin(true);
+        } else {
+          setAuthError(error.message || "Invalid credentials");
+        }
+      } else {
+        setSession(data.session);
+      }
+    } catch (err: any) {
+      setAuthError(err.message || "An error occurred during sign in");
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    localStorage.removeItem("upskill_local_admin");
+    setIsLocalAdmin(false);
+    setSession(null);
+  };
+
+  // Blog CRUD
+  const handleBlogSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (editingBlog) {
+        const { error } = await supabase
+          .from("blogs")
+          .update({
+            title: blogFormData.title,
+            description: blogFormData.description,
+            read_time: blogFormData.read_time,
+            publish_date: blogFormData.publish_date,
+            image: blogFormData.image,
+          })
+          .eq("id", editingBlog.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("blogs")
+          .insert([
+            {
+              title: blogFormData.title,
+              description: blogFormData.description,
+              read_time: blogFormData.read_time,
+              publish_date: blogFormData.publish_date,
+              image: blogFormData.image,
+            },
+          ]);
+        if (error) throw error;
+      }
+      setBlogFormData({
+        title: "",
+        description: "",
+        read_time: "5 min read",
+        publish_date: new Date().toISOString().split("T")[0],
+        image: "/program_hero.png",
+      });
+      setEditingBlog(null);
+      fetchData();
+    } catch (err: any) {
+      alert("Error saving blog: " + err.message);
+    }
+  };
+
+  const handleBlogEdit = (blog: any) => {
+    setEditingBlog(blog);
+    setBlogFormData({
+      title: blog.title,
+      description: blog.description,
+      read_time: blog.read_time,
+      publish_date: blog.publish_date,
+      image: blog.image,
+    });
+  };
+
+  const handleBlogDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this blog?")) {
+      try {
+        const { error } = await supabase.from("blogs").delete().eq("id", id);
+        if (error) throw error;
+        fetchData();
+      } catch (err: any) {
+        alert("Error deleting blog: " + err.message);
+      }
+    }
+  };
+
+  // Testimonial CRUD
+  const handleTestimonialSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (editingTestimonial) {
+        const { error } = await supabase
+          .from("testimonials")
+          .update({
+            name: testimonialFormData.name,
+            role: testimonialFormData.role,
+            text: testimonialFormData.text,
+            image: testimonialFormData.image,
+          })
+          .eq("id", editingTestimonial.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("testimonials")
+          .insert([
+            {
+              name: testimonialFormData.name,
+              role: testimonialFormData.role,
+              text: testimonialFormData.text,
+              image: testimonialFormData.image,
+            },
+          ]);
+        if (error) throw error;
+      }
+      setTestimonialFormData({
+        name: "",
+        role: "",
+        text: "",
+        image: "/student_michelle.webp",
+      });
+      setEditingTestimonial(null);
+      fetchData();
+    } catch (err: any) {
+      alert("Error saving testimonial: " + err.message);
+    }
+  };
+
+  const handleTestimonialEdit = (testimonial: any) => {
+    setEditingTestimonial(testimonial);
+    setTestimonialFormData({
+      name: testimonial.name,
+      role: testimonial.role,
+      text: testimonial.text,
+      image: testimonial.image,
+    });
+  };
+
+  const handleTestimonialDelete = async (id: string) => {
+    if (confirm("Are you sure you want to delete this testimonial?")) {
+      try {
+        const { error } = await supabase.from("testimonials").delete().eq("id", id);
+        if (error) throw error;
+        fetchData();
+      } catch (err: any) {
+        alert("Error deleting testimonial: " + err.message);
+      }
+    }
+  };
+
+  // LOGIN SCREEN
+  if (!session && !isLocalAdmin) {
+    return (
+      <div className="flex items-center justify-center min-h-screen px-4 bg-slate-900 font-sans">
+        <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-xl">
+          <div className="space-y-2 text-center">
+            <h1 className="text-3xl font-black tracking-tight text-slate-900 font-sans">
+              upskill admin
+            </h1>
+            <p className="text-sm text-slate-500">
+              Log in to manage your blogs and student testimonials.
+            </p>
+          </div>
+
+          {authError && (
+            <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg">
+              {authError}
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+                Email Address
+              </label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="admin@upskill.com"
+                className="w-full h-11 px-4 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:border-[#4576FF] transition-all"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full h-11 px-4 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:border-[#4576FF] transition-all"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={authLoading}
+              className="w-full h-11 bg-[#4576FF] hover:bg-blue-700 text-white font-bold rounded-lg transition-all shadow-md flex items-center justify-center cursor-pointer disabled:opacity-50"
+            >
+              {authLoading ? "Logging in..." : "Log In"}
+            </button>
+          </form>
+
+          <div className="pt-4 border-t border-slate-100 text-center">
+            <p className="text-xs text-slate-400">
+              Fallback demo login: <strong className="text-slate-600">admin@upskill.com / admin123</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ADMIN DASHBOARD
+  return (
+    <div className="flex flex-col md:flex-row min-h-screen bg-slate-50 font-sans text-slate-900">
+      
+      {/* SIDEBAR NAVIGATION */}
+      <aside className="w-full md:w-64 bg-slate-900 text-white flex flex-col justify-between shrink-0">
+        <div>
+          <div className="p-6 border-b border-slate-800 flex items-center justify-between">
+            <span className="text-2xl font-black tracking-tighter">
+              upskill admin
+            </span>
+            <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-blue-600 rounded">
+              portal
+            </span>
+          </div>
+
+          <nav className="p-4 space-y-1">
+            <button
+              onClick={() => setActiveTab("blogs")}
+              className={`w-full flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all cursor-pointer ${
+                activeTab === "blogs"
+                  ? "bg-[#4576FF] text-white"
+                  : "text-slate-400 hover:bg-slate-800 hover:text-white"
+              }`}
+            >
+              <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 4a2 2 0 00-2-2v3m2-3V9m-2 4h.01M17 16h.01" />
+              </svg>
+              Manage Blogs
+            </button>
+
+            <button
+              onClick={() => setActiveTab("testimonials")}
+              className={`w-full flex items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all cursor-pointer ${
+                activeTab === "testimonials"
+                  ? "bg-[#4576FF] text-white"
+                  : "text-slate-400 hover:bg-slate-800 hover:text-white"
+              }`}
+            >
+              <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+              </svg>
+              Manage Testimonials
+            </button>
+          </nav>
+        </div>
+
+        <div className="p-4 border-t border-slate-800">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center px-4 py-3 text-sm font-semibold text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-all cursor-pointer"
+          >
+            <svg className="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 01-3-3h4a3 3 0 013 3v1" />
+            </svg>
+            Sign Out
+          </button>
+        </div>
+      </aside>
+
+      {/* MAIN CONTENT AREA */}
+      <main className="flex-1 p-6 md:p-10 overflow-y-auto">
+        <header className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+              {activeTab === "blogs" ? "Blogs Management" : "Testimonials Management"}
+            </h1>
+            <p className="text-slate-500 text-sm mt-1">
+              {activeTab === "blogs" 
+                ? "Add, edit, or delete dynamic articles in Saudi Arabia's CFA network."
+                : "Manage social proof and feedback comments from your student success network."}
+            </p>
+          </div>
+        </header>
+
+        {/* 2-COLUMN LAYOUT: FORM (LEFT) + LIST (RIGHT) */}
+        <div className="grid grid-cols-1 xl:grid-cols-[400px_1fr] gap-8 items-start">
+          
+          {/* CRUD FORM PANEL */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+            <h2 className="text-lg font-bold mb-4 text-slate-800 flex items-center">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#4576FF] mr-2" />
+              {activeTab === "blogs" 
+                ? (editingBlog ? "Edit Blog Article" : "Create New Blog")
+                : (editingTestimonial ? "Edit Testimonial" : "Create Testimonial")}
+            </h2>
+
+            {activeTab === "blogs" ? (
+              // BLOG FORM
+              <form onSubmit={handleBlogSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Article Title
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={blogFormData.title}
+                    onChange={(e) => setBlogFormData({ ...blogFormData, title: e.target.value })}
+                    placeholder="e.g., How to balance Level I with full-time work"
+                    className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-[#4576FF]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={blogFormData.description}
+                    onChange={(e) => setBlogFormData({ ...blogFormData, description: e.target.value })}
+                    placeholder="Provide a summary sentence..."
+                    className="w-full p-3 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-[#4576FF] resize-none"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">
+                      Read Time
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={blogFormData.read_time}
+                      onChange={(e) => setBlogFormData({ ...blogFormData, read_time: e.target.value })}
+                      placeholder="e.g., 5 min read"
+                      className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">
+                      Publish Date
+                    </label>
+                    <input
+                      type="date"
+                      required
+                      value={blogFormData.publish_date}
+                      onChange={(e) => setBlogFormData({ ...blogFormData, publish_date: e.target.value })}
+                      className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Hero Image URL
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={blogFormData.image}
+                    onChange={(e) => setBlogFormData({ ...blogFormData, image: e.target.value })}
+                    placeholder="e.g., /program_hero.png"
+                    className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
+                  />
+                </div>
+                <div className="flex gap-3 pt-2">
+                  <button
+                    type="submit"
+                    className="flex-1 h-10 bg-[#4576FF] hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-all shadow-sm cursor-pointer"
+                  >
+                    {editingBlog ? "Update" : "Create"}
+                  </button>
+                  {editingBlog && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingBlog(null);
+                        setBlogFormData({
+                          title: "",
+                          description: "",
+                          read_time: "5 min read",
+                          publish_date: new Date().toISOString().split("T")[0],
+                          image: "/program_hero.png",
+                        });
+                      }}
+                      className="px-4 h-10 border border-slate-200 text-slate-600 rounded-lg text-sm hover:bg-slate-50 cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </form>
+            ) : (
+              // TESTIMONIAL FORM
+              <form onSubmit={handleTestimonialSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Student Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={testimonialFormData.name}
+                    onChange={(e) => setTestimonialFormData({ ...testimonialFormData, name: e.target.value })}
+                    placeholder="e.g., Michelle Chen"
+                    className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Role / Subtitle
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={testimonialFormData.role}
+                    onChange={(e) => setTestimonialFormData({ ...testimonialFormData, role: e.target.value })}
+                    placeholder="e.g., Investment Analyst"
+                    className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Testimonial Comment
+                  </label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={testimonialFormData.text}
+                    onChange={(e) => setTestimonialFormData({ ...testimonialFormData, text: e.target.value })}
+                    placeholder="Olivia's success review..."
+                    className="w-full p-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF] resize-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Avatar Image URL
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={testimonialFormData.image}
+                    onChange={(e) => setTestimonialFormData({ ...testimonialFormData, image: e.target.value })}
+                    placeholder="e.g., /student_michelle.webp"
+                    className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
+                  />
+                </div>
+                <div className="flex gap-3 pt-2">
+                  <button
+                    type="submit"
+                    className="flex-1 h-10 bg-[#4576FF] hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-all shadow-sm cursor-pointer"
+                  >
+                    {editingTestimonial ? "Update" : "Create"}
+                  </button>
+                  {editingTestimonial && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingTestimonial(null);
+                        setTestimonialFormData({
+                          name: "",
+                          role: "",
+                          text: "",
+                          image: "/student_michelle.webp",
+                        });
+                      }}
+                      className="px-4 h-10 border border-slate-200 text-slate-600 rounded-lg text-sm hover:bg-slate-50 cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </form>
+            )}
+          </div>
+
+          {/* DATA LISTING (RIGHT) */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div className="p-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
+              <span className="text-sm font-semibold text-slate-600">
+                Existing {activeTab === "blogs" ? "Articles" : "Testimonials"}
+              </span>
+              <button 
+                onClick={fetchData} 
+                className="p-1.5 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer text-slate-600"
+                title="Reload List"
+              >
+                <svg className={`w-4 h-4 ${loadingData ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 7.89H17" />
+                </svg>
+              </button>
+            </div>
+
+            {loadingData ? (
+              <div className="p-8 text-center text-slate-500 text-sm">
+                Fetching details from database...
+              </div>
+            ) : activeTab === "blogs" ? (
+              // BLOGS TABLE
+              blogs.length === 0 ? (
+                <div className="p-8 text-center text-slate-400 text-sm">
+                  No blogs found. Use the form to create your first article!
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-sm">
+                    <thead>
+                      <tr className="border-b border-slate-100 bg-slate-50/55 text-slate-500 font-medium">
+                        <th className="p-4">Article</th>
+                        <th className="p-4">Read Time</th>
+                        <th className="p-4">Publish Date</th>
+                        <th className="p-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {blogs.map((b) => (
+                        <tr key={b.id} className="hover:bg-slate-50/40">
+                          <td className="p-4 max-w-xs">
+                            <div className="font-semibold text-slate-900 truncate">{b.title}</div>
+                            <div className="text-slate-500 text-xs truncate mt-0.5">{b.description}</div>
+                          </td>
+                          <td className="p-4 text-slate-600 whitespace-nowrap">{b.read_time}</td>
+                          <td className="p-4 text-slate-600 whitespace-nowrap">{b.publish_date}</td>
+                          <td className="p-4 text-right whitespace-nowrap space-x-2">
+                            <button
+                              onClick={() => handleBlogEdit(b)}
+                              className="px-2.5 py-1.5 text-xs font-semibold border border-slate-200 text-slate-600 bg-white rounded hover:bg-slate-50 cursor-pointer"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleBlogDelete(b.id)}
+                              className="px-2.5 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded cursor-pointer"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )
+            ) : (
+              // TESTIMONIALS TABLE
+              testimonials.length === 0 ? (
+                <div className="p-8 text-center text-slate-400 text-sm">
+                  No testimonials found. Use the form to add student feedback!
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse text-sm">
+                    <thead>
+                      <tr className="border-b border-slate-100 bg-slate-50/55 text-slate-500 font-medium">
+                        <th className="p-4">Student</th>
+                        <th className="p-4">Comment</th>
+                        <th className="p-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {testimonials.map((t) => (
+                        <tr key={t.id} className="hover:bg-slate-50/40">
+                          <td className="p-4 whitespace-nowrap">
+                            <div className="font-semibold text-slate-900">{t.name}</div>
+                            <div className="text-slate-500 text-xs mt-0.5">{t.role}</div>
+                          </td>
+                          <td className="p-4 max-w-sm truncate text-slate-600">{t.text}</td>
+                          <td className="p-4 text-right whitespace-nowrap space-x-2">
+                            <button
+                              onClick={() => handleTestimonialEdit(t)}
+                              className="px-2.5 py-1.5 text-xs font-semibold border border-slate-200 text-slate-600 bg-white rounded hover:bg-slate-50 cursor-pointer"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleTestimonialDelete(t.id)}
+                              className="px-2.5 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded cursor-pointer"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )
+            )}
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+  );
+}
