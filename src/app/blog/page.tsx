@@ -185,13 +185,14 @@ function BlogDetailContent() {
       </section>
 
       {/* Full-width Feature Image */}
-      <div className="w-full relative h-[250px] sm:h-[350px] md:h-[480px] lg:h-[580px] xl:h-[661px] mb-12 overflow-hidden pointer-events-none z-10">
+      <div className="w-full relative aspect-[16/9] md:aspect-none md:h-[480px] lg:h-[580px] xl:h-[661px] mb-12 overflow-hidden pointer-events-none z-10 bg-slate-50">
         <Image
           src={blog.image}
           alt={blog.title}
           fill
           priority
-          className="object-cover object-top"
+          sizes="100vw"
+          className="object-cover object-center"
         />
       </div>
 

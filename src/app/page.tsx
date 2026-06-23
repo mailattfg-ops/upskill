@@ -607,7 +607,7 @@ export default async function Home() {
             {blogsList.map((blog, idx) => (
               <Link
                 key={blog.id || idx}
-                href={`/blogs/${blog.id}`}
+                href={`/blog?id=${blog.id}`}
                 className="flex flex-col md:flex-row flex-1 max-w-full md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300 cursor-pointer"
               >
                 {/* Image Box */}
