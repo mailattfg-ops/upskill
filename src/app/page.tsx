@@ -605,9 +605,10 @@ export default async function Home() {
           {/* Blog Cards Grid — Figma: width: 1587px, height: 554px, gap: 45px */}
           <div className="mt-6 md:mt-8 lg:mt-10 w-full max-w-[1587px] flex flex-col md:flex-row gap-[20px] lg:gap-[30px] xl:gap-[45px] z-20 justify-center items-stretch">
             {blogsList.map((blog, idx) => (
-              <div
+              <Link
                 key={blog.id || idx}
-                className="flex flex-col md:flex-row flex-1 max-w-full md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300"
+                href={`/blogs/${blog.id}`}
+                className="flex flex-col md:flex-row flex-1 max-w-full md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300 cursor-pointer"
               >
                 {/* Image Box */}
                 <div className="relative w-full md:w-[49%] h-[220px] md:h-auto min-h-[260px] md:min-h-[320px] lg:min-h-[350px] xl:min-h-[420px] 2xl:min-h-[554px] flex-shrink-0 bg-[#EEEEEE]">
@@ -640,7 +641,7 @@ export default async function Home() {
                     {blog.publish_date}
                   </span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 

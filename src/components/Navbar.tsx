@@ -16,7 +16,7 @@ export default function Navbar() {
 
   // Default to standard (white pill) styling if not mounted to prevent hydration mismatch,
   // but once mounted, check if we are on the what-is-cfa page.
-  const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/program' || pathname === '/contact');
+  const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/contact');
   const isBlogPage = mounted && pathname.startsWith('/blogs');
 
   return (
@@ -60,12 +60,6 @@ export default function Navbar() {
               className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
             >
               What is CFA?
-            </Link>
-            <Link 
-              href="/program" 
-              className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
-            >
-              Program
             </Link>
             <Link 
               href="/#testimonials" 
@@ -141,7 +135,6 @@ export default function Navbar() {
           <Link href="/" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white' : 'text-blue-600'}`}>Home</Link>
           <Link href="/#about-company" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>About</Link>
           <Link href="/what-is-cfa" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>What is CFA?</Link>
-          <Link href="/program" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>Program</Link>
           <Link href="/#testimonials" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>Testimonials</Link>
           <Link href="/#blogs" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>Blog</Link>
           <Link href="/contact" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>Contact Us</Link>

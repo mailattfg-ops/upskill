@@ -3,11 +3,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/app/home/footer";
 
 export const metadata: Metadata = {
-  title: "CFA Training Program | UP SKILL",
-  description: "Learn practical strategies to balance your study schedule with a demanding career through our CFA preparation program.",
+  title: "Blog Details | UP SKILL",
+  description: "Read the latest insights and study strategies from the UP SKILL CFA preparation network.",
 };
 
-export default function ProgramLayout({
+export default function BlogLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
@@ -31,36 +32,65 @@ const sections = [
   { id: "career", tocTitle: "Services you can tailor", bodyTitle: "Career Opportunities Post-CFA" },
 ];
 
-export default function ProgramPage() {
-  // Set default active section to "format" (linked to the third link "Duration matters more than many realize")
-  // to match the exact mockup snapshot where that specific link is highlighted active by default.
+function BlogDetailContent() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id") || "static-blog-1";
+  
   const [activeSection, setActiveSection] = useState("format");
+  const [blog, setBlog] = useState<any>(null);
   const [blogsList, setBlogsList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch specific blog and related blogs
   useEffect(() => {
-    async function loadBlogs() {
+    async function loadBlogDetails() {
+      setLoading(true);
       try {
-        const { data } = await supabase
+        // 1. Fetch current blog details
+        const { data, error } = await supabase
           .from("blogs")
           .select("*")
+          .eq("id", id);
+        
+        if (data && data.length > 0) {
+          setBlog(data[0]);
+        } else {
+          // Fallback to static blog details
+          const staticMatch = STATIC_BLOGS.find((b) => b.id === id);
+          if (staticMatch) {
+            setBlog(staticMatch);
+          } else {
+            setBlog(STATIC_BLOGS[0]); // default fallback
+          }
+        }
+
+        // 2. Fetch related blogs (excluding current ID)
+        const { data: relatedData } = await supabase
+          .from("blogs")
+          .select("*")
+          .neq("id", id)
           .order("publish_date", { ascending: false })
           .limit(2);
-        if (data && data.length > 0) {
-          setBlogsList(data);
+        
+        if (relatedData && relatedData.length > 0) {
+          setBlogsList(relatedData);
         } else {
-          setBlogsList(STATIC_BLOGS);
+          setBlogsList(STATIC_BLOGS.filter(b => b.id !== id).slice(0, 2));
         }
       } catch (err) {
-        console.error("Error loading blogs on program page:", err);
-        setBlogsList(STATIC_BLOGS);
+        console.error("Error loading blog details:", err);
+        const staticMatch = STATIC_BLOGS.find((b) => b.id === id) || STATIC_BLOGS[0];
+        setBlog(staticMatch);
+        setBlogsList(STATIC_BLOGS.filter(b => b.id !== id).slice(0, 2));
+      } finally {
+        setLoading(false);
       }
     }
-    loadBlogs();
-  }, []);
+    loadBlogDetails();
+  }, [id]);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Force "format" active when scrolled near the top of the page (hero area)
       if (window.scrollY < 400) {
         setActiveSection("format");
       }
@@ -71,7 +101,6 @@ export default function ProgramPage() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          // Only update if we are scrolled past the top hero section
           if (entry.isIntersecting && window.scrollY >= 400) {
             setActiveSection(entry.target.id);
           }
@@ -88,7 +117,6 @@ export default function ProgramPage() {
       if (el) observer.observe(el);
     });
 
-    // Initial check
     if (window.scrollY < 400) {
       setActiveSection("format");
     }
@@ -97,7 +125,7 @@ export default function ProgramPage() {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
-  }, []);
+  }, [blog]);
 
   const handleScrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -106,44 +134,61 @@ export default function ProgramPage() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="w-full min-h-[400px] flex flex-col items-center justify-center pt-24 pb-20">
+        <div className="w-12 h-12 rounded-full border-4 border-[#4576FF] border-t-transparent animate-spin" />
+        <p className="mt-4 text-slate-500 font-sans text-sm font-semibold">Loading article details...</p>
+      </div>
+    );
+  }
+
+  if (!blog) {
+    return (
+      <div className="w-full min-h-[400px] flex flex-col items-center justify-center pt-24 pb-20">
+        <h1 className="font-['Cal_Sans'] text-3xl text-black">Article Not Found</h1>
+        <p className="text-slate-500 mt-2">The requested blog post could not be located.</p>
+        <Link href="/blogs" className="mt-6 px-6 py-2.5 bg-black text-white rounded-lg font-semibold">
+          Back to Blogs
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <main className="w-full flex flex-col items-center bg-white relative z-10 overflow-visible">
+    <main className="w-full flex flex-col items-center bg-white text-gray-900 relative z-10 overflow-visible">
       {/* Visual linear gradient band (full bleed, 231px tall at the top) */}
       <div 
         className="absolute top-0 left-0 w-full h-[231px] pointer-events-none z-0"
         style={{
-          background: "linear-gradient(180deg, #4879FF 0%, rgba(72, 121, 255, 0.2) 70%, rgba(255, 255, 255, 0) 100%)",
+          background: "linear-gradient(180deg, rgba(72, 121, 255, 0.45) 0%, rgba(72, 121, 255, 0.1) 70%, rgba(255, 255, 255, 0) 100%)",
         }}
       />
 
       {/* Hero / Article Header */}
       <section className="relative z-10 w-full max-w-[934px] pt-[176px] pb-8 flex flex-col items-center text-center px-6 md:px-0">
-        {/* Category Label */}
         <span className="text-[20px] sm:text-[24px] font-sans font-normal tracking-tight text-[#2530FF] mb-3">
-          Explore
+          {blog.read_time || "CFA Resource"}
         </span>
 
-        {/* H1 Title */}
         <h1 className="font-['Cal_Sans'] font-normal text-[36px] sm:text-[48px] md:text-[64px] leading-[1.1] text-black tracking-tight max-w-[850px]">
-          A basic intro to CFA and how it works
+          {blog.title}
         </h1>
 
-        {/* Subtitle */}
         <p className="mt-4 font-sans font-normal text-[16px] sm:text-[18px] md:text-[20px] leading-relaxed text-[#727272] max-w-[760px]">
-          Learn practical strategies to balance your study schedule with a demanding career.
+          {blog.description}
         </p>
 
-        {/* Date Row */}
         <div className="mt-6 flex items-center justify-center text-sm sm:text-base font-sans font-medium text-black">
-          <span>March 17, 2025</span>
+          <span>Published on {blog.publish_date}</span>
         </div>
       </section>
 
       {/* Full-width Feature Image */}
-      <div className="w-full relative h-[250px] sm:h-[350px] md:h-[480px] lg:h-[580px] xl:h-[661px] mb-12 overflow-hidden pointer-events-none z-10">
+      <div className="w-full relative h-[250px] sm:h-[350px] md:h-[480px] lg:h-[580px] xl:h-[661px] mb-12 overflow-hidden pointer-events-none z-10 bg-slate-100">
         <Image
-          src="/program_hero.jpg"
-          alt="CFA Program Banner"
+          src={blog.image}
+          alt={blog.title}
           fill
           priority
           className="object-cover object-top"
@@ -153,7 +198,7 @@ export default function ProgramPage() {
       {/* 2-Column Article Body */}
       <div className="relative z-10 w-full max-w-[934px] flex flex-col md:flex-row gap-6 md:gap-[48px] items-start px-6 md:px-0 pb-16">
         
-        {/* Mobile Table of Contents Accordion / Panel */}
+        {/* Mobile Table of Contents */}
         <div className="w-full md:hidden bg-gray-50 border border-gray-100 rounded-2xl p-5 mb-4">
           <span className="font-['Cal_Sans'] text-[20px] text-black block mb-3">
             Contents
@@ -202,10 +247,10 @@ export default function ProgramPage() {
           {/* Section 1 */}
           <section id="preparation" className="mb-12">
             <h2 className="font-['Cal_Sans'] font-normal text-[28px] sm:text-[34px] md:text-[40px] leading-[1.2] text-black mb-4 scroll-mt-[120px]">
-              CFA Exam Preparation
+              {blog.title} Overview
             </h2>
             <p className="font-sh-grotesk font-normal text-[18px] sm:text-[20px] md:text-[22px] leading-[1.5] text-[#616161] mb-6">
-              The CFA exam can be daunting, but with strategic planning and the right resources, candidates can streamline their study process. Utilizing study guides, practice exams, and online courses tailored to the CFA curriculum can significantly enhance understanding and retention of key concepts.
+              {blog.description} Study prep requires strategic planning, case review, and practicing exam structures. Harnessing professional insights allows candidates to accelerate their learning curve and achieve better focus.
             </p>
           </section>
 
@@ -239,68 +284,74 @@ export default function ProgramPage() {
             </p>
           </section>
         </article>
-
       </div>
 
       {/* Divider line before Related Blogs */}
       <div className="relative z-10 w-[calc(100%-48px)] md:w-full h-px bg-[#EEEEEE] max-w-[934px] mx-auto mt-6 mb-2" />
 
-      {/* Related Blogs Section: Section background is white to match Figma exactly */}
-      <section className="relative z-10 w-full bg-white pt-2 pb-12 md:pt-4 md:pb-16 xl:pt-4 xl:pb-24 px-6 md:px-0 overflow-visible select-none">
-        <div className="mx-auto max-w-[1728px] w-full flex flex-col items-center">
-          {/* Heading */}
-          <h2 className="font-['Cal_Sans'] font-normal text-[26px] sm:text-[32px] md:text-[38px] lg:text-[44px] xl:text-[54px] 2xl:text-[66px] leading-[1.1] text-center text-[#2530FF] mb-4">
-            Read blogs <br /> on CFA
-          </h2>
+      {/* Related Blogs Section */}
+      {blogsList.length > 0 && (
+        <section className="relative z-10 w-full bg-white pt-2 pb-12 md:pt-4 md:pb-16 xl:pt-4 xl:pb-24 px-6 md:px-0 overflow-visible select-none">
+          <div className="mx-auto max-w-[1728px] w-full flex flex-col items-center">
+            <h2 className="font-['Cal_Sans'] font-normal text-[26px] sm:text-[32px] md:text-[38px] lg:text-[44px] xl:text-[54px] 2xl:text-[66px] leading-[1.1] text-center text-[#2530FF] mb-4">
+              Read blogs <br /> on CFA
+            </h2>
 
-          {/* Subtitle */}
-          <p className="font-['DM_Sans'] font-normal text-[12px] sm:text-[14px] md:text-[15px] lg:text-[16px] xl:text-[18px] leading-[1.3] text-center text-[#5C5C5C] max-w-[1128px] px-4 mb-12">
-            Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.
-          </p>
+            <p className="font-['DM_Sans'] font-normal text-[12px] sm:text-[14px] md:text-[15px] lg:text-[16px] xl:text-[18px] leading-[1.3] text-center text-[#5C5C5C] max-w-[1128px] px-4 mb-12">
+              Stay ahead with expert CFA tips, study strategies, and industry insights written by finance experts.
+            </p>
 
-          {/* Blog Cards Grid */}
-          <div className="w-full max-w-[934px] flex flex-col md:flex-row gap-[20px] lg:gap-[30px] xl:gap-[45px] justify-center items-stretch">
-            {blogsList.map((blog, idx) => (
-              <div
-                key={blog.id || idx}
-                className="flex flex-col md:flex-row flex-1 max-w-full md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300"
-              >
-                {/* Image Box */}
-                <div className="relative w-full md:w-[49%] h-[220px] md:h-[260px] lg:h-[300px] xl:h-[340px] 2xl:h-[380px] flex-shrink-0 bg-[#EEEEEE]">
-                  <Image
-                    src={blog.image}
-                    alt={blog.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 49vw"
-                    className="object-cover"
-                  />
-                </div>
-                {/* Details Box */}
-                <div className="flex-1 p-6 md:p-5 lg:p-6 xl:p-8 2xl:p-10 flex flex-col justify-center bg-white">
-                  <div className="flex flex-col gap-2 xl:gap-3 2xl:gap-4">
-                    {/* Eyebrow */}
-                    <span className="font-sh-grotesk font-normal text-[14px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[18px] leading-[1.03] text-[#2530FF] whitespace-nowrap">
-                      {blog.read_time}
-                    </span>
-                    {/* Heading */}
-                    <h3 className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[20px] md:text-[16px] lg:text-[18px] xl:text-[22px] 2xl:text-[28px] leading-[1.1] text-black tracking-normal mt-1 xl:mt-2">
-                      {blog.title}
-                    </h3>
-                    {/* Description */}
-                    <p className="font-sans font-normal text-[13px] sm:text-[14px] md:text-[11px] lg:text-[12px] xl:text-[13px] 2xl:text-[16px] leading-[1.3] text-[#727272] tracking-[-3%] mt-1 xl:mt-2">
-                      {blog.description}
-                    </p>
+            <div className="w-full max-w-[934px] flex flex-col md:flex-row gap-[20px] lg:gap-[30px] xl:gap-[45px] justify-center items-stretch">
+              {blogsList.map((relatedBlog, idx) => (
+                <Link
+                  key={relatedBlog.id || idx}
+                  href={`/blog?id=${relatedBlog.id}`}
+                  className="group flex flex-col md:flex-row flex-1 max-w-full md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300"
+                >
+                  <div className="relative w-full md:w-[49%] h-[220px] md:h-auto min-h-[260px] md:min-h-[300px] flex-shrink-0 bg-[#EEEEEE]">
+                    <Image
+                      src={relatedBlog.image}
+                      alt={relatedBlog.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 49vw"
+                      className="object-cover"
+                    />
                   </div>
-                  {/* Date */}
-                  <span className="font-sh-grotesk font-normal text-[14px] md:text-[12px] lg:text-[13px] xl:text-[14px] 2xl:text-[18px] leading-[1.03] text-black mt-6 xl:mt-8 2xl:mt-10 block">
-                    {blog.publish_date}
-                  </span>
-                </div>
-              </div>
-            ))}
+                  <div className="flex-1 p-6 md:p-5 flex flex-col justify-center bg-white">
+                    <div className="flex flex-col gap-2">
+                      <span className="font-sh-grotesk font-normal text-[14px] md:text-[12px] leading-[1.03] text-[#2530FF]">
+                        {relatedBlog.read_time}
+                      </span>
+                      <h3 className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[20px] leading-[1.1] text-black">
+                        {relatedBlog.title}
+                      </h3>
+                      <p className="font-sans font-normal text-[13px] leading-[1.3] text-[#727272] line-clamp-3">
+                        {relatedBlog.description}
+                      </p>
+                    </div>
+                    <span className="font-sh-grotesk font-normal text-[13px] text-black mt-4 block">
+                      {relatedBlog.publish_date}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </main>
+  );
+}
+
+export default function BlogDetailPage() {
+  return (
+    <Suspense fallback={
+      <div className="w-full min-h-screen bg-white text-gray-900 flex flex-col items-center justify-center pt-24">
+        <div className="w-12 h-12 rounded-full border-4 border-[#4576FF] border-t-transparent animate-spin" />
+        <p className="mt-4 text-slate-500 font-sans text-sm font-semibold">Loading article...</p>
+      </div>
+    }>
+      <BlogDetailContent />
+    </Suspense>
   );
 }
