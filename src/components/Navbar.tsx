@@ -16,7 +16,7 @@ export default function Navbar() {
 
   // Default to standard (white pill) styling if not mounted to prevent hydration mismatch,
   // but once mounted, check if we are on the what-is-cfa page.
-  const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/contact');
+  const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/contact' || pathname === '/blog');
   const isBlogPage = mounted && pathname.startsWith('/blogs');
 
   return (

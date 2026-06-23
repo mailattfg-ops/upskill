@@ -161,14 +161,14 @@ function BlogDetailContent() {
       <div 
         className="absolute top-0 left-0 w-full h-[231px] pointer-events-none z-0"
         style={{
-          background: "linear-gradient(180deg, rgba(72, 121, 255, 0.45) 0%, rgba(72, 121, 255, 0.1) 70%, rgba(255, 255, 255, 0) 100%)",
+          background: "linear-gradient(180deg, #4879FF 0%, rgba(72, 121, 255, 0.2) 70%, rgba(255, 255, 255, 0) 100%)",
         }}
       />
 
       {/* Hero / Article Header */}
       <section className="relative z-10 w-full max-w-[934px] pt-[176px] pb-8 flex flex-col items-center text-center px-6 md:px-0">
         <span className="text-[20px] sm:text-[24px] font-sans font-normal tracking-tight text-[#2530FF] mb-3">
-          {blog.read_time || "CFA Resource"}
+          Explore
         </span>
 
         <h1 className="font-['Cal_Sans'] font-normal text-[36px] sm:text-[48px] md:text-[64px] leading-[1.1] text-black tracking-tight max-w-[850px]">
@@ -180,12 +180,12 @@ function BlogDetailContent() {
         </p>
 
         <div className="mt-6 flex items-center justify-center text-sm sm:text-base font-sans font-medium text-black">
-          <span>Published on {blog.publish_date}</span>
+          <span>{blog.publish_date}</span>
         </div>
       </section>
 
       {/* Full-width Feature Image */}
-      <div className="w-full relative h-[250px] sm:h-[350px] md:h-[480px] lg:h-[580px] xl:h-[661px] mb-12 overflow-hidden pointer-events-none z-10 bg-slate-100">
+      <div className="w-full relative h-[250px] sm:h-[350px] md:h-[480px] lg:h-[580px] xl:h-[661px] mb-12 overflow-hidden pointer-events-none z-10">
         <Image
           src={blog.image}
           alt={blog.title}
