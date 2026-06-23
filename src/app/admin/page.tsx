@@ -31,6 +31,10 @@ export default function AdminPage() {
     image: "/program_hero.png",
   });
 
+  // Blog image upload states
+  const [uploadingBlogImage, setUploadingBlogImage] = useState(false);
+  const [blogUploadFeedback, setBlogUploadFeedback] = useState<{ type: "success" | "error" | ""; text: string }>({ type: "", text: "" });
+
   const [editingTestimonial, setEditingTestimonial] = useState<any>(null);
   const [testimonialFormData, setTestimonialFormData] = useState({
     name: "",
@@ -150,6 +154,72 @@ export default function AdminPage() {
       });
     } finally {
       setUploadingImage(false);
+    }
+  };
+
+  const handleBlogImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingBlogImage(true);
+    setBlogUploadFeedback({ type: "", text: "" });
+
+    try {
+      // 1. Compress image client-side to keep base64 or upload extremely lightweight (~30-50KB for hero image)
+      const base64Data = await compressAndResizeImage(file, 600, 350);
+
+      // 2. Try Supabase Storage upload to "blogs" bucket
+      const fileExt = file.name.split(".").pop() || "jpg";
+      const fileName = `blog_${Date.now()}.${fileExt}`;
+
+      try {
+        const res = await fetch(base64Data);
+        const blob = await res.blob();
+
+        const { data, error } = await supabase.storage
+          .from("blogs")
+          .upload(fileName, blob, {
+            contentType: "image/jpeg",
+            cacheControl: "3600",
+            upsert: true,
+          });
+
+        if (error) throw error;
+
+        const { data: publicUrlData } = supabase.storage
+          .from("blogs")
+          .getPublicUrl(fileName);
+
+        if (publicUrlData?.publicUrl) {
+          setBlogFormData((prev) => ({
+            ...prev,
+            image: publicUrlData.publicUrl,
+          }));
+          setBlogUploadFeedback({
+            type: "success",
+            text: "Image uploaded to blogs storage successfully!",
+          });
+        } else {
+          throw new Error("Failed to get public URL");
+        }
+      } catch (storageErr: any) {
+        console.warn("Storage upload failed, falling back to base64 inline image:", storageErr.message);
+        setBlogFormData((prev) => ({
+          ...prev,
+          image: base64Data,
+        }));
+        setBlogUploadFeedback({
+          type: "success",
+          text: "Uploaded (saved in-database fallback).",
+        });
+      }
+    } catch (err: any) {
+      setBlogUploadFeedback({
+        type: "error",
+        text: `Error processing image: ${err.message}`,
+      });
+    } finally {
+      setUploadingBlogImage(false);
     }
   };
 
@@ -281,6 +351,7 @@ export default function AdminPage() {
         image: "/program_hero.png",
       });
       setEditingBlog(null);
+      setBlogUploadFeedback({ type: "", text: "" });
       fetchData();
     } catch (err: any) {
       alert("Error saving blog: " + err.message);
@@ -289,6 +360,7 @@ export default function AdminPage() {
 
   const handleBlogEdit = (blog: any) => {
     setEditingBlog(blog);
+    setBlogUploadFeedback({ type: "", text: "" });
     setBlogFormData({
       title: blog.title,
       description: blog.description,
@@ -600,16 +672,68 @@ export default function AdminPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1">
-                    Hero Image URL
+                    Blog Hero Image
                   </label>
-                  <input
-                    type="text"
-                    required
-                    value={blogFormData.image}
-                    onChange={(e) => setBlogFormData({ ...blogFormData, image: e.target.value })}
-                    placeholder="e.g., /program_hero.png"
-                    className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
-                  />
+                  
+                  {/* Visual Preview & Upload Actions */}
+                  <div className="mt-1 flex flex-col gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                    {blogFormData.image && (
+                      <div className="w-full h-32 rounded-lg overflow-hidden bg-slate-200 border border-slate-300 flex items-center justify-center relative">
+                        <img 
+                          src={blogFormData.image} 
+                          alt="Blog Preview" 
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%2394a3b8"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>';
+                          }}
+                        />
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="blog-photo-upload"
+                        onChange={handleBlogImageUpload}
+                        className="hidden"
+                      />
+                      <label 
+                        htmlFor="blog-photo-upload" 
+                        className="inline-flex items-center px-2.5 py-1.5 border border-slate-300 shadow-sm text-xs font-semibold rounded text-slate-700 bg-white hover:bg-slate-50 focus:outline-none cursor-pointer transition-all"
+                      >
+                        {uploadingBlogImage ? "Processing..." : "Choose File"}
+                      </label>
+                      <p className="text-[10px] text-slate-400">
+                        PNG, JPG, WEBP. Auto-compressed.
+                      </p>
+                    </div>
+                  </div>
+
+                  {blogUploadFeedback.text && (
+                    <p className={`text-[11px] mt-1 font-semibold ${
+                      blogUploadFeedback.type === "success" ? "text-emerald-600" : "text-red-500"
+                    }`}>
+                      {blogUploadFeedback.text}
+                    </p>
+                  )}
+
+                  <div className="mt-3">
+                    <label className="block text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-1">
+                      Or paste direct image URL / Path
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={blogFormData.image}
+                      onChange={(e) => {
+                        setBlogFormData({ ...blogFormData, image: e.target.value });
+                        setBlogUploadFeedback({ type: "", text: "" });
+                      }}
+                      placeholder="e.g., /program_hero.png"
+                      className="w-full h-9 px-3 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-[#4576FF]"
+                    />
+                  </div>
                 </div>
                 <div className="flex gap-3 pt-2">
                   <button
@@ -623,6 +747,7 @@ export default function AdminPage() {
                       type="button"
                       onClick={() => {
                         setEditingBlog(null);
+                        setBlogUploadFeedback({ type: "", text: "" });
                         setBlogFormData({
                           title: "",
                           description: "",
