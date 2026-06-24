@@ -59,16 +59,16 @@ export default async function BlogsPage() {
               Stay ahead with expert CFA tips, study strategies, and industry insights written by finance experts.
             </p>
 
-            {/* Blog Cards Grid — Figma: width: 1587px, height: 554px, gap: 45px */}
-            <div className="mt-6 md:mt-8 lg:mt-10 w-full max-w-[1587px] flex flex-col md:flex-row gap-[20px] lg:gap-[30px] xl:gap-[45px] z-20 justify-center items-stretch">
+            {/* Blog Cards Grid — responsive 2-column grid */}
+            <div className="mt-6 md:mt-8 lg:mt-10 w-full max-w-[1587px] grid grid-cols-1 md:grid-cols-2 gap-[20px] lg:gap-[30px] xl:gap-[45px] z-20">
               {blogsList.map((blog, idx) => (
                 <Link
                   key={blog.id || idx}
                   href={`/blog?id=${blog.id}`}
-                  className="flex flex-col md:flex-row flex-1 max-w-full md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300 cursor-pointer"
+                  className="flex flex-col sm:flex-row bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300 cursor-pointer"
                 >
                   {/* Image Box */}
-                  <div className="relative w-full md:w-[49%] h-[220px] md:h-auto min-h-[260px] md:min-h-[320px] lg:min-h-[350px] xl:min-h-[420px] 2xl:min-h-[554px] flex-shrink-0 bg-[#EEEEEE]">
+                  <div className="relative w-full sm:w-[45%] h-[200px] sm:h-auto sm:min-h-[240px] md:min-h-[260px] lg:min-h-[300px] xl:min-h-[360px] 2xl:min-h-[420px] flex-shrink-0 bg-[#EEEEEE]">
                     <Image
                       src={blog.image}
                       alt={blog.title}
@@ -103,14 +103,14 @@ export default async function BlogsPage() {
             </div>
 
             {/* View all articles button — Figma: width 259px, height 66px */}
-            <div className="mt-8 md:mt-12 lg:mt-16 flex justify-center z-20">
+            {/* <div className="mt-8 md:mt-12 lg:mt-16 flex justify-center z-20">
               <Link
                 href="/blogs"
                 className="w-[259px] h-[66px] bg-black hover:bg-black/90 text-white rounded-[20px] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1)] flex items-center justify-center transition-all duration-300 font-['Cal_Sans'] font-normal text-[24px] leading-[100%] tracking-[-0.25px] select-none text-center"
               >
                 View all articles
               </Link>
-            </div>
+            </div> */}
 
             {/* Blue CTA Banner Box — Figma: width 1674px, height 727px, radius: 57px */}
             <div

@@ -28,7 +28,7 @@ export default function TestimonialsSection({ visibleTestimonials }: Testimonial
         </p>
       </div>
 
-      <div className="mx-auto w-full max-w-[1511.03px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-[40.84px] justify-items-center">
+      <div className="mx-auto w-full max-w-[1511.03px] flex flex-wrap justify-center gap-6 md:gap-8">
         {visibleTestimonials.map((t, idx) => (
           <div
             key={t.id || idx}
@@ -39,7 +39,7 @@ export default function TestimonialsSection({ visibleTestimonials }: Testimonial
               {/* Avatar */}
               <div className="relative w-[65.34px] h-[65.34px] rounded-full overflow-hidden flex-shrink-0 bg-gray-200">
                 <Image
-                  src={`${t.image}?v=2`}
+                  src={t.image?.startsWith('http') ? `${t.image}?v=2` : (t.image || '/student_michelle.webp')}
                   alt={t.name}
                   fill
                   sizes="65.34px"

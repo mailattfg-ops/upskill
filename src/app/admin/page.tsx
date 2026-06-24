@@ -432,7 +432,6 @@ export default function AdminPage() {
               role: testimonialFormData.role,
               text: testimonialFormData.text,
               image: testimonialFormData.image,
-              is_visible: true,
             },
           ]);
         if (error) throw error;
@@ -451,18 +450,7 @@ export default function AdminPage() {
     }
   };
 
-  const handleToggleTestimonialVisibility = async (id: string, currentVal: boolean) => {
-    try {
-      const { error } = await supabase
-        .from("testimonials")
-        .update({ is_visible: !currentVal })
-        .eq("id", id);
-      if (error) throw error;
-      fetchData();
-    } catch (err: any) {
-      alert("Error toggling visibility: " + err.message);
-    }
-  };
+  // is_visible column removed — not in schema
 
   const handleTestimonialEdit = (testimonial: any) => {
     setEditingTestimonial(testimonial);
@@ -1102,56 +1090,48 @@ export default function AdminPage() {
                   <table className="w-full text-left border-collapse text-sm">
                     <thead>
                       <tr className="border-b border-slate-100 bg-slate-50/55 text-slate-500 font-medium">
+                        <th className="p-4">Photo</th>
                         <th className="p-4">Student</th>
                         <th className="p-4">Comment</th>
-                        <th className="p-4">Status</th>
                         <th className="p-4 text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {testimonials.map((t) => {
-                        const isVisible = t.is_visible !== false;
-                        return (
-                          <tr key={t.id} className="hover:bg-slate-50/40">
-                            <td className="p-4 whitespace-nowrap">
-                              <div className="font-semibold text-slate-900">{t.name}</div>
-                              <div className="text-slate-500 text-xs mt-0.5">{t.role}</div>
-                            </td>
-                            <td className="p-4 max-w-sm truncate text-slate-600">{t.text}</td>
-                            <td className="p-4 whitespace-nowrap">
-                              <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-                                isVisible ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                              }`}>
-                                {isVisible ? "Visible" : "Hidden"}
-                              </span>
-                            </td>
-                            <td className="p-4 text-right whitespace-nowrap space-x-2">
-                              <button
-                                onClick={() => handleToggleTestimonialVisibility(t.id, isVisible)}
-                                className={`px-2.5 py-1.5 text-xs font-semibold rounded cursor-pointer ${
-                                  isVisible 
-                                    ? "text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200" 
-                                    : "text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200"
-                                }`}
-                              >
-                                {isVisible ? "Hide" : "Show"}
-                              </button>
-                              <button
-                                onClick={() => handleTestimonialEdit(t)}
-                                className="px-2.5 py-1.5 text-xs font-semibold border border-slate-200 text-slate-600 bg-white rounded hover:bg-slate-50 cursor-pointer"
-                              >
-                                Edit
-                              </button>
-                              <button
-                                onClick={() => handleTestimonialDelete(t.id)}
-                                className="px-2.5 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded cursor-pointer"
-                              >
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
+                      {testimonials.map((t) => (
+                        <tr key={t.id} className="hover:bg-slate-50/40">
+                          <td className="p-4">
+                            <div className="w-10 h-10 rounded-full overflow-hidden bg-slate-200 border border-slate-300 shrink-0">
+                              <img
+                                src={t.image || '/student_michelle.webp'}
+                                alt={t.name}
+                                className="w-full h-full object-cover"
+                                onError={(e) => { (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%2394a3b8"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>'; }}
+                              />
+                            </div>
+                          </td>
+                          <td className="p-4 whitespace-nowrap">
+                            <div className="font-semibold text-slate-900">{t.name}</div>
+                            <div className="text-slate-500 text-xs mt-0.5">{t.role}</div>
+                          </td>
+                          <td className="p-4 max-w-xs">
+                            <p className="text-slate-600 text-xs line-clamp-2">{t.text}</p>
+                          </td>
+                          <td className="p-4 text-right whitespace-nowrap space-x-2">
+                            <button
+                              onClick={() => handleTestimonialEdit(t)}
+                              className="px-2.5 py-1.5 text-xs font-semibold border border-slate-200 text-slate-600 bg-white rounded hover:bg-slate-50 cursor-pointer"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleTestimonialDelete(t.id)}
+                              className="px-2.5 py-1.5 text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded cursor-pointer"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>

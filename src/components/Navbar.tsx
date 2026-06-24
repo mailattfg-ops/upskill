@@ -8,29 +8,81 @@ import Image from "next/image";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
     setMounted(true);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Default to standard (white pill) styling if not mounted to prevent hydration mismatch,
-  // but once mounted, check if we are on the what-is-cfa page.
   const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/contact' || pathname === '/blog');
   const isBlogPage = false;
-  // const isBlogPage = mounted && pathname.startsWith('/blogs');
+
+  // Returns true when the given href matches the current page
+  const isActive = (href: string) => {
+    if (!mounted) return false;
+    if (href === '/') return pathname === '/';
+    return pathname === href || pathname.startsWith(href + '/');
+  };
+
+  // Desktop link classes
+  const desktopLinkClass = (href: string) => {
+    const dark = isCfaPage || isBlogPage;
+    const active = isActive(href);
+    return [
+      'transition-colors text-nav-links whitespace-nowrap relative',
+      // active underline decoration
+      active
+        ? dark
+          ? 'text-white font-semibold after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-white after:rounded-full'
+          : 'text-brand-blue font-semibold after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-brand-blue after:rounded-full'
+        : dark
+          ? 'text-white/80 hover:text-white'
+          : href === '/'
+            ? 'text-brand-blue hover:text-blue-800'
+            : 'text-gray-700 hover:text-brand-blue',
+    ].join(' ');
+  };
+
+  // Mobile link classes
+  const mobileLinkClass = (href: string) => {
+    const dark = isCfaPage || isBlogPage;
+    const active = isActive(href);
+    return [
+      'font-semibold text-sm py-1 transition-colors relative',
+      active
+        ? dark
+          ? 'text-white underline underline-offset-4 decoration-white/60'
+          : 'text-blue-600 underline underline-offset-4 decoration-blue-400'
+        : dark
+          ? 'text-white/80 hover:text-white'
+          : href === '/'
+            ? 'text-blue-600'
+            : 'text-gray-600 hover:text-blue-600',
+    ].join(' ');
+  };
+
+  // Resolve header background
+  const headerBg = isBlogPage
+    ? 'bg-[#1B1B1B]'
+    : isCfaPage
+      ? 'bg-transparent'
+      : scrolled
+        ? 'bg-white/95 backdrop-blur-md shadow-sm'
+        : 'bg-transparent';
 
   return (
-    <header className={`absolute top-0 left-0 w-full z-50 ${isBlogPage ? 'bg-[#1B1B1B]' : 'bg-transparent'}`}>
-      {/* Desktop Layout - Max width 1728px container with 113px padding on large screen */}
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${headerBg}`}>
+      {/* Desktop Layout */}
       <div className={`mx-auto w-full max-w-[1728px] px-6 lg:px-12 xl:px-[113px] relative hidden xl:flex items-center justify-center ${isBlogPage ? 'py-0' : 'pt-[20px]'}`}>
 
-        {/* Centered Visible Nav Block (1503px content width, Y-centered, 77px high) */}
         <div className="w-full max-w-[1503px] h-[77px] flex items-center justify-between bg-transparent">
 
-          {/* Left Side: Logo container to balance centering */}
+          {/* Logo */}
           <div className="w-[160px] flex items-center shrink-0">
-            {/* Logo */}
             <Link href="/" className="relative w-[147px] h-[48px] block group z-50">
               <Image
                 src="/footer_logo.png"
@@ -42,53 +94,18 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Centered Links Block (Gap: 32px for blog, 24px for others) */}
+          {/* Centered Nav Links */}
           <nav className={`flex items-center z-50 ${isBlogPage ? 'gap-[32px]' : 'gap-[24px]'}`}>
-            <Link
-              href="/"
-              className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-brand-blue hover:text-blue-800'}`}
-            >
-              Home
-            </Link>
-            <Link
-              href="/#about-company"
-              className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
-            >
-              About
-            </Link>
-            <Link
-              href="/what-is-cfa"
-              className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
-            >
-              What is CFA?
-            </Link>
-            <Link
-              href="#"
-              className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
-            >
-              Program
-            </Link>
-            <Link
-              href="/#testimonials"
-              className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
-            >
-              Testimonials
-            </Link>
-            <Link
-              href="/#blogs"
-              className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
-            >
-              Blog
-            </Link>
-            <Link
-              href="/contact"
-              className={`transition-colors text-nav-links whitespace-nowrap ${isCfaPage || isBlogPage ? 'text-white hover:text-gray-200' : 'text-gray-700 hover:text-brand-blue'}`}
-            >
-              Contact Us
-            </Link>
+            <Link href="/" className={desktopLinkClass('/')}>Home</Link>
+            <Link href="/#about-company" className={desktopLinkClass('/#about-company')}>About</Link>
+            <Link href="/what-is-cfa" className={desktopLinkClass('/what-is-cfa')}>What is CFA?</Link>
+            <Link href="#" className={desktopLinkClass('#')}>Program</Link>
+            <Link href="/#testimonials" className={desktopLinkClass('/#testimonials')}>Testimonials</Link>
+            <Link href="/blogs" className={desktopLinkClass('/blogs')}>Blog</Link>
+            <Link href="/contact" className={desktopLinkClass('/contact')}>Contact Us</Link>
           </nav>
 
-          {/* Right Side: CTA Button Container */}
+          {/* CTA Button */}
           <div className="w-[160px] flex justify-end shrink-0">
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-booking-modal'))}
@@ -99,17 +116,15 @@ export default function Navbar() {
                   : 'bg-brand-blue text-white hover:bg-blue-700 shadow-sm'
                 }`}
             >
-              <span className="text-cta-btn whitespace-nowrap">
-                Book Free Session
-              </span>
+              <span className="text-cta-btn whitespace-nowrap">Book Free Session</span>
             </button>
           </div>
 
         </div>
       </div>
 
-      {/* Mobile/Tablet Fallback Layout (Under 1280px) */}
-      <div className={`xl:hidden w-full px-6 py-4 flex items-center justify-between backdrop-blur-md border-b ${isCfaPage ? 'bg-[#4576FF] border-blue-500 text-white' : isBlogPage ? 'bg-[#1B1B1B] border-neutral-800 text-white' : 'bg-white/80 border-gray-100'}`}>
+      {/* Mobile/Tablet Header Bar */}
+      <div className={`xl:hidden w-full px-6 py-4 flex items-center justify-between backdrop-blur-md border-b transition-all duration-300 ${isCfaPage ? 'bg-[#4576FF] border-blue-500 text-white' : isBlogPage ? 'bg-[#1B1B1B] border-neutral-800 text-white' : scrolled ? 'bg-white/95 border-gray-200 shadow-sm' : 'bg-transparent border-transparent'}`}>
         <Link href="/" className="relative w-[110px] h-[36px] block group z-50">
           <Image
             src="/footer_logo.png"
@@ -138,14 +153,19 @@ export default function Navbar() {
       {/* Mobile Navigation Panel */}
       {isOpen && (
         <div className={`xl:hidden border-t px-6 py-4 flex flex-col gap-4 shadow-inner ${isCfaPage ? 'bg-[#4576FF] border-blue-500 text-white' : isBlogPage ? 'bg-[#1B1B1B] border-neutral-800 text-white' : 'bg-white border-gray-100'}`}>
-          <Link href="/" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white' : 'text-blue-600'}`}>Home</Link>
-          <Link href="/#about-company" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>About</Link>
-          <Link href="/what-is-cfa" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>What is CFA?</Link>
-          <Link href="#" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>Program</Link>
-          <Link href="/#testimonials" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>Testimonials</Link>
-          <Link href="/#blogs" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>Blog</Link>
-          <Link href="/contact" onClick={() => setIsOpen(false)} className={`font-semibold text-sm py-1 ${isCfaPage || isBlogPage ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-blue-600'}`}>Contact Us</Link>
-          <button onClick={() => { setIsOpen(false); window.dispatchEvent(new CustomEvent('open-booking-modal')); }} className={`inline-flex items-center justify-center rounded-full font-bold py-2.5 text-center text-sm shadow-sm mt-2 cursor-pointer ${isBlogPage ? 'border border-[#4879FF] text-[#4879FF] bg-transparent' : isCfaPage ? 'bg-white text-[#4879FF]' : 'bg-blue-600 text-white'}`}>Book Free Session</button>
+          <Link href="/" onClick={() => setIsOpen(false)} className={mobileLinkClass('/')}>Home</Link>
+          <Link href="/#about-company" onClick={() => setIsOpen(false)} className={mobileLinkClass('/#about-company')}>About</Link>
+          <Link href="/what-is-cfa" onClick={() => setIsOpen(false)} className={mobileLinkClass('/what-is-cfa')}>What is CFA?</Link>
+          <Link href="#" onClick={() => setIsOpen(false)} className={mobileLinkClass('#')}>Program</Link>
+          <Link href="/#testimonials" onClick={() => setIsOpen(false)} className={mobileLinkClass('/#testimonials')}>Testimonials</Link>
+          <Link href="/blogs" onClick={() => setIsOpen(false)} className={mobileLinkClass('/blogs')}>Blog</Link>
+          <Link href="/contact" onClick={() => setIsOpen(false)} className={mobileLinkClass('/contact')}>Contact Us</Link>
+          <button
+            onClick={() => { setIsOpen(false); window.dispatchEvent(new CustomEvent('open-booking-modal')); }}
+            className={`inline-flex items-center justify-center rounded-full font-bold py-2.5 text-center text-sm shadow-sm mt-2 cursor-pointer ${isBlogPage ? 'border border-[#4879FF] text-[#4879FF] bg-transparent' : isCfaPage ? 'bg-white text-[#4879FF]' : 'bg-blue-600 text-white'}`}
+          >
+            Book Free Session
+          </button>
         </div>
       )}
     </header>

@@ -131,7 +131,7 @@ export default function PathToCfaSection() {
               : "bg-white border-[#B2C8FF]"
           }`} />
           {/* Text block */}
-          <div className="absolute top-[35px] lg:top-[50px] xl:top-[75px] 2xl:top-[98px] left-[53%] 2xl:left-[785px] w-[45%] 2xl:w-[478px] text-left flex flex-col gap-1 md:gap-1.5">
+          <div className="absolute top-[35px] lg:top-[50px] xl:top-[75px] 2xl:top-[98px] left-[53%] w-[45%] 2xl:w-[478px] text-left flex flex-col gap-1 md:gap-1.5">
             <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[110%] tracking-[-0.03em] text-[#4576FF]">
               Apply for a Free <br className="hidden md:inline" /> Consultation
             </h3>
@@ -148,7 +148,7 @@ export default function PathToCfaSection() {
               : "bg-white border-[#B2C8FF]"
           }`} />
           {/* Text block */}
-          <div className="absolute top-[135px] lg:top-[160px] xl:top-[210px] 2xl:top-[263px] right-[53%] 2xl:right-[678px] w-[45%] 2xl:w-[441px] text-right flex flex-col gap-1 md:gap-1.5">
+          <div className="absolute top-[135px] lg:top-[160px] xl:top-[210px] 2xl:top-[263px] right-[53%] w-[45%] 2xl:w-[441px] text-right flex flex-col gap-1 md:gap-1.5">
             <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[110%] tracking-[-0.03em] text-[#4576FF] max-w-[409px] ml-auto">
               Take part in an Honest <br className="hidden md:inline" /> level assessment
             </h3>
@@ -165,7 +165,7 @@ export default function PathToCfaSection() {
               : "bg-white border-[#B2C8FF]"
           }`} />
           {/* Text block */}
-          <div className="absolute top-[245px] lg:top-[280px] xl:top-[345px] 2xl:top-[449px] left-[53%] 2xl:left-[785px] w-[45%] 2xl:w-[408px] text-left flex flex-col gap-1 md:gap-1.5">
+          <div className="absolute top-[245px] lg:top-[280px] xl:top-[345px] 2xl:top-[449px] left-[53%] w-[45%] 2xl:w-[408px] text-left flex flex-col gap-1 md:gap-1.5">
             <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[110%] tracking-[-0.03em] text-[#4576FF] max-w-[338px]">
               Get Matched with <br className="hidden md:inline" /> a Study Plan
             </h3>
@@ -182,7 +182,7 @@ export default function PathToCfaSection() {
               : "bg-white border-[#B2C8FF]"
           }`} />
           {/* Text block */}
-          <div className="absolute top-[365px] lg:top-[410px] xl:top-[495px] 2xl:top-[630px] right-[53%] 2xl:right-[678px] w-[45%] 2xl:w-[591px] text-right flex flex-col gap-1 md:gap-1.5">
+          <div className="absolute top-[365px] lg:top-[410px] xl:top-[495px] 2xl:top-[630px] right-[53%] w-[45%] 2xl:w-[591px] text-right flex flex-col gap-1 md:gap-1.5">
             <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[110%] tracking-[-0.03em] text-[#4576FF] max-w-[591px] ml-auto">
               Pass Your CFA Exam with <br className="hidden md:inline" /> Confidence
             </h3>
@@ -208,28 +208,28 @@ export default function PathToCfaSection() {
           </p>
         </div>
         {/* Timeline channel and steps wrapper */}
-        <div className="relative pl-4 pr-8 flex flex-col gap-10">
+        <div className="relative pl-4 pr-20 flex flex-col gap-10 pt-8">
           {/* Timeline Central/Left line Base */}
-          <div ref={mobileLineRef} className="absolute right-[16px] top-2 bottom-2 w-[4px] bg-[#C0D0FF] rounded-full" />
+          <div ref={mobileLineRef} className="absolute right-[32px] top-2 bottom-2 w-[4px] bg-[#C0D0FF] rounded-full" />
 
           {/* Timeline Central/Left line Active */}
           <div 
-            className="absolute right-[16px] top-2 w-[4px] bg-[#4576FF] rounded-full transition-all duration-100 ease-out origin-top shadow-[0_0_6px_rgba(69,118,255,0.5)]" 
+            className="absolute right-[32px] top-2 w-[4px] bg-[#4576FF] rounded-full transition-all duration-100 ease-out origin-top shadow-[0_0_6px_rgba(69,118,255,0.5)]" 
             style={{ height: `${mobileLineHeight}px` }}
           />
 
           {/* Step 1 */}
           <div className="relative flex flex-col gap-1 text-right">
             {/* Node */}
-            <div ref={mobileNode1Ref} className={`absolute right-[-22px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
+            <div ref={mobileNode1Ref} className={`absolute right-[-54px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
               mNode1Active 
                 ? "bg-[#4576FF] border-[#DBE5FF] scale-110 shadow-[0_0_8px_rgba(69,118,255,0.8)]" 
                 : "bg-white border-[#B2C8FF]"
             }`} />
-            <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
+            <h3 className="font-sans font-medium text-[24px] leading-tight text-[#4576FF]">
               Apply for a Free <br className="hidden md:inline" /> Consultation
             </h3>
-            <p className="font-['DM_Sans'] font-normal text-[13px] leading-relaxed text-[#71717A]">
+            <p className="font-['DM_Sans'] font-normal text-[14px] leading-relaxed text-[#71717A]">
               Speak with an expert and discover <br className="hidden md:inline" /> where you stand
             </p>
           </div>
@@ -237,15 +237,15 @@ export default function PathToCfaSection() {
           {/* Step 2 */}
           <div className="relative flex flex-col gap-1 text-right">
             {/* Node */}
-            <div ref={mobileNode2Ref} className={`absolute right-[-22px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
+            <div ref={mobileNode2Ref} className={`absolute right-[-54px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
               mNode2Active 
                 ? "bg-[#4576FF] border-[#DBE5FF] scale-110 shadow-[0_0_8px_rgba(69,118,255,0.8)]" 
                 : "bg-white border-[#B2C8FF]"
             }`} />
-            <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
+            <h3 className="font-sans font-medium text-[24px] leading-tight text-[#4576FF]">
               Take part in an Honest <br className="hidden md:inline" /> level assessment
             </h3>
-            <p className="font-['DM_Sans'] font-normal text-[13px] leading-relaxed text-[#71717A]">
+            <p className="font-['DM_Sans'] font-normal text-[14px] leading-relaxed text-[#71717A]">
               Test for basic knowledge on financial <br className="hidden md:inline" /> and mathematical understanding
             </p>
           </div>
@@ -253,15 +253,15 @@ export default function PathToCfaSection() {
           {/* Step 3 */}
           <div className="relative flex flex-col gap-1 text-right">
             {/* Node */}
-            <div ref={mobileNode3Ref} className={`absolute right-[-22px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
+            <div ref={mobileNode3Ref} className={`absolute right-[-54px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
               mNode3Active 
                 ? "bg-[#4576FF] border-[#DBE5FF] scale-110 shadow-[0_0_8px_rgba(69,118,255,0.8)]" 
                 : "bg-white border-[#B2C8FF]"
             }`} />
-            <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
+            <h3 className="font-sans font-medium text-[24px] leading-tight text-[#4576FF]">
               Get Matched with <br className="hidden md:inline" /> a Study Plan
             </h3>
-            <p className="font-['DM_Sans'] font-normal text-[13px] leading-relaxed text-[#71717A]">
+            <p className="font-['DM_Sans'] font-normal text-[14px] leading-relaxed text-[#71717A]">
               Receive a curriculum plan for your <br className="hidden md:inline" /> specific situation
             </p>
           </div>
@@ -269,15 +269,15 @@ export default function PathToCfaSection() {
           {/* Step 4 */}
           <div className="relative flex flex-col gap-1 text-right">
             {/* Node */}
-            <div ref={mobileNode4Ref} className={`absolute right-[-22px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
+            <div ref={mobileNode4Ref} className={`absolute right-[-54px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
               mNode4Active 
                 ? "bg-[#4576FF] border-[#DBE5FF] scale-110 shadow-[0_0_8px_rgba(69,118,255,0.8)]" 
                 : "bg-white border-[#B2C8FF]"
             }`} />
-            <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
+            <h3 className="font-sans font-medium text-[24px] leading-tight text-[#4576FF]">
               Pass Your CFA Exam with <br className="hidden md:inline" /> Confidence
             </h3>
-            <p className="font-['DM_Sans'] font-normal text-[13px] leading-relaxed text-[#71717A]">
+            <p className="font-['DM_Sans'] font-normal text-[14px] leading-relaxed text-[#71717A]">
               Achieve your goals with our proven <br className="hidden md:inline" /> strategies and dedicated support
             </p>
           </div>
