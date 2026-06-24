@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { supabase } from "@/lib/supabaseClient";
 
 const STATIC_TESTIMONIALS = [
@@ -88,7 +90,9 @@ export default async function Home() {
     blogsList = STATIC_BLOGS;
   }
   return (
-    <>
+    <div className="relative min-h-screen bg-white font-sans text-gray-900 overflow-x-hidden">
+      {/* Navigation Header */}
+      <Navbar />
 
       {/* Hero Section */}
       <section className="relative pt-[112px] pb-0 md:pt-[120px] lg:pt-[140px] xl:pt-[160px] px-0 overflow-visible bg-white">
@@ -145,7 +149,7 @@ export default async function Home() {
           </div>
 
           {/* Gradient Overlay Container at the bottom (1728 x 309px in Figma) */}
-          <div 
+          <div
             className="absolute bottom-0 left-0 right-0 w-full z-10 h-[180px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[309px] pointer-events-none"
             style={{
               background: "linear-gradient(180deg, rgba(69, 118, 255, 0) 0%, #4576FF 100%)"
@@ -207,7 +211,7 @@ export default async function Home() {
           WHY CHOOSE US SECTION
           Figma: heading 608×180 top:1191px, cards 1503×547px
       ───────────────────────────────────────────────────────── */}
-      <section id="why-choose-us" className="w-full bg-white py-10 md:py-14 lg:py-16 xl:py-28 px-4 overflow-visible relative z-10">
+      <section id="why-choose-us" className="w-full bg-white py-10 md:py-14 lg:py-16 xl:py-28 px-4 overflow-hidden relative z-10">
 
         {/* Section header text block */}
         <div className="mx-auto flex flex-col items-center gap-6 mb-14 md:mb-16">
@@ -371,10 +375,10 @@ export default async function Home() {
           HOW IT WORKS SECTION (Path to the CFA Charter)
       ───────────────────────────────────────────────────────── */}
       <section id="how-it-works" className="w-full bg-[#DBE5FF] pt-[42px] pb-20 md:py-0 md:px-0 overflow-visible relative md:h-[680px] lg:h-[780px] xl:h-[920px] 2xl:h-[1117px]">
-        
+
         {/* Desktop Layout — Figma Specifications */}
         <div className="hidden md:block w-full max-w-[1728px] mx-auto h-full relative overflow-visible">
-          
+
           {/* Header */}
           <h2 className="absolute top-[20px] md:top-[30px] xl:top-[42px] left-1/2 -translate-x-1/2 w-full max-w-[900px] h-auto font-['Cal_Sans'] font-normal text-[28px] md:text-[38px] lg:text-[44px] xl:text-[54px] 2xl:text-[66px] leading-[110%] tracking-normal text-center text-[#4576FF] z-20">
             Path to the <br /> CFA Charter
@@ -469,7 +473,7 @@ export default async function Home() {
 
           {/* Timeline channel and steps wrapper */}
           <div className="relative pl-8 pr-4 flex flex-col gap-10">
-            
+
             {/* Timeline Central/Left line */}
             <div className="absolute left-[16px] top-2 bottom-2 w-[4px] bg-[#4576FF] rounded-full" />
 
@@ -543,7 +547,7 @@ export default async function Home() {
           </p>
         </div>
 
-         <div className="mx-auto w-full max-w-[1511.03px] flex flex-wrap justify-center gap-8 md:gap-[40.84px]">
+        <div className="mx-auto w-full max-w-[1511.03px] flex flex-wrap justify-center gap-8 md:gap-[40.84px]">
           {visibleTestimonials.map((t, idx) => (
             <div
               key={t.id || idx}
@@ -587,7 +591,7 @@ export default async function Home() {
       ───────────────────────────────────────────────────────── */}
       <section id="blogs" className="w-full bg-[#F1F1F1] py-6 md:py-8 lg:py-12 xl:py-20 px-6 overflow-visible select-none">
         <div className="mx-auto max-w-[1728px] w-full flex flex-col items-center">
-          
+
           {/* Heading — Figma: Cal Sans 90px, #4879FF, 544×180px */}
           <h2 className="font-['Cal_Sans'] font-normal text-[26px] sm:text-[32px] md:text-[38px] lg:text-[44px] xl:text-[54px] 2xl:text-[66px] leading-[110%] tracking-normal text-center text-[#4879FF] flex items-center justify-center select-none z-20">
             Read blogs <br /> on CFA
@@ -667,15 +671,15 @@ export default async function Home() {
                 backgroundPosition: "center"
               }}
             />
-            
+
             {/* Content Wrapper — Centered flex container to manage gaps and alignment dynamically */}
             <div className="relative z-10 flex flex-col items-center justify-center gap-6 md:gap-8 lg:gap-10 max-w-[1128px] py-12 md:py-16">
-              
+
               {/* Title — Cal Sans, white, centered */}
               <h2 className="w-full max-w-[800px] font-['Cal_Sans'] font-normal text-[26px] sm:text-[34px] md:text-[42px] lg:text-[50px] xl:text-[58px] leading-[105%] text-white tracking-tight text-center select-none">
                 Ready to pass <br /> your CFA exam?
               </h2>
-              
+
               {/* Subtitle — Geist/font-sans, white/90, centered */}
               <p className="w-full max-w-[566px] font-sans font-normal text-[12px] sm:text-[14px] md:text-[15px] lg:text-[16px] xl:text-[18px] leading-[130%] text-white/90 tracking-[-0.04em] text-center select-none">
                 Book a free consultation today and build a smarter, <br className="hidden md:inline" /> more structured CFA preparation strategy.
@@ -690,11 +694,14 @@ export default async function Home() {
               </Link>
             </div>
           </div>
-          
+
         </div>
       </section>
 
 
-    </>
+      {/* Footer — Figma: Group 1321319586, width 1920px, height 229px */}
+      <Footer />
+
+    </div>
   );
 }
