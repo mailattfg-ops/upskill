@@ -21,6 +21,10 @@ export default function AdminPage() {
   const [testimonials, setTestimonials] = useState<any[]>([]);
   const [loadingData, setLoadingData] = useState(false);
 
+  // Testimonials section-level visibility toggle
+  const [testimonialSectionVisible, setTestimonialSectionVisible] = useState(true);
+  const [toggleLoading, setToggleLoading] = useState(false);
+
   // Forms
   const [editingBlog, setEditingBlog] = useState<any>(null);
   const [formSubTab, setFormSubTab] = useState<"general" | "sections">("general");
@@ -275,11 +279,45 @@ export default function AdminPage() {
           .order("created_at", { ascending: false });
         if (error) throw error;
         setTestimonials(data || []);
+        // Also fetch section visibility
+        fetchSectionVisibility();
       }
     } catch (err: any) {
       console.error(`Error fetching ${activeTab}:`, err.message);
     } finally {
       setLoadingData(false);
+    }
+  };
+
+  const fetchSectionVisibility = async () => {
+    try {
+      const { data } = await supabase
+        .from("site_settings")
+        .select("value")
+        .eq("key", "testimonials_visible")
+        .single();
+      if (data) {
+        setTestimonialSectionVisible(data.value !== "false");
+      }
+    } catch {
+      // table may not exist yet — default to visible
+      setTestimonialSectionVisible(true);
+    }
+  };
+
+  const handleToggleSectionVisibility = async () => {
+    setToggleLoading(true);
+    const newVal = !testimonialSectionVisible;
+    try {
+      const { error } = await supabase
+        .from("site_settings")
+        .upsert({ key: "testimonials_visible", value: String(newVal) }, { onConflict: "key" });
+      if (error) throw error;
+      setTestimonialSectionVisible(newVal);
+    } catch (err: any) {
+      alert("Error saving setting: " + err.message);
+    } finally {
+      setToggleLoading(false);
     }
   };
 
@@ -614,6 +652,31 @@ export default function AdminPage() {
                 : "Manage social proof and feedback comments from your student success network."}
             </p>
           </div>
+
+          {/* Section visibility toggle — only shown on testimonials tab */}
+          {activeTab === "testimonials" && (
+            <div className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-slate-200 shadow-sm shrink-0">
+              <div className="flex flex-col">
+                <span className="text-xs font-bold text-slate-700 leading-tight">Testimonials Section</span>
+                <span className={`text-[10px] font-semibold mt-0.5 ${testimonialSectionVisible ? 'text-emerald-600' : 'text-red-500'}`}>
+                  {testimonialSectionVisible ? 'Visible on website' : 'Hidden from website'}
+                </span>
+              </div>
+              {/* Toggle pill */}
+              <button
+                onClick={handleToggleSectionVisibility}
+                disabled={toggleLoading}
+                title={testimonialSectionVisible ? "Click to hide section" : "Click to show section"}
+                className={`relative w-12 h-6 rounded-full transition-all duration-300 cursor-pointer focus:outline-none disabled:opacity-60 ${
+                  testimonialSectionVisible ? 'bg-emerald-500' : 'bg-slate-300'
+                }`}
+              >
+                <span className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all duration-300 ${
+                  testimonialSectionVisible ? 'left-[26px]' : 'left-0.5'
+                }`} />
+              </button>
+            </div>
+          )}
         </header>
 
         {/* 2-COLUMN LAYOUT: FORM (LEFT) + LIST (RIGHT) */}

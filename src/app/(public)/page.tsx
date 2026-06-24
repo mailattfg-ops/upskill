@@ -110,13 +110,29 @@ export default async function Home() {
     blogsList = STATIC_BLOGS;
   }
 
+  // Fetch testimonials section visibility setting
+  let showTestimonialsSection = true;
+  try {
+    const { data: settingData } = await supabase
+      .from("site_settings")
+      .select("value")
+      .eq("key", "testimonials_visible")
+      .single();
+    if (settingData) {
+      showTestimonialsSection = settingData.value !== "false";
+    }
+  } catch {
+    // site_settings table may not exist yet — default to visible
+    showTestimonialsSection = true;
+  }
+
   return (
     <>
       <HeroSection />
       <WhyChooseUsSection />
       <AboutSection />
       <PathToCfaSection />
-      <TestimonialsSection visibleTestimonials={visibleTestimonials} />
+      {showTestimonialsSection && <TestimonialsSection visibleTestimonials={visibleTestimonials} />}
       <BlogsSection blogsList={blogsList} />
     </>
   );
