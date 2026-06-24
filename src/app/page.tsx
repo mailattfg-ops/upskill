@@ -49,7 +49,7 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-[112px] pb-0 md:pt-[120px] lg:pt-[140px] xl:pt-[160px] px-0 overflow-visible bg-white">
+      <section className="relative grid h-[100vh] md:h-fit items-end pt-[112px] pb-0 md:pt-[120px] lg:pt-[140px] xl:pt-[160px] px-0 overflow-visible bg-white">
         <div className="mx-auto max-w-[1474px] flex flex-col items-center text-center gap-4 md:gap-5 px-6">
 
           {/* Main Headline */}
