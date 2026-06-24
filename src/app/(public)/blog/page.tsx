@@ -41,6 +41,51 @@ function BlogDetailContent() {
   const [blogsList, setBlogsList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Fallback static sections
+  const defaultSections = [
+    { 
+      id: "preparation", 
+      tocTitle: "Introduction", 
+      bodyTitle: blog ? `${blog.title} Overview` : "Overview", 
+      content: blog ? `${blog.description} Study prep requires strategic planning, case review, and practicing exam structures. Harnessing professional insights allows candidates to accelerate their learning curve and achieve better focus.` : ""
+    },
+    { 
+      id: "networking", 
+      tocTitle: "Start with yacht size and layout", 
+      bodyTitle: "Networking Opportunities", 
+      content: "Joining CFA societies and attending local events allows candidates to connect with industry professionals. Engaging with mentors can provide invaluable insights and guidance, which can make a significant difference in a candidate's career trajectory post-certification." 
+    },
+    { 
+      id: "format", 
+      tocTitle: "Duration matters more than many realize", 
+      bodyTitle: "Exam Format and Structure", 
+      content: "Understanding the format of the CFA exams is crucial for success. The Level I exam consists of multiple-choice questions, while Levels II and III require candidates to grapple with detailed case studies and constructed responses, respectively. Familiarity with the exam structure helps in effective time management during the test." 
+    },
+    { 
+      id: "career", 
+      tocTitle: "Services you can tailor", 
+      bodyTitle: "Career Opportunities Post-CFA", 
+      content: "Earning a CFA designation opens doors to various career paths in finance, including portfolio management, research analysis, and investment banking. The credential is highly regarded globally, often leading to higher earning potential and greater job security in the competitive financial services industry." 
+    },
+  ];
+
+  // Resolve active sections for the blog
+  const blogSections = (() => {
+    if (!blog) return defaultSections;
+    if (blog.sections && Array.isArray(blog.sections) && blog.sections.length > 0) {
+      return defaultSections.map(defSec => {
+        const found = blog.sections.find((s: any) => s.id === defSec.id);
+        return found ? {
+          id: defSec.id,
+          tocTitle: found.tocTitle || defSec.tocTitle,
+          bodyTitle: found.bodyTitle || defSec.bodyTitle,
+          content: found.content || defSec.content,
+        } : defSec;
+      });
+    }
+    return defaultSections;
+  })();
+
   // Fetch specific blog and related blogs
   useEffect(() => {
     async function loadBlogDetails() {
@@ -112,7 +157,7 @@ function BlogDetailContent() {
       }
     );
 
-    sections.forEach((s) => {
+    blogSections.forEach((s) => {
       const el = document.getElementById(s.id);
       if (el) observer.observe(el);
     });
@@ -205,7 +250,7 @@ function BlogDetailContent() {
             Contents
           </span>
           <div className="flex flex-col gap-2.5">
-            {sections.map((s) => (
+            {blogSections.map((s) => (
               <button
                 key={s.id}
                 onClick={() => handleScrollTo(s.id)}
@@ -227,7 +272,7 @@ function BlogDetailContent() {
             Contents
           </h3>
           <nav className="flex flex-col gap-4">
-            {sections.map((s) => (
+            {blogSections.map((s) => (
               <button
                 key={s.id}
                 onClick={() => handleScrollTo(s.id)}
@@ -245,45 +290,16 @@ function BlogDetailContent() {
 
         {/* Right Main Column: Article Content */}
         <article className="flex-1 w-full max-w-full md:max-w-[666px]">
-          {/* Section 1 */}
-          <section id="preparation" className="mb-12">
-            <h2 className="font-['Cal_Sans'] font-normal text-[28px] sm:text-[34px] md:text-[40px] leading-[1.2] text-black mb-4 scroll-mt-[120px]">
-              {blog.title} Overview
-            </h2>
-            <p className="font-sh-grotesk font-normal text-[18px] sm:text-[20px] md:text-[22px] leading-[1.5] text-[#616161] mb-6">
-              {blog.description} Study prep requires strategic planning, case review, and practicing exam structures. Harnessing professional insights allows candidates to accelerate their learning curve and achieve better focus.
-            </p>
-          </section>
-
-          {/* Section 2 */}
-          <section id="networking" className="mb-12">
-            <h2 className="font-['Cal_Sans'] font-normal text-[28px] sm:text-[34px] md:text-[40px] leading-[1.2] text-black mb-4 scroll-mt-[120px]">
-              Networking Opportunities
-            </h2>
-            <p className="font-sh-grotesk font-normal text-[18px] sm:text-[20px] md:text-[22px] leading-[1.5] text-[#616161] mb-6">
-              Joining CFA societies and attending local events allows candidates to connect with industry professionals. Engaging with mentors can provide invaluable insights and guidance, which can make a significant difference in a candidate's career trajectory post-certification.
-            </p>
-          </section>
-
-          {/* Section 3 */}
-          <section id="format" className="mb-12">
-            <h2 className="font-['Cal_Sans'] font-normal text-[28px] sm:text-[34px] md:text-[40px] leading-[1.2] text-black mb-4 scroll-mt-[120px]">
-              Exam Format and Structure
-            </h2>
-            <p className="font-sh-grotesk font-normal text-[18px] sm:text-[20px] md:text-[22px] leading-[1.5] text-[#616161] mb-6">
-              Understanding the format of the CFA exams is crucial for success. The Level I exam consists of multiple-choice questions, while Levels II and III require candidates to grapple with detailed case studies and constructed responses, respectively. Familiarity with the exam structure helps in effective time management during the test.
-            </p>
-          </section>
-
-          {/* Section 4 */}
-          <section id="career" className="mb-4">
-            <h2 className="font-['Cal_Sans'] font-normal text-[28px] sm:text-[34px] md:text-[40px] leading-[1.2] text-black mb-4 scroll-mt-[120px]">
-              Career Opportunities Post-CFA
-            </h2>
-            <p className="font-sh-grotesk font-normal text-[18px] sm:text-[20px] md:text-[22px] leading-[1.5] text-[#616161] mb-6">
-              Earning a CFA designation opens doors to various career paths in finance, including portfolio management, research analysis, and investment banking. The credential is highly regarded globally, often leading to higher earning potential and greater job security in the competitive financial services industry.
-            </p>
-          </section>
+          {blogSections.map((s) => (
+            <section key={s.id} id={s.id} className="mb-12 scroll-mt-[120px]">
+              <h2 className="font-['Cal_Sans'] font-normal text-[28px] sm:text-[34px] md:text-[40px] leading-[1.2] text-black mb-4">
+                {s.bodyTitle}
+              </h2>
+              <p className="font-sh-grotesk font-normal text-[18px] sm:text-[20px] md:text-[22px] leading-[1.5] text-[#616161] mb-6 whitespace-pre-wrap">
+                {s.content}
+              </p>
+            </section>
+          ))}
         </article>
       </div>
 

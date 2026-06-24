@@ -23,12 +23,19 @@ export default function AdminPage() {
 
   // Forms
   const [editingBlog, setEditingBlog] = useState<any>(null);
+  const [formSubTab, setFormSubTab] = useState<"general" | "sections">("general");
   const [blogFormData, setBlogFormData] = useState({
     title: "",
     description: "",
     read_time: "5 min read",
     publish_date: new Date().toISOString().split("T")[0],
     image: "/program_hero.png",
+    sections: [
+      { id: "preparation", tocTitle: "Introduction", bodyTitle: "CFA Exam Preparation", content: "" },
+      { id: "networking", tocTitle: "Start with yacht size and layout", bodyTitle: "Networking Opportunities", content: "" },
+      { id: "format", tocTitle: "Duration matters more than many realize", bodyTitle: "Exam Format and Structure", content: "" },
+      { id: "career", tocTitle: "Services you can tailor", bodyTitle: "Career Opportunities Post-CFA", content: "" },
+    ],
   });
 
   // Blog image upload states
@@ -317,30 +324,25 @@ export default function AdminPage() {
   const handleBlogSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const dataToSave = {
+        title: blogFormData.title,
+        description: blogFormData.description,
+        read_time: blogFormData.read_time,
+        publish_date: blogFormData.publish_date,
+        image: blogFormData.image,
+        sections: blogFormData.sections,
+      };
+
       if (editingBlog) {
         const { error } = await supabase
           .from("blogs")
-          .update({
-            title: blogFormData.title,
-            description: blogFormData.description,
-            read_time: blogFormData.read_time,
-            publish_date: blogFormData.publish_date,
-            image: blogFormData.image,
-          })
+          .update(dataToSave)
           .eq("id", editingBlog.id);
         if (error) throw error;
       } else {
         const { error } = await supabase
           .from("blogs")
-          .insert([
-            {
-              title: blogFormData.title,
-              description: blogFormData.description,
-              read_time: blogFormData.read_time,
-              publish_date: blogFormData.publish_date,
-              image: blogFormData.image,
-            },
-          ]);
+          .insert([dataToSave]);
         if (error) throw error;
       }
       setBlogFormData({
@@ -349,8 +351,15 @@ export default function AdminPage() {
         read_time: "5 min read",
         publish_date: new Date().toISOString().split("T")[0],
         image: "/program_hero.png",
+        sections: [
+          { id: "preparation", tocTitle: "Introduction", bodyTitle: "CFA Exam Preparation", content: "" },
+          { id: "networking", tocTitle: "Start with yacht size and layout", bodyTitle: "Networking Opportunities", content: "" },
+          { id: "format", tocTitle: "Duration matters more than many realize", bodyTitle: "Exam Format and Structure", content: "" },
+          { id: "career", tocTitle: "Services you can tailor", bodyTitle: "Career Opportunities Post-CFA", content: "" },
+        ],
       });
       setEditingBlog(null);
+      setFormSubTab("general");
       setBlogUploadFeedback({ type: "", text: "" });
       fetchData();
     } catch (err: any) {
@@ -361,12 +370,29 @@ export default function AdminPage() {
   const handleBlogEdit = (blog: any) => {
     setEditingBlog(blog);
     setBlogUploadFeedback({ type: "", text: "" });
+    setFormSubTab("general");
+
+    let blogSections = [
+      { id: "preparation", tocTitle: "Introduction", bodyTitle: "CFA Exam Preparation", content: "" },
+      { id: "networking", tocTitle: "Start with yacht size and layout", bodyTitle: "Networking Opportunities", content: "" },
+      { id: "format", tocTitle: "Duration matters more than many realize", bodyTitle: "Exam Format and Structure", content: "" },
+      { id: "career", tocTitle: "Services you can tailor", bodyTitle: "Career Opportunities Post-CFA", content: "" },
+    ];
+
+    if (blog.sections && Array.isArray(blog.sections) && blog.sections.length > 0) {
+      blogSections = blogSections.map(defSec => {
+        const found = blog.sections.find((s: any) => s.id === defSec.id);
+        return found ? { ...defSec, ...found } : defSec;
+      });
+    }
+
     setBlogFormData({
       title: blog.title,
       description: blog.description,
       read_time: blog.read_time,
       publish_date: blog.publish_date,
       image: blog.image,
+      sections: blogSections,
     });
   };
 
@@ -617,124 +643,212 @@ export default function AdminPage() {
             {activeTab === "blogs" ? (
               // BLOG FORM
               <form onSubmit={handleBlogSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">
-                    Article Title
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={blogFormData.title}
-                    onChange={(e) => setBlogFormData({ ...blogFormData, title: e.target.value })}
-                    placeholder="e.g., How to balance Level I with full-time work"
-                    className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-[#4576FF]"
-                  />
+                {/* Form Tabs: General Info vs. Article Sections */}
+                <div className="flex border-b border-slate-200 mb-2">
+                  <button
+                    type="button"
+                    onClick={() => setFormSubTab("general")}
+                    className={`flex-1 py-2 text-center text-xs font-bold transition-all cursor-pointer ${
+                      formSubTab === "general"
+                        ? "border-b-2 border-[#4576FF] text-[#4576FF]"
+                        : "text-slate-500 hover:text-slate-800"
+                    }`}
+                  >
+                    General Info
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormSubTab("sections")}
+                    className={`flex-1 py-2 text-center text-xs font-bold transition-all cursor-pointer ${
+                      formSubTab === "sections"
+                        ? "border-b-2 border-[#4576FF] text-[#4576FF]"
+                        : "text-slate-500 hover:text-slate-800"
+                    }`}
+                  >
+                    Article Sections
+                  </button>
                 </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">
-                    Description
-                  </label>
-                  <textarea
-                    required
-                    rows={4}
-                    value={blogFormData.description}
-                    onChange={(e) => setBlogFormData({ ...blogFormData, description: e.target.value })}
-                    placeholder="Provide a summary sentence..."
-                    className="w-full p-3 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-[#4576FF] resize-none"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-600 mb-1">
-                      Read Time
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={blogFormData.read_time}
-                      onChange={(e) => setBlogFormData({ ...blogFormData, read_time: e.target.value })}
-                      placeholder="e.g., 5 min read"
-                      className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-600 mb-1">
-                      Publish Date
-                    </label>
-                    <input
-                      type="date"
-                      required
-                      value={blogFormData.publish_date}
-                      onChange={(e) => setBlogFormData({ ...blogFormData, publish_date: e.target.value })}
-                      className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">
-                    Blog Hero Image
-                  </label>
-                  
-                  {/* Visual Preview & Upload Actions */}
-                  <div className="mt-1 flex flex-col gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg">
-                    {blogFormData.image && (
-                      <div className="w-full h-32 rounded-lg overflow-hidden bg-slate-200 border border-slate-300 flex items-center justify-center relative">
-                        <img 
-                          src={blogFormData.image} 
-                          alt="Blog Preview" 
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%2394a3b8"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>';
-                          }}
+
+                {formSubTab === "general" ? (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">
+                        Article Title
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={blogFormData.title}
+                        onChange={(e) => setBlogFormData({ ...blogFormData, title: e.target.value })}
+                        placeholder="e.g., How to balance Level I with full-time work"
+                        className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-[#4576FF]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">
+                        Description
+                      </label>
+                      <textarea
+                        required
+                        rows={4}
+                        value={blogFormData.description}
+                        onChange={(e) => setBlogFormData({ ...blogFormData, description: e.target.value })}
+                        placeholder="Provide a summary sentence..."
+                        className="w-full p-3 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-[#4576FF] resize-none"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-600 mb-1">
+                          Read Time
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={blogFormData.read_time}
+                          onChange={(e) => setBlogFormData({ ...blogFormData, read_time: e.target.value })}
+                          placeholder="e.g., 5 min read"
+                          className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
                         />
                       </div>
-                    )}
-                    
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        id="blog-photo-upload"
-                        onChange={handleBlogImageUpload}
-                        className="hidden"
-                      />
-                      <label 
-                        htmlFor="blog-photo-upload" 
-                        className="inline-flex items-center px-2.5 py-1.5 border border-slate-300 shadow-sm text-xs font-semibold rounded text-slate-700 bg-white hover:bg-slate-50 focus:outline-none cursor-pointer transition-all"
-                      >
-                        {uploadingBlogImage ? "Processing..." : "Choose File"}
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-600 mb-1">
+                          Publish Date
+                        </label>
+                        <input
+                          type="date"
+                          required
+                          value={blogFormData.publish_date}
+                          onChange={(e) => setBlogFormData({ ...blogFormData, publish_date: e.target.value })}
+                          className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">
+                        Blog Hero Image
                       </label>
-                      <p className="text-[10px] text-slate-400">
-                        PNG, JPG, WEBP. Auto-compressed.
-                      </p>
+                      
+                      {/* Visual Preview & Upload Actions */}
+                      <div className="mt-1 flex flex-col gap-3 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                        {blogFormData.image && (
+                          <div className="w-full h-32 rounded-lg overflow-hidden bg-slate-200 border border-slate-300 flex items-center justify-center relative">
+                            <img 
+                              src={blogFormData.image} 
+                              alt="Blog Preview" 
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="%2394a3b8"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>';
+                              }}
+                            />
+                          </div>
+                        )}
+                        
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            id="blog-photo-upload"
+                            onChange={handleBlogImageUpload}
+                            className="hidden"
+                          />
+                          <label 
+                            htmlFor="blog-photo-upload" 
+                            className="inline-flex items-center px-2.5 py-1.5 border border-slate-300 shadow-sm text-xs font-semibold rounded text-slate-700 bg-white hover:bg-slate-50 focus:outline-none cursor-pointer transition-all"
+                          >
+                            {uploadingBlogImage ? "Processing..." : "Choose File"}
+                          </label>
+                          <p className="text-[10px] text-slate-400">
+                            PNG, JPG, WEBP. Auto-compressed.
+                          </p>
+                        </div>
+                      </div>
+
+                      {blogUploadFeedback.text && (
+                        <p className={`text-[11px] mt-1 font-semibold ${
+                          blogUploadFeedback.type === "success" ? "text-emerald-600" : "text-red-500"
+                        }`}>
+                          {blogUploadFeedback.text}
+                        </p>
+                      )}
+
+                      <div className="mt-3">
+                        <label className="block text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-1">
+                          Or paste direct image URL / Path
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={blogFormData.image}
+                          onChange={(e) => {
+                            setBlogFormData({ ...blogFormData, image: e.target.value });
+                            setBlogUploadFeedback({ type: "", text: "" });
+                          }}
+                          placeholder="e.g., /program_hero.png"
+                          className="w-full h-9 px-3 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-[#4576FF]"
+                        />
+                      </div>
                     </div>
                   </div>
-
-                  {blogUploadFeedback.text && (
-                    <p className={`text-[11px] mt-1 font-semibold ${
-                      blogUploadFeedback.type === "success" ? "text-emerald-600" : "text-red-500"
-                    }`}>
-                      {blogUploadFeedback.text}
-                    </p>
-                  )}
-
-                  <div className="mt-3">
-                    <label className="block text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-1">
-                      Or paste direct image URL / Path
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={blogFormData.image}
-                      onChange={(e) => {
-                        setBlogFormData({ ...blogFormData, image: e.target.value });
-                        setBlogUploadFeedback({ type: "", text: "" });
-                      }}
-                      placeholder="e.g., /program_hero.png"
-                      className="w-full h-9 px-3 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-[#4576FF]"
-                    />
+                ) : (
+                  <div className="space-y-5 max-h-[500px] overflow-y-auto pr-1">
+                    {blogFormData.sections && blogFormData.sections.map((sec, index) => (
+                      <div key={sec.id} className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                        <span className="block text-[10px] font-bold text-[#4576FF] uppercase tracking-wider">
+                          Section {index + 1}: {sec.id === "preparation" ? "Intro" : sec.id}
+                        </span>
+                        <div>
+                          <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
+                            TOC Link Title
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={sec.tocTitle}
+                            onChange={(e) => {
+                              const updated = [...blogFormData.sections];
+                              updated[index] = { ...updated[index], tocTitle: e.target.value };
+                              setBlogFormData({ ...blogFormData, sections: updated });
+                            }}
+                            className="w-full h-8 px-2 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-[#4576FF]"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
+                            Section Heading
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={sec.bodyTitle}
+                            onChange={(e) => {
+                              const updated = [...blogFormData.sections];
+                              updated[index] = { ...updated[index], bodyTitle: e.target.value };
+                              setBlogFormData({ ...blogFormData, sections: updated });
+                            }}
+                            className="w-full h-8 px-2 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-[#4576FF]"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
+                            Content Body
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={sec.content}
+                            onChange={(e) => {
+                              const updated = [...blogFormData.sections];
+                              updated[index] = { ...updated[index], content: e.target.value };
+                              setBlogFormData({ ...blogFormData, sections: updated });
+                            }}
+                            placeholder="Enter section content (leave blank to use default fallback)..."
+                            className="w-full p-2 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-[#4576FF] resize-none"
+                          />
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                </div>
+                )}
                 <div className="flex gap-3 pt-2">
                   <button
                     type="submit"
@@ -754,6 +868,12 @@ export default function AdminPage() {
                           read_time: "5 min read",
                           publish_date: new Date().toISOString().split("T")[0],
                           image: "/program_hero.png",
+                          sections: [
+                            { id: "preparation", tocTitle: "Introduction", bodyTitle: "CFA Exam Preparation", content: "" },
+                            { id: "networking", tocTitle: "Start with yacht size and layout", bodyTitle: "Networking Opportunities", content: "" },
+                            { id: "format", tocTitle: "Duration matters more than many realize", bodyTitle: "Exam Format and Structure", content: "" },
+                            { id: "career", tocTitle: "Services you can tailor", bodyTitle: "Career Opportunities Post-CFA", content: "" },
+                          ],
                         });
                       }}
                       className="px-4 h-10 border border-slate-200 text-slate-600 rounded-lg text-sm hover:bg-slate-50 cursor-pointer"

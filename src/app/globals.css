@@ -39,6 +39,7 @@
   --font-mono: var(--font-geist-mono), monospace;
   --font-inter: var(--font-inter), sans-serif;
   --font-sh-grotesk: 'Sh Ad Grotesk', var(--font-sans);
+  --font-cal: 'Cal Sans', sans-serif;
 
   /* New Brand Colors */
   --color-brand-blue: #4879ff;
