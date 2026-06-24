@@ -93,15 +93,18 @@ export default function PathToCfaSection() {
     <section id="how-it-works" className="w-full bg-[#DBE5FF] pt-[42px] pb-20 md:py-0 md:px-0 overflow-visible relative md:h-[680px] lg:h-[780px] xl:h-[920px] 2xl:h-[1117px]">
       {/* Desktop Layout — Figma Specifications */}
       <div className="hidden md:block w-full max-w-[1728px] mx-auto h-full relative overflow-visible">
-        {/* Heading — Figma: Cal Sans 90px, #4879FF */}
-        <h2 className="absolute top-[20px] md:top-[30px] xl:top-[42px] left-1/2 -translate-x-1/2 font-['Cal_Sans'] font-normal w-full max-w-[900px] h-auto font-cal font-normal text-[40px] lg:text-[46px] xl:text-[54px] 2xl:text-[66px] leading-[1.15] tracking-normal text-center text-[#4879FF] select-none z-20">
-          Path to the <br /> CFA Charter
-        </h2>
+        {/* Header Container */}
+        <div className="absolute top-[20px] md:top-[30px] xl:top-[42px] left-1/2 -translate-x-1/2 w-full max-w-[1128px] flex flex-col items-center gap-3 md:gap-4 lg:gap-5 z-20">
+          {/* Heading — Figma: Cal Sans 90px, #4879FF */}
+          <h2 className="font-['Cal_Sans'] font-normal w-full max-w-[900px] font-cal font-normal text-[40px] lg:text-[46px] xl:text-[54px] 2xl:text-[66px] leading-[1.22] tracking-normal text-center text-[#4879FF] select-none">
+            Path to the <br /> CFA Charter
+          </h2>
 
-        {/* Subtitle — Figma: DM Sans 24px, #5C5C5C */}
-        <p className="absolute top-[80px] md:top-[100px] lg:top-[120px] xl:top-[150px] 2xl:top-[245px] left-1/2 -translate-x-1/2 w-[90%] max-w-[1128px] h-auto font-sans font-normal text-[14px] md:text-[18px] lg:text-[22px] leading-[19.2px] md:leading-[32px] tracking-[-0.03em] md:tracking-[0em] text-center text-[#5C5C5C] w-full max-w-[1128px] overflow-visible px-4">
-          Upskill&apos;s structured four-step journey is designed to take you from CFA aspirant to Charterholder.
-        </p>
+          {/* Subtitle — Figma: DM Sans 24px, #5C5C5C */}
+          <p className="w-[90%] max-w-[1128px] font-sans font-normal text-[14px] md:text-[18px] lg:text-[22px] leading-[19.2px] md:leading-[32px] tracking-[-0.03em] md:tracking-[0em] text-center text-[#5C5C5C] overflow-visible px-4">
+            Upskill&apos;s structured four-step journey is designed to take you from CFA aspirant to Charterholder.
+          </p>
+        </div>
 
         {/* Group 7 — Steps & Timeline Container */}
         <div className="absolute top-[160px] md:top-[180px] lg:top-[200px] xl:top-[220px] 2xl:top-[265px] left-1/2 -translate-x-1/2 w-[95%] max-w-[1263px] h-[480px] lg:h-[520px] xl:h-[640px] 2xl:h-[799px] overflow-visible">
@@ -128,12 +131,12 @@ export default function PathToCfaSection() {
               : "bg-white border-[#B2C8FF]"
           }`} />
           {/* Text block */}
-          <div className="absolute top-[35px] lg:top-[50px] xl:top-[75px] 2xl:top-[98px] left-[53%] 2xl:left-[785px] w-[45%] 2xl:w-[478px] text-left flex flex-col gap-[8px] md:gap-[15.08px]">
-            <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[100%] tracking-[-0.03em] text-[#4576FF]">
-              Apply for a Free Consultation
+          <div className="absolute top-[35px] lg:top-[50px] xl:top-[75px] 2xl:top-[98px] left-[53%] 2xl:left-[785px] w-[45%] 2xl:w-[478px] text-left flex flex-col gap-1 md:gap-1.5">
+            <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[110%] tracking-[-0.03em] text-[#4576FF]">
+              Apply for a Free <br className="hidden md:inline" /> Consultation
             </h3>
             <p className="font-['DM_Sans'] font-normal text-[10px] md:text-[11px] lg:text-[12px] xl:text-[15px] 2xl:text-[18px] leading-[120%] text-[#71717A] max-w-[441px]">
-              Speak with an expert and discover where you stand
+              Speak with an expert and discover <br className="hidden md:inline" /> where you stand
             </p>
           </div>
 
@@ -145,12 +148,12 @@ export default function PathToCfaSection() {
               : "bg-white border-[#B2C8FF]"
           }`} />
           {/* Text block */}
-          <div className="absolute top-[135px] lg:top-[160px] xl:top-[210px] 2xl:top-[263px] right-[53%] 2xl:right-[678px] w-[45%] 2xl:w-[441px] text-right flex flex-col gap-[8px] md:gap-[15.08px]">
-            <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[100%] tracking-[-0.03em] text-[#4576FF] max-w-[409px] ml-auto">
-              Take part in an Honest level assessment
+          <div className="absolute top-[135px] lg:top-[160px] xl:top-[210px] 2xl:top-[263px] right-[53%] 2xl:right-[678px] w-[45%] 2xl:w-[441px] text-right flex flex-col gap-1 md:gap-1.5">
+            <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[110%] tracking-[-0.03em] text-[#4576FF] max-w-[409px] ml-auto">
+              Take part in an Honest <br className="hidden md:inline" /> level assessment
             </h3>
             <p className="font-['DM_Sans'] font-normal text-[10px] md:text-[11px] lg:text-[12px] xl:text-[15px] 2xl:text-[18px] leading-[120%] text-[#71717A] max-w-[441px] ml-auto">
-              Test for basic knowledge on financial and mathematical understanding
+              Test for basic knowledge on financial <br className="hidden md:inline" /> and mathematical understanding
             </p>
           </div>
 
@@ -162,12 +165,12 @@ export default function PathToCfaSection() {
               : "bg-white border-[#B2C8FF]"
           }`} />
           {/* Text block */}
-          <div className="absolute top-[245px] lg:top-[280px] xl:top-[345px] 2xl:top-[449px] left-[53%] 2xl:left-[785px] w-[45%] 2xl:w-[408px] text-left flex flex-col gap-[8px] md:gap-[15.08px]">
-            <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[100%] tracking-[-0.03em] text-[#4576FF] max-w-[338px]">
-              Get Matched with a Study Plan
+          <div className="absolute top-[245px] lg:top-[280px] xl:top-[345px] 2xl:top-[449px] left-[53%] 2xl:left-[785px] w-[45%] 2xl:w-[408px] text-left flex flex-col gap-1 md:gap-1.5">
+            <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[110%] tracking-[-0.03em] text-[#4576FF] max-w-[338px]">
+              Get Matched with <br className="hidden md:inline" /> a Study Plan
             </h3>
             <p className="font-['DM_Sans'] font-normal text-[10px] md:text-[11px] lg:text-[12px] xl:text-[15px] 2xl:text-[18px] leading-[120%] text-[#71717A] max-w-[408px]">
-              Receive a curriculum plan for your specific situation
+              Receive a curriculum plan for your <br className="hidden md:inline" /> specific situation
             </p>
           </div>
 
@@ -179,12 +182,12 @@ export default function PathToCfaSection() {
               : "bg-white border-[#B2C8FF]"
           }`} />
           {/* Text block */}
-          <div className="absolute top-[365px] lg:top-[410px] xl:top-[495px] 2xl:top-[630px] right-[53%] 2xl:right-[678px] w-[45%] 2xl:w-[591px] text-right flex flex-col gap-[8px] md:gap-[15.08px]">
-            <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[100%] tracking-[-0.03em] text-[#4576FF] max-w-[591px] ml-auto">
-              Pass Your CFA Exam with Confidence
+          <div className="absolute top-[365px] lg:top-[410px] xl:top-[495px] 2xl:top-[630px] right-[53%] 2xl:right-[678px] w-[45%] 2xl:w-[591px] text-right flex flex-col gap-1 md:gap-1.5">
+            <h3 className="font-sans font-medium text-[13px] md:text-[16px] lg:text-[19px] xl:text-[24px] 2xl:text-[29px] leading-[110%] tracking-[-0.03em] text-[#4576FF] max-w-[591px] ml-auto">
+              Pass Your CFA Exam with <br className="hidden md:inline" /> Confidence
             </h3>
             <p className="font-['DM_Sans'] font-normal text-[10px] md:text-[11px] lg:text-[12px] xl:text-[15px] 2xl:text-[18px] leading-[120%] text-[#71717A] max-w-[441px] ml-auto">
-              Achieve your goals with our proven strategies and dedicated support.
+              Achieve your goals with our proven <br className="hidden md:inline" /> strategies and dedicated support
             </p>
           </div>
         </div>
@@ -195,7 +198,7 @@ export default function PathToCfaSection() {
         {/* Header */}
         <div className="mx-auto max-w-7xl flex flex-col items-center gap-6 mb-8 md:mb-12 lg:mb-16">
 
-          <h2 className="font-['Cal_Sans'] font-normal text-[40px] lg:text-[46px] xl:text-[54px] 2xl:text-[66px] leading-[1.15] text-[#4879FF] text-center w-full max-w-[800px]">
+          <h2 className="font-['Cal_Sans'] font-normal text-[40px] lg:text-[46px] xl:text-[54px] 2xl:text-[66px] leading-[1.22] text-[#4879FF] text-center w-full max-w-[800px]">
             Path to the <br /> CFA Charter
           </h2>
 
@@ -216,7 +219,7 @@ export default function PathToCfaSection() {
           />
 
           {/* Step 1 */}
-          <div className="relative flex flex-col gap-2 text-right">
+          <div className="relative flex flex-col gap-1 text-right">
             {/* Node */}
             <div ref={mobileNode1Ref} className={`absolute right-[-22px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
               mNode1Active 
@@ -224,15 +227,15 @@ export default function PathToCfaSection() {
                 : "bg-white border-[#B2C8FF]"
             }`} />
             <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
-              Apply for a Free Consultation
+              Apply for a Free <br className="hidden md:inline" /> Consultation
             </h3>
             <p className="font-['DM_Sans'] font-normal text-[13px] leading-relaxed text-[#71717A]">
-              Speak with an expert and discover where you stand
+              Speak with an expert and discover <br className="hidden md:inline" /> where you stand
             </p>
           </div>
 
           {/* Step 2 */}
-          <div className="relative flex flex-col gap-2 text-right">
+          <div className="relative flex flex-col gap-1 text-right">
             {/* Node */}
             <div ref={mobileNode2Ref} className={`absolute right-[-22px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
               mNode2Active 
@@ -240,15 +243,15 @@ export default function PathToCfaSection() {
                 : "bg-white border-[#B2C8FF]"
             }`} />
             <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
-              Take part in an Honest level assessment
+              Take part in an Honest <br className="hidden md:inline" /> level assessment
             </h3>
             <p className="font-['DM_Sans'] font-normal text-[13px] leading-relaxed text-[#71717A]">
-              Test for basic knowledge on financial and mathematical understanding
+              Test for basic knowledge on financial <br className="hidden md:inline" /> and mathematical understanding
             </p>
           </div>
 
           {/* Step 3 */}
-          <div className="relative flex flex-col gap-2 text-right">
+          <div className="relative flex flex-col gap-1 text-right">
             {/* Node */}
             <div ref={mobileNode3Ref} className={`absolute right-[-22px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
               mNode3Active 
@@ -256,15 +259,15 @@ export default function PathToCfaSection() {
                 : "bg-white border-[#B2C8FF]"
             }`} />
             <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
-              Get Matched with a Study Plan
+              Get Matched with <br className="hidden md:inline" /> a Study Plan
             </h3>
             <p className="font-['DM_Sans'] font-normal text-[13px] leading-relaxed text-[#71717A]">
-              Receive a curriculum plan for your specific situation
+              Receive a curriculum plan for your <br className="hidden md:inline" /> specific situation
             </p>
           </div>
 
           {/* Step 4 */}
-          <div className="relative flex flex-col gap-2 text-right">
+          <div className="relative flex flex-col gap-1 text-right">
             {/* Node */}
             <div ref={mobileNode4Ref} className={`absolute right-[-22px] top-[8px] w-4 h-4 rounded-full border-[3px] z-10 transition-all duration-300 ${
               mNode4Active 
@@ -272,10 +275,10 @@ export default function PathToCfaSection() {
                 : "bg-white border-[#B2C8FF]"
             }`} />
             <h3 className="font-sans font-medium text-[16px] leading-tight text-[#4576FF]">
-              Pass Your CFA Exam with Confidence
+              Pass Your CFA Exam with <br className="hidden md:inline" /> Confidence
             </h3>
             <p className="font-['DM_Sans'] font-normal text-[13px] leading-relaxed text-[#71717A]">
-              Achieve your goals with our proven strategies and dedicated support.
+              Achieve your goals with our proven <br className="hidden md:inline" /> strategies and dedicated support
             </p>
           </div>
         </div>
