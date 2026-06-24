@@ -64,7 +64,7 @@ const levelsData = [
 
 export default function LevelsSection() {
   return (
-    <section className="relative w-full px-6 py-16 md:py-24 bg-[#f7f8fc] flex flex-col items-center z-10">
+    <section className="relative w-full px-6 py-16 md:py-24 bg-[#f7f8fc] flex flex-col items-center z-10 px-6 md:px-8 lg:px-12">
       
       {/* Title */}
       <div className="text-center mb-[60px] max-w-[928px] flex flex-col items-center">

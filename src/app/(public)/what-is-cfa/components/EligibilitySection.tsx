@@ -1,6 +1,6 @@
 export default function EligibilitySection() {
   return (
-    <section className="relative w-full px-6 py-8 md:py-12 flex justify-center z-10">
+    <section className="relative w-full px-6 py-8 md:py-12 flex justify-center z-10 px-6 md:px-8 lg:px-12">
       {/* Container: 1503px max-width */}
       <div className="max-w-[1503px] w-full grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch md:items-start">
         
