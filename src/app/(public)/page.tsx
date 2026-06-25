@@ -82,8 +82,6 @@ interface Blog {
   image: string;
 }
 
-export const dynamic = "force-dynamic";
-
 export default async function Home() {
   // Fetch testimonials
   let testimonialsList: Testimonial[] | null = null;
