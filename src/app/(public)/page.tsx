@@ -82,16 +82,20 @@ interface Blog {
   image: string;
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   // Fetch testimonials
-  let testimonialsList: Testimonial[] = [];
+  let testimonialsList: Testimonial[] | null = null;
   try {
-    const { data } = await supabase.from("testimonials").select("*");
-    testimonialsList = (data as Testimonial[]) || [];
+    const { data, error } = await supabase.from("testimonials").select("*");
+    if (!error) {
+      testimonialsList = (data as Testimonial[]) || [];
+    }
   } catch (err) {
     console.error("Supabase testimonials fetch error:", err);
   }
-  if (testimonialsList.length === 0) {
+  if (testimonialsList === null) {
     testimonialsList = STATIC_TESTIMONIALS;
   }
 
@@ -99,14 +103,16 @@ export default async function Home() {
   const visibleTestimonials = testimonialsList.filter((t) => t.is_visible !== false);
 
   // Fetch blogs
-  let blogsList: Blog[] = [];
+  let blogsList: Blog[] | null = null;
   try {
-    const { data } = await supabase.from("blogs").select("*").order("publish_date", { ascending: false }).limit(2);
-    blogsList = (data as Blog[]) || [];
+    const { data, error } = await supabase.from("blogs").select("*").order("publish_date", { ascending: false }).limit(2);
+    if (!error) {
+      blogsList = (data as Blog[]) || [];
+    }
   } catch (err) {
     console.error("Supabase blogs fetch error:", err);
   }
-  if (blogsList.length === 0) {
+  if (blogsList === null) {
     blogsList = STATIC_BLOGS;
   }
 
@@ -132,8 +138,10 @@ export default async function Home() {
       <WhyChooseUsSection />
       <AboutSection />
       <PathToCfaSection />
-      {showTestimonialsSection && <TestimonialsSection visibleTestimonials={visibleTestimonials} />}
-      <BlogsSection blogsList={blogsList} />
+      {showTestimonialsSection && visibleTestimonials.length > 0 && (
+        <TestimonialsSection visibleTestimonials={visibleTestimonials} />
+      )}
+      {blogsList.length > 0 && <BlogsSection blogsList={blogsList} />}
     </>
   );
 }

@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <footer className="w-full bg-[#F1F1F1] text-[#1b1b1b] select-none z-30 font-sans">
-      <div className="mx-auto max-w-[1920px] px-6 md:px-12 lg:px-[113px] py-12 md:py-16 flex flex-col gap-12">
+      <div className="mx-auto max-w-[1920px] px-6 md:px-12 lg:px-[113px] py-8 md:py-10 flex flex-col gap-8">
         {/* Columns Flex Layout */}
         <div className="flex flex-col md:flex-row items-start w-full gap-8 md:gap-12 lg:gap-[80px]">
 
@@ -108,8 +108,19 @@ export default function Footer() {
         </div>
 
         {/* Bottom Copyright */}
-        <div className="mt-6 md:mt-8 flex justify-center text-[12px] text-gray-mid font-sans pb-4">
+        <div className="mt-4 md:mt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[12px] text-gray-mid font-sans pb-2 border-t border-black/10 pt-4">
           <span>&copy; 2026 Upskill CFA. Made with ✨ for dreamers.</span>
+          <span>
+            Designed & Developed by{" "}
+            <Link
+              href="https://www.thinkforgeglobal.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-brand-blue transition-colors font-medium underline underline-offset-2"
+            >
+              Think Forge Global
+            </Link>
+          </span>
         </div>
       </div>
     </footer>
