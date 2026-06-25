@@ -44,7 +44,7 @@ export default async function BlogsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-[1474px] w-full">
+    <div className="mx-auto  w-full">
       {/* Page Header */}
       <section id="blogs" className="pt-[112px] md:pt-[120px] lg:pt-[140px] xl:pt-[160px] w-full bg-[#F1F1F1] py-6 md:py-8 lg:py-12 xl:py-20 px-6 overflow-visible select-none">
         <div className="mx-auto max-w-[1728px] w-full flex flex-col items-center">

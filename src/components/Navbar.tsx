@@ -19,7 +19,7 @@ export default function Navbar() {
   }, []);
 
   const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/contact' || pathname === '/blog');
-  const isBlogPage = false;
+  const useWhiteTheme = isCfaPage && !scrolled;
 
   // Returns true when the given href matches the current page
   const isActive = (href: string) => {
@@ -30,7 +30,7 @@ export default function Navbar() {
 
   // Desktop link classes
   const desktopLinkClass = (href: string) => {
-    const dark = isCfaPage || isBlogPage;
+    const dark = useWhiteTheme;
     const active = isActive(href);
     return [
       'transition-colors text-nav-links whitespace-nowrap relative',
@@ -49,7 +49,7 @@ export default function Navbar() {
 
   // Mobile link classes
   const mobileLinkClass = (href: string) => {
-    const dark = isCfaPage || isBlogPage;
+    const dark = useWhiteTheme;
     const active = isActive(href);
     return [
       'font-semibold text-sm py-1 transition-colors relative',
@@ -66,18 +66,14 @@ export default function Navbar() {
   };
 
   // Resolve header background
-  const headerBg = isBlogPage
-    ? 'bg-[#1B1B1B]'
-    : isCfaPage
-      ? 'bg-transparent'
-      : scrolled
-        ? 'bg-white/95 backdrop-blur-md shadow-sm'
-        : 'bg-transparent';
+  const headerBg = scrolled
+    ? 'bg-white/95 backdrop-blur-md shadow-sm'
+    : 'bg-transparent';
 
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${headerBg}`}>
       {/* Desktop Layout */}
-      <div className={`mx-auto w-full max-w-[1728px] px-6 lg:px-12 xl:px-[113px] relative hidden xl:flex items-center justify-center ${isBlogPage ? 'py-0' : 'pt-[20px]'}`}>
+      <div className="mx-auto w-full max-w-[1728px] px-6 lg:px-12 xl:px-[113px] relative hidden xl:flex items-center justify-center pt-[20px]">
 
         <div className="w-full max-w-[1503px] h-[77px] flex items-center justify-between bg-transparent">
 
@@ -88,14 +84,14 @@ export default function Navbar() {
                 src="/footer_logo.png"
                 alt="Upskill Logo"
                 fill
-                className={`object-contain transition-transform group-hover:translate-y-[-2px] ${isCfaPage || isBlogPage ? 'brightness-0 invert' : ''}`}
+                className={`object-contain transition-transform group-hover:translate-y-[-2px] ${useWhiteTheme ? 'brightness-0 invert' : ''}`}
                 priority
               />
             </Link>
           </div>
 
           {/* Centered Nav Links */}
-          <nav className={`flex items-center z-50 ${isBlogPage ? 'gap-[32px]' : 'gap-[24px]'}`}>
+          <nav className="flex items-center z-50 gap-[24px]">
             <Link href="/" className={desktopLinkClass('/')}>Home</Link>
             <Link href="/#about-company" className={desktopLinkClass('/#about-company')}>About</Link>
             <Link href="/what-is-cfa" className={desktopLinkClass('/what-is-cfa')}>What is CFA?</Link>
@@ -109,12 +105,11 @@ export default function Navbar() {
           <div className="w-[160px] flex justify-end shrink-0">
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-booking-modal'))}
-              className={`w-[154px] h-[45px] rounded-full flex items-center justify-center transition-all hover:shadow-md z-50 cursor-pointer ${isBlogPage
-                ? 'border border-[#4879FF] text-[#4879FF] bg-transparent hover:bg-[#4879FF]/10'
-                : isCfaPage
+              className={`w-[154px] h-[45px] rounded-full flex items-center justify-center transition-all hover:shadow-md z-50 cursor-pointer ${
+                useWhiteTheme
                   ? 'bg-white text-brand-blue hover:bg-gray-50'
                   : 'bg-brand-blue text-white hover:bg-blue-700 shadow-sm'
-                }`}
+              }`}
             >
               <span className="text-cta-btn whitespace-nowrap">Book Free Session</span>
             </button>
@@ -124,20 +119,26 @@ export default function Navbar() {
       </div>
 
       {/* Mobile/Tablet Header Bar */}
-      <div className={`xl:hidden w-full px-6 py-4 flex items-center justify-between backdrop-blur-md border-b transition-all duration-300 ${isCfaPage ? 'bg-[#4576FF] border-blue-500 text-white' : isBlogPage ? 'bg-[#1B1B1B] border-neutral-800 text-white' : scrolled ? 'bg-white/95 border-gray-200 shadow-sm' : 'bg-transparent border-transparent'}`}>
+      <div className={`xl:hidden w-full px-6 py-4 flex items-center justify-between backdrop-blur-md border-b transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/95 border-gray-200 text-gray-900 shadow-sm'
+          : isCfaPage
+            ? 'bg-[#4576FF] border-blue-500 text-white'
+            : 'bg-transparent border-transparent text-gray-900'
+      }`}>
         <Link href="/" className="relative w-[110px] h-[36px] block group z-50">
           <Image
             src="/footer_logo.png"
             alt="Upskill Logo"
             fill
-            className={`object-contain transition-transform group-hover:translate-y-[-2px] ${isCfaPage || isBlogPage ? 'brightness-0 invert' : ''}`}
+            className={`object-contain transition-transform group-hover:translate-y-[-2px] ${useWhiteTheme ? 'brightness-0 invert' : ''}`}
             priority
           />
         </Link>
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`p-2 focus:outline-none ${isCfaPage || isBlogPage ? 'text-white' : 'text-gray-600 hover:text-gray-900'}`}
+          className={`p-2 focus:outline-none ${useWhiteTheme ? 'text-white' : 'text-gray-600 hover:text-gray-900'}`}
           aria-label="Toggle menu"
         >
           <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -152,7 +153,13 @@ export default function Navbar() {
 
       {/* Mobile Navigation Panel */}
       {isOpen && (
-        <div className={`xl:hidden border-t px-6 py-4 flex flex-col gap-4 shadow-inner ${isCfaPage ? 'bg-[#4576FF] border-blue-500 text-white' : isBlogPage ? 'bg-[#1B1B1B] border-neutral-800 text-white' : 'bg-white border-gray-100'}`}>
+        <div className={`xl:hidden border-t px-6 py-4 flex flex-col gap-4 shadow-inner ${
+          scrolled
+            ? 'bg-white border-gray-100'
+            : isCfaPage
+              ? 'bg-[#4576FF] border-blue-500 text-white'
+              : 'bg-white border-gray-100'
+        }`}>
           <Link href="/" onClick={() => setIsOpen(false)} className={mobileLinkClass('/')}>Home</Link>
           <Link href="/#about-company" onClick={() => setIsOpen(false)} className={mobileLinkClass('/#about-company')}>About</Link>
           <Link href="/what-is-cfa" onClick={() => setIsOpen(false)} className={mobileLinkClass('/what-is-cfa')}>What is CFA?</Link>
@@ -162,7 +169,11 @@ export default function Navbar() {
           <Link href="/contact" onClick={() => setIsOpen(false)} className={mobileLinkClass('/contact')}>Contact Us</Link>
           <button
             onClick={() => { setIsOpen(false); window.dispatchEvent(new CustomEvent('open-booking-modal')); }}
-            className={`inline-flex items-center justify-center rounded-full font-bold py-2.5 text-center text-sm shadow-sm mt-2 cursor-pointer ${isBlogPage ? 'border border-[#4879FF] text-[#4879FF] bg-transparent' : isCfaPage ? 'bg-white text-[#4879FF]' : 'bg-blue-600 text-white'}`}
+            className={`inline-flex items-center justify-center rounded-full font-bold py-2.5 text-center text-sm shadow-sm mt-2 cursor-pointer ${
+              useWhiteTheme
+                ? 'bg-white text-brand-blue hover:bg-gray-50'
+                : 'bg-brand-blue text-white hover:bg-blue-700'
+            }`}
           >
             Book Free Session
           </button>

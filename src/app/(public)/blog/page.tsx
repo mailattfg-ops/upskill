@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,41 +36,40 @@ function BlogDetailContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id") || "static-blog-1";
   
-  const [activeSection, setActiveSection] = useState("format");
+  const [activeSection, setActiveSection] = useState("preparation");
   const [blog, setBlog] = useState<any>(null);
   const [blogsList, setBlogsList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fallback static sections
-  const defaultSections = [
-    { 
-      id: "preparation", 
-      tocTitle: "Introduction", 
-      bodyTitle: blog ? `${blog.title} Overview` : "Overview", 
-      content: blog ? `${blog.description} Study prep requires strategic planning, case review, and practicing exam structures. Harnessing professional insights allows candidates to accelerate their learning curve and achieve better focus.` : ""
-    },
-    { 
-      id: "networking", 
-      tocTitle: "Start with yacht size and layout", 
-      bodyTitle: "Networking Opportunities", 
-      content: "Joining CFA societies and attending local events allows candidates to connect with industry professionals. Engaging with mentors can provide invaluable insights and guidance, which can make a significant difference in a candidate's career trajectory post-certification." 
-    },
-    { 
-      id: "format", 
-      tocTitle: "Duration matters more than many realize", 
-      bodyTitle: "Exam Format and Structure", 
-      content: "Understanding the format of the CFA exams is crucial for success. The Level I exam consists of multiple-choice questions, while Levels II and III require candidates to grapple with detailed case studies and constructed responses, respectively. Familiarity with the exam structure helps in effective time management during the test." 
-    },
-    { 
-      id: "career", 
-      tocTitle: "Services you can tailor", 
-      bodyTitle: "Career Opportunities Post-CFA", 
-      content: "Earning a CFA designation opens doors to various career paths in finance, including portfolio management, research analysis, and investment banking. The credential is highly regarded globally, often leading to higher earning potential and greater job security in the competitive financial services industry." 
-    },
-  ];
-
   // Resolve active sections for the blog
-  const blogSections = (() => {
+  const blogSections = useMemo(() => {
+    const defaultSections = [
+      { 
+        id: "preparation", 
+        tocTitle: "Introduction", 
+        bodyTitle: blog ? `${blog.title} Overview` : "Overview", 
+        content: blog ? `${blog.description} Study prep requires strategic planning, case review, and practicing exam structures. Harnessing professional insights allows candidates to accelerate their learning curve and achieve better focus.` : ""
+      },
+      { 
+        id: "networking", 
+        tocTitle: "Start with yacht size and layout", 
+        bodyTitle: "Networking Opportunities", 
+        content: "Joining CFA societies and attending local events allows candidates to connect with industry professionals. Engaging with mentors can provide invaluable insights and guidance, which can make a significant difference in a candidate's career trajectory post-certification." 
+      },
+      { 
+        id: "format", 
+        tocTitle: "Duration matters more than many realize", 
+        bodyTitle: "Exam Format and Structure", 
+        content: "Understanding the format of the CFA exams is crucial for success. The Level I exam consists of multiple-choice questions, while Levels II and III require candidates to grapple with detailed case studies and constructed responses, respectively. Familiarity with the exam structure helps in effective time management during the test." 
+      },
+      { 
+        id: "career", 
+        tocTitle: "Services you can tailor", 
+        bodyTitle: "Career Opportunities Post-CFA", 
+        content: "Earning a CFA designation opens doors to various career paths in finance, including portfolio management, research analysis, and investment banking. The credential is highly regarded globally, often leading to higher earning potential and greater job security in the competitive financial services industry." 
+      },
+    ];
+
     if (!blog) return defaultSections;
     if (blog.sections && Array.isArray(blog.sections) && blog.sections.length > 0) {
       return defaultSections.map(defSec => {
@@ -84,11 +83,42 @@ function BlogDetailContent() {
       });
     }
     return defaultSections;
-  })();
+  }, [blog]);
 
   // Fetch specific blog and related blogs
   useEffect(() => {
     async function loadBlogDetails() {
+      // Validate if ID is a valid UUID
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const isValidUUID = uuidRegex.test(id);
+
+      if (!isValidUUID) {
+        // Safe instant fallback for static blogs
+        const staticMatch = STATIC_BLOGS.find((b) => b.id === id) || STATIC_BLOGS[0];
+        setBlog(staticMatch);
+        
+        // Fetch top 2 blogs from database as related content, or fallback to static
+        try {
+          const { data: relatedData } = await supabase
+            .from("blogs")
+            .select("*")
+            .order("publish_date", { ascending: false })
+            .limit(2);
+          
+          if (relatedData && relatedData.length > 0) {
+            setBlogsList(relatedData);
+          } else {
+            setBlogsList(STATIC_BLOGS.filter(b => b.id !== id).slice(0, 2));
+          }
+        } catch (relatedErr) {
+          console.error("Error fetching related blogs for static post:", relatedErr);
+          setBlogsList(STATIC_BLOGS.filter(b => b.id !== id).slice(0, 2));
+        } finally {
+          setLoading(false);
+        }
+        return;
+      }
+
       setLoading(true);
       try {
         // 1. Fetch current blog details
@@ -101,15 +131,11 @@ function BlogDetailContent() {
           setBlog(data[0]);
         } else {
           // Fallback to static blog details
-          const staticMatch = STATIC_BLOGS.find((b) => b.id === id);
-          if (staticMatch) {
-            setBlog(staticMatch);
-          } else {
-            setBlog(STATIC_BLOGS[0]); // default fallback
-          }
+          const staticMatch = STATIC_BLOGS.find((b) => b.id === id) || STATIC_BLOGS[0];
+          setBlog(staticMatch);
         }
 
-        // 2. Fetch related blogs (excluding current ID)
+        // 2. Fetch related blogs (excluding current UUID)
         const { data: relatedData } = await supabase
           .from("blogs")
           .select("*")
@@ -123,7 +149,7 @@ function BlogDetailContent() {
           setBlogsList(STATIC_BLOGS.filter(b => b.id !== id).slice(0, 2));
         }
       } catch (err) {
-        console.error("Error loading blog details:", err);
+        console.error("Error loading blog details from database:", err);
         const staticMatch = STATIC_BLOGS.find((b) => b.id === id) || STATIC_BLOGS[0];
         setBlog(staticMatch);
         setBlogsList(STATIC_BLOGS.filter(b => b.id !== id).slice(0, 2));
@@ -135,9 +161,11 @@ function BlogDetailContent() {
   }, [id]);
 
   useEffect(() => {
+    const firstSectionId = blogSections[0]?.id || "preparation";
+
     const handleScroll = () => {
-      if (window.scrollY < 400) {
-        setActiveSection("format");
+      if (window.scrollY < 200) {
+        setActiveSection(firstSectionId);
       }
     };
 
@@ -146,13 +174,13 @@ function BlogDetailContent() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && window.scrollY >= 400) {
+          if (entry.isIntersecting && window.scrollY >= 200) {
             setActiveSection(entry.target.id);
           }
         });
       },
       {
-        rootMargin: "-20% 0px -60% 0px",
+        rootMargin: "-15% 0px -55% 0px",
         threshold: 0.1,
       }
     );
@@ -162,20 +190,21 @@ function BlogDetailContent() {
       if (el) observer.observe(el);
     });
 
-    if (window.scrollY < 400) {
-      setActiveSection("format");
+    if (window.scrollY < 200) {
+      setActiveSection(firstSectionId);
     }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
-  }, [blog]);
+  }, [blog, blogSections]);
 
   const handleScrollTo = (id: string) => {
+    setActiveSection(id);
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -302,60 +331,6 @@ function BlogDetailContent() {
           ))}
         </article>
       </div>
-
-      {/* Divider line before Related Blogs */}
-      <div className="relative z-10 w-[calc(100%-48px)] md:w-full h-px bg-[#EEEEEE] max-w-[934px] mx-auto mt-6 mb-2" />
-
-      {/* Related Blogs Section */}
-      {blogsList.length > 0 && (
-        <section className="relative z-10 w-full bg-white pt-2 pb-12 md:pt-4 md:pb-16 xl:pt-4 xl:pb-24 px-6 md:px-0 overflow-visible select-none">
-          <div className="mx-auto max-w-[1728px] w-full flex flex-col items-center">
-            <h2 className="font-['Cal_Sans'] font-normal text-[26px] sm:text-[32px] md:text-[38px] lg:text-[44px] xl:text-[54px] 2xl:text-[66px] leading-[1.1] text-center text-[#2530FF] mb-4">
-              Read blogs <br /> on CFA
-            </h2>
-
-            <p className="font-['DM_Sans'] font-normal text-[12px] sm:text-[14px] md:text-[15px] lg:text-[16px] xl:text-[18px] leading-[1.3] text-center text-[#5C5C5C] max-w-[1128px] px-4 mb-12">
-              Stay ahead with expert CFA tips, study strategies, and industry insights written by finance experts.
-            </p>
-
-            <div className="w-full max-w-[934px] flex flex-col md:flex-row gap-[20px] lg:gap-[30px] xl:gap-[45px] justify-center items-stretch">
-              {blogsList.map((relatedBlog, idx) => (
-                <Link
-                  key={relatedBlog.id || idx}
-                  href={`/blog?id=${relatedBlog.id}`}
-                  className="group flex flex-col md:flex-row flex-1 max-w-full md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300"
-                >
-                  <div className="relative w-full md:w-[49%] h-[220px] md:h-auto min-h-[260px] md:min-h-[300px] flex-shrink-0 bg-[#EEEEEE]">
-                    <Image
-                      src={relatedBlog.image}
-                      alt={relatedBlog.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 49vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 p-6 md:p-5 flex flex-col justify-center bg-white">
-                    <div className="flex flex-col gap-2">
-                      <span className="font-sh-grotesk font-normal text-[14px] md:text-[12px] leading-[1.03] text-[#2530FF]">
-                        {relatedBlog.read_time}
-                      </span>
-                      <h3 className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[20px] leading-[1.1] text-black">
-                        {relatedBlog.title}
-                      </h3>
-                      <p className="font-sans font-normal text-[13px] leading-[1.3] text-[#727272] line-clamp-3">
-                        {relatedBlog.description}
-                      </p>
-                    </div>
-                    <span className="font-sh-grotesk font-normal text-[13px] text-black mt-4 block">
-                      {relatedBlog.publish_date}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
     </main>
   );
 }
