@@ -32,7 +32,7 @@ export default function Footer() {
               <Link href="/#" className="hover:text-brand-blue transition-colors">Home</Link>
               <Link href="/#about-company" className="hover:text-brand-blue transition-colors">About</Link>
               <Link href="/what-is-cfa" className="hover:text-brand-blue transition-colors">What is CFA?</Link>
-              <Link href="/#why-choose-us" className="hover:text-brand-blue transition-colors">Program</Link>
+              {/* <Link href="/#why-choose-us" className="hover:text-brand-blue transition-colors">Program</Link> */}
             </div>
           </div>
 

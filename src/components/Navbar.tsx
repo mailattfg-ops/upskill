@@ -99,7 +99,7 @@ export default function Navbar() {
             <Link href="/" className={desktopLinkClass('/')}>Home</Link>
             <Link href="/#about-company" className={desktopLinkClass('/#about-company')}>About</Link>
             <Link href="/what-is-cfa" className={desktopLinkClass('/what-is-cfa')}>What is CFA?</Link>
-            <Link href="#" className={desktopLinkClass('#')}>Program</Link>
+            {/* <Link href="#" className={desktopLinkClass('#')}>Program</Link> */}
             <Link href="/#testimonials" className={desktopLinkClass('/#testimonials')}>Testimonials</Link>
             <Link href="/blogs" className={desktopLinkClass('/blogs')}>Blog</Link>
             <Link href="/contact" className={desktopLinkClass('/contact')}>Contact Us</Link>
