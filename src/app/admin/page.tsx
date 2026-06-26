@@ -767,10 +767,11 @@ export default function AdminPage() {
                           Publish Date
                         </label>
                         <input
-                          type="date"
+                          type="text"
                           required
                           value={blogFormData.publish_date}
                           onChange={(e) => setBlogFormData({ ...blogFormData, publish_date: e.target.value })}
+                          placeholder="e.g., March 17, 2025"
                           className="w-full h-10 px-3 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-[#4576FF]"
                         />
                       </div>

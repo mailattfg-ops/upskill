@@ -4,14 +4,14 @@ export default function AboutSection() {
   return (
     <section id="about-company" className="w-full bg-white pt-10 pb-16 md:pb-20 lg:pt-12 lg:pb-24 xl:pb-28 px-6 overflow-hidden px-6 md:px-8 lg:px-12">
       <div className="mx-auto max-w-7xl flex flex-col items-center gap-6 mb-8 md:mb-12 lg:mb-16">
-        
+
         <h2 className="font-['Cal_Sans'] font-normal text-[40px] lg:text-[46px] xl:text-[54px] 2xl:text-[66px] leading-[1.15] text-[#4879FF] text-center w-full max-w-[800px]">
-          About the company
+          About Upskill
         </h2>
 
         {/* Subtitle — Figma: DM Sans 24px, #5C5C5C */}
         <p className="font-sans font-normal text-[14px] md:text-[18px] lg:text-[22px] leading-[19.2px] md:leading-[32px] tracking-[-0.03em] md:tracking-[0em] text-center text-[#5C5C5C] w-full max-w-[1128px] overflow-visible px-4">
-          Horem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.
+          We are Upskill, and we are a Saudi Arabia-based CFA training academy shaping the next generation of Charterholders.
         </p>
       </div>
 
@@ -19,25 +19,30 @@ export default function AboutSection() {
         {/* Left card with description */}
         <div className="flex-1 flex flex-col justify-center p-6 md:p-8 lg:p-10 xl:p-12 bg-[#F5F5F5] rounded-[30px]">
           <p className="text-xs sm:text-sm lg:text-sm xl:text-base leading-relaxed text-gray-600 font-sans font-normal text-center">
-            Sorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie,
-            dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem
-            sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit,
-            sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia
-            nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac
-            scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus nisl, eu
-            tempor urna. Curabitur vel bibendum lorem. Morbi convallis convallis diam sit amet
-            lacinia. Aliquam in elementum tellus.
-            <br /><br />
-            Curabitur tempor quis eros tempus lacinia. Nam bibendum pellentesque quam
-            a convallis. Sed ut vulputate nisi. Integer in felis sed leo vestibulum venenatis.
-            Suspendisse quis arcu sem. Aenean feugiat ex eu vestibulum vestibulum. Morbi a
-            eleifend magna. Nam metus lacus, porttitor eu mauris a, blandit ultrices nibh. Mauris sit
-            amet magna non ligula vestibulum eleifend. Nulla varius volutpat turpis sed lacinia.
-            Nam eget mi in purus lobortis eleifend. Sed nec ante dictum sem condimentum
-            ullamcorper quis venenatis nisi. Proin vitae facilisis nisi, ac posuere leo.
-            Nam pulvinar blandit velit, id condimentum diam faucibus at. Aliquam lacus nisi,
-            sollicitudin at nisi nec, fermentum congue felis. Quisque mauris dolor, fringilla sed
-            tincidunt ac, finibus non odio.
+            Passing the CFA exam shouldn't feel like a solo marathon.
+            Yet across Saudi Arabia, thousands of college students and
+            working professionals study in isolation, hoping to be
+            among the 45% who clear the exam. We founded Upskill
+            because we saw too many ambitious aspirants across the
+            Kingdom studying in complete isolation without proper
+            guidance. Every candidate deserves better than generic
+            online portals; they need high-impact, classroom-based
+            training, real-time feedback, and mentors who actually
+            keep them accountable. We knew that self-study portals
+            simply couldn't replace the immense value of a real
+            classroom and face-to-face mentorship. Today, as Saudi
+            Arabia’s financial landscape expands at an unprecedented
+            pace, the market demand for top-tier, credentialed talent is
+            higher than ever. As Vision 2030 transforms the entire
+            economy, we align our training with national goals to build
+            world-class financial expertise. In this new economic era,
+            the CFA certification is a gold standard. Upskill exists to
+            bridge the gap between your ambition and a passing score.
+            By combining intensive offline training sessions with
+            dedicated mentorship, we provide the structure, expert
+            guidance, and personalized coaching you need to
+            confidently pass your exams and join the next generation of
+            financial leaders in Saudi Arabia.
           </p>
         </div>
 

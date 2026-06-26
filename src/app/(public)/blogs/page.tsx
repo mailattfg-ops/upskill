@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
-import CfaCtaSection from "@/app/(public)/home/CfaCtaSection";
+import CfaCtaSection from "../home/CfaCtaSection";
+import { formatPublishDate } from "@/lib/utils";
+// import CfaCtaSection from "@/app/(public)/home/CfaCtaSection";
 
 
 export const metadata: Metadata = {
@@ -100,7 +102,7 @@ export default async function BlogsPage() {
                     </div>
                     {/* Date */}
                     <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-6 xl:mt-8 2xl:mt-12 block">
-                      {blog.publish_date}
+                      {formatPublishDate(blog.publish_date)}
                     </span>
                   </div>
                 </Link>

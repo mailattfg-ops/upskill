@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { formatPublishDate } from "@/lib/utils";
 
 interface Blog {
   id: string;
@@ -64,7 +65,7 @@ export default function BlogsSection({ blogsList }: BlogsSectionProps) {
                 </div>
                 {/* Date */}
                 <span className="font-sh-grotesk font-normal text-[15px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-6 xl:mt-8 2xl:mt-12 block">
-                  {blog.publish_date}
+                  {formatPublishDate(blog.publish_date)}
                 </span>
               </div>
             </Link>

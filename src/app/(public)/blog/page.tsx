@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
+import { formatPublishDate } from "@/lib/utils";
 
 const STATIC_BLOGS = [
   {
@@ -25,17 +26,17 @@ const STATIC_BLOGS = [
   }
 ];
 
-const sections = [
-  { id: "preparation", tocTitle: "Introduction", bodyTitle: "CFA Exam Preparation" },
-  { id: "networking", tocTitle: "Start with yacht size and layout", bodyTitle: "Networking Opportunities" },
-  { id: "format", tocTitle: "Duration matters more than many realize", bodyTitle: "Exam Format and Structure" },
-  { id: "career", tocTitle: "Services you can tailor", bodyTitle: "Career Opportunities Post-CFA" },
-];
+// const sections = [
+//   { id: "preparation", tocTitle: "Introduction", bodyTitle: "CFA Exam Preparation" },
+//   { id: "networking", tocTitle: "Start with yacht size and layout", bodyTitle: "Networking Opportunities" },
+//   { id: "format", tocTitle: "Duration matters more than many realize", bodyTitle: "Exam Format and Structure" },
+//   { id: "career", tocTitle: "Services you can tailor", bodyTitle: "Career Opportunities Post-CFA" },
+// ];
 
 function BlogDetailContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id") || "static-blog-1";
-  
+
   const [activeSection, setActiveSection] = useState("preparation");
   const [blog, setBlog] = useState<any>(null);
   const [blogsList, setBlogsList] = useState<any[]>([]);
@@ -43,46 +44,11 @@ function BlogDetailContent() {
 
   // Resolve active sections for the blog
   const blogSections = useMemo(() => {
-    const defaultSections = [
-      { 
-        id: "preparation", 
-        tocTitle: "Introduction", 
-        bodyTitle: blog ? `${blog.title} Overview` : "Overview", 
-        content: blog ? `${blog.description} Study prep requires strategic planning, case review, and practicing exam structures. Harnessing professional insights allows candidates to accelerate their learning curve and achieve better focus.` : ""
-      },
-      { 
-        id: "networking", 
-        tocTitle: "Start with yacht size and layout", 
-        bodyTitle: "Networking Opportunities", 
-        content: "Joining CFA societies and attending local events allows candidates to connect with industry professionals. Engaging with mentors can provide invaluable insights and guidance, which can make a significant difference in a candidate's career trajectory post-certification." 
-      },
-      { 
-        id: "format", 
-        tocTitle: "Duration matters more than many realize", 
-        bodyTitle: "Exam Format and Structure", 
-        content: "Understanding the format of the CFA exams is crucial for success. The Level I exam consists of multiple-choice questions, while Levels II and III require candidates to grapple with detailed case studies and constructed responses, respectively. Familiarity with the exam structure helps in effective time management during the test." 
-      },
-      { 
-        id: "career", 
-        tocTitle: "Services you can tailor", 
-        bodyTitle: "Career Opportunities Post-CFA", 
-        content: "Earning a CFA designation opens doors to various career paths in finance, including portfolio management, research analysis, and investment banking. The credential is highly regarded globally, often leading to higher earning potential and greater job security in the competitive financial services industry." 
-      },
-    ];
-
-    if (!blog) return defaultSections;
-    if (blog.sections && Array.isArray(blog.sections) && blog.sections.length > 0) {
-      return defaultSections.map(defSec => {
-        const found = blog.sections.find((s: any) => s.id === defSec.id);
-        return found ? {
-          id: defSec.id,
-          tocTitle: found.tocTitle || defSec.tocTitle,
-          bodyTitle: found.bodyTitle || defSec.bodyTitle,
-          content: found.content || defSec.content,
-        } : defSec;
-      });
+    if (!blog || !blog.sections || !Array.isArray(blog.sections)) {
+      return [];
     }
-    return defaultSections;
+    // Only return sections that actually have content
+    return blog.sections.filter((s: any) => s && s.content && s.content.trim() !== "");
   }, [blog]);
 
   // Fetch specific blog and related blogs
@@ -96,7 +62,7 @@ function BlogDetailContent() {
         // Safe instant fallback for static blogs
         const staticMatch = STATIC_BLOGS.find((b) => b.id === id) || STATIC_BLOGS[0];
         setBlog(staticMatch);
-        
+
         // Fetch top 2 blogs from database as related content, or fallback to static
         try {
           const { data: relatedData } = await supabase
@@ -104,7 +70,7 @@ function BlogDetailContent() {
             .select("*")
             .order("publish_date", { ascending: false })
             .limit(2);
-          
+
           if (relatedData && relatedData.length > 0) {
             setBlogsList(relatedData);
           } else {
@@ -126,7 +92,7 @@ function BlogDetailContent() {
           .from("blogs")
           .select("*")
           .eq("id", id);
-        
+
         if (data && data.length > 0) {
           setBlog(data[0]);
         } else {
@@ -142,7 +108,7 @@ function BlogDetailContent() {
           .neq("id", id)
           .order("publish_date", { ascending: false })
           .limit(2);
-        
+
         if (relatedData && relatedData.length > 0) {
           setBlogsList(relatedData);
         } else {
@@ -161,7 +127,9 @@ function BlogDetailContent() {
   }, [id]);
 
   useEffect(() => {
-    const firstSectionId = blogSections[0]?.id || "preparation";
+    if (blogSections.length === 0) return;
+
+    const firstSectionId = blogSections[0].id;
 
     const handleScroll = () => {
       if (window.scrollY < 200) {
@@ -185,7 +153,7 @@ function BlogDetailContent() {
       }
     );
 
-    blogSections.forEach((s) => {
+    blogSections.forEach((s: any) => {
       const el = document.getElementById(s.id);
       if (el) observer.observe(el);
     });
@@ -198,7 +166,7 @@ function BlogDetailContent() {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
-  }, [blog, blogSections]);
+  }, [blogSections]);
 
   const handleScrollTo = (id: string) => {
     setActiveSection(id);
@@ -232,7 +200,7 @@ function BlogDetailContent() {
   return (
     <main className="w-full flex flex-col items-center bg-white text-gray-900 relative z-10 overflow-visible">
       {/* Visual linear gradient band (full bleed, 231px tall at the top) */}
-      <div 
+      <div
         className="absolute top-0 left-0 w-full h-[231px] pointer-events-none z-0"
         style={{
           background: "linear-gradient(180deg, #4879FF 0%, rgba(72, 121, 255, 0.2) 70%, rgba(255, 255, 255, 0) 100%)",
@@ -254,7 +222,7 @@ function BlogDetailContent() {
         </p>
 
         <div className="mt-6 flex items-center justify-center text-sm sm:text-base font-sans font-medium text-black">
-          <span>{blog.publish_date}</span>
+          <span>{formatPublishDate(blog.publish_date)}</span>
         </div>
       </section>
 
@@ -271,66 +239,66 @@ function BlogDetailContent() {
       </div>
 
       {/* 2-Column Article Body */}
-      <div className="relative z-10 w-full max-w-[934px] flex flex-col md:flex-row gap-6 md:gap-[48px] items-start px-6 md:px-0 pb-16">
-        
-        {/* Mobile Table of Contents */}
-        <div className="w-full md:hidden bg-gray-50 border border-gray-100 rounded-2xl p-5 mb-4">
-          <span className="font-['Cal_Sans'] text-[20px] text-black block mb-3">
-            Contents
-          </span>
-          <div className="flex flex-col gap-2.5">
-            {blogSections.map((s) => (
-              <button
-                key={s.id}
-                onClick={() => handleScrollTo(s.id)}
-                className={`text-left text-sm sm:text-base font-sans transition-colors ${
-                  activeSection === s.id
+      {blogSections.length > 0 && (
+        <div className="relative z-10 w-full max-w-[934px] flex flex-col md:flex-row gap-6 md:gap-[48px] items-start px-6 md:px-0 pb-16">
+
+          {/* Mobile Table of Contents */}
+          <div className="w-full md:hidden bg-gray-50 border border-gray-100 rounded-2xl p-5 mb-4">
+            <span className="font-['Cal_Sans'] text-[20px] text-black block mb-3">
+              Contents
+            </span>
+            <div className="flex flex-col gap-2.5">
+              {blogSections.map((s: any) => (
+                <button
+                  key={s.id}
+                  onClick={() => handleScrollTo(s.id)}
+                  className={`text-left text-sm sm:text-base font-sans transition-colors ${activeSection === s.id
                     ? "text-[#2530FF] font-bold"
                     : "text-gray-500 hover:text-black"
-                }`}
-              >
-                • {s.tocTitle}
-              </button>
-            ))}
+                    }`}
+                >
+                  • {s.tocTitle}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Left Sidebar: Table of Contents */}
-        <aside className="w-[220px] shrink-0 sticky top-[120px] hidden md:block select-none">
-          <h3 className="font-['Cal_Sans'] font-normal text-[28px] leading-tight text-black mb-6">
-            Contents
-          </h3>
-          <nav className="flex flex-col gap-4">
-            {blogSections.map((s) => (
-              <button
-                key={s.id}
-                onClick={() => handleScrollTo(s.id)}
-                className={`text-left text-[18px] leading-snug font-sans transition-colors ${
-                  activeSection === s.id
+          {/* Left Sidebar: Table of Contents */}
+          <aside className="w-[220px] shrink-0 sticky top-[120px] hidden md:block select-none">
+            <h3 className="font-['Cal_Sans'] font-normal text-[28px] leading-tight text-black mb-6">
+              Contents
+            </h3>
+            <nav className="flex flex-col gap-4">
+              {blogSections.map((s: any) => (
+                <button
+                  key={s.id}
+                  onClick={() => handleScrollTo(s.id)}
+                  className={`text-left text-[18px] leading-snug font-sans transition-colors ${activeSection === s.id
                     ? "text-[#2530FF] font-bold"
                     : "text-[#9F9F9F] hover:text-black"
-                }`}
-              >
-                {s.tocTitle}
-              </button>
-            ))}
-          </nav>
-        </aside>
+                    }`}
+                >
+                  {s.tocTitle}
+                </button>
+              ))}
+            </nav>
+          </aside>
 
-        {/* Right Main Column: Article Content */}
-        <article className="flex-1 w-full max-w-full md:max-w-[666px]">
-          {blogSections.map((s) => (
-            <section key={s.id} id={s.id} className="mb-12 scroll-mt-[120px]">
-              <h2 className="font-['Cal_Sans'] font-normal text-[28px] sm:text-[34px] md:text-[40px] leading-[1.2] text-black mb-4">
-                {s.bodyTitle}
-              </h2>
-              <p className="font-sh-grotesk font-normal text-[18px] sm:text-[20px] md:text-[22px] leading-[1.5] text-[#616161] mb-6 whitespace-pre-wrap">
-                {s.content}
-              </p>
-            </section>
-          ))}
-        </article>
-      </div>
+          {/* Right Main Column: Article Content */}
+          <article className="flex-1 w-full max-w-full md:max-w-[666px]">
+            {blogSections.map((s: any) => (
+              <section key={s.id} id={s.id} className="mb-12 scroll-mt-[120px]">
+                <h2 className="font-['Cal_Sans'] font-normal text-[28px] sm:text-[34px] md:text-[40px] leading-[1.2] text-black mb-4">
+                  {s.bodyTitle}
+                </h2>
+                <p className="font-sh-grotesk font-normal text-[18px] sm:text-[20px] md:text-[22px] leading-[1.5] text-[#616161] mb-6 whitespace-pre-wrap">
+                  {s.content}
+                </p>
+              </section>
+            ))}
+          </article>
+        </div>
+      )}
     </main>
   );
 }
