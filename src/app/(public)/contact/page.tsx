@@ -65,15 +65,15 @@ export default function ContactPage() {
       />
 
       {/* Hero / Headline Block */}
-      <section className="relative z-10 w-full max-w-[1728px] pt-[140px] md:pt-[176px] pb-6 md:pb-12 flex flex-col items-center text-center px-6">
-        <h1 className="font-sans font-bold text-[32px] sm:text-[44px] md:text-[56px] lg:text-[68px] xl:text-[72px] 2xl:text-[90px] leading-[1.2] xl:leading-[1.1] 2xl:leading-[100px] tracking-[-2%] text-black text-center max-w-[1200px]">
+      <section className="relative z-10 w-full max-w-[1728px]  pt-[110px] lg:px-[113px] pb-6 md:pb-12 flex flex-col items-center text-center px-6">
+        <h1 className="font-['Cal_Sans'] font-normal text-[30px] sm:text-[36px] lg:text-[40px] xl:text-[50px] 2xl:text-[66px] leading-[1.15] text-black text-center max-w-none animate-fade-in">
           Get in touch with us.<br />We're here to assist you.
         </h1>
       </section>
 
       {/* Form & Map Section */}
       <section className="relative z-10 w-full max-w-[1728px] mx-auto px-6 lg:px-12 xl:pl-[80px] xl:pr-[48px] 2xl:pl-[141px] 2xl:pr-[65px] flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-[60px] 2xl:gap-[82px] justify-between items-start pb-24">
-        
+
         {/* Contact Form Column (Width 959px on desktop) */}
         <div className="w-full lg:max-w-[640px] xl:max-w-[780px] 2xl:max-w-[959px] flex-1">
           {submitted ? (
@@ -138,7 +138,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   placeholder="Message"
                   required
-                  className="w-full border-b border-[#cacaca] bg-transparent pt-2 pb-[40px] xl:pb-[60px] 2xl:pb-[100px] h-[100px] xl:h-[130px] 2xl:h-[156px] font-sans font-normal text-[16px] sm:text-[18px] lg:text-[20px] 2xl:text-[24px] text-black placeholder-black tracking-[-0.03em] focus:outline-none focus:border-[#4a3aff] transition-colors resize-none"
+                  className="w-full border-b border-[#cacaca] bg-transparent pt-2 pb-10 h-[10px]  font-sans font-normal text-[16px] sm:text-[18px] lg:text-[20px] 2xl:text-[24px] text-black placeholder-black tracking-[-0.03em] focus:outline-none focus:border-[#4a3aff] transition-colors resize-none"
                 />
               </div>
 

@@ -2,7 +2,7 @@ import { Check } from "lucide-react";
 
 const levelsData = [
   {
-    level: "I",
+    level: "1",
     subtext: "10 topics, 2 Practical Skills Modules",
     topics: [
       "Ethical and Professional Standards",
@@ -22,7 +22,7 @@ const levelsData = [
     ]
   },
   {
-    level: "II",
+    level: "2",
     subtext: "10 topics, 3 Practical Skills Modules",
     topics: [
       "Ethical and Professional Standards",
@@ -43,7 +43,7 @@ const levelsData = [
     ]
   },
   {
-    level: "III",
+    level: "3",
     subtext: "6 topics, 4 pathways",
     topics: [
       "Asset Allocation",
@@ -64,8 +64,8 @@ const levelsData = [
 
 export default function LevelsSection() {
   return (
-    <section className="relative w-full px-6 py-16 md:py-24 bg-[#f7f8fc] flex flex-col items-center z-10 px-6 md:px-8 lg:px-12">
-      
+    <section className="relative w-full px-6 pt-16 md:pt-24 bg-[#0000] flex flex-col items-center z-10 px-6 md:px-8 lg:px-12">
+
       {/* Title */}
       <div className="text-center mb-[60px] max-w-[928px] flex flex-col items-center">
         <h2 className="text-section-title text-[#161c2d]">
@@ -76,38 +76,37 @@ export default function LevelsSection() {
       {/* Cards Container: 1512px max width on desktop, 37.8px gap between cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 items-stretch justify-center gap-6 lg:gap-[37.8px] w-full max-w-[1512px]">
         {levelsData.map((data, idx) => (
-          <div 
-            key={idx} 
-            className="flex flex-col bg-white border border-gray-100 rounded-[9.45px] p-[28.35px] gap-[28.35px] shadow-sm transition-all duration-300 hover:shadow-md w-full"
+          <div
+            key={idx}
+            className="flex flex-col bg-white border border-black rounded-[9.45px] p-[28.35px] gap-[28.35px] transition-all duration-300 hover:shadow-md w-full"
           >
             {/* Level Badge Header */}
             <div className="flex flex-col gap-1">
-              <span className="text-level-label text-gray-mid">
+              <span className="text-level-label text-black">
                 Level
               </span>
-              <span className="text-level-number text-brand-blue">
+              <span className="text-level-number text-black">
                 {data.level}
               </span>
-              <p className="text-list-caption text-gray-mid leading-none mt-2">
+              <p className="text-list-caption text-black leading-none mt-2">
                 {data.subtext}
               </p>
             </div>
 
-            {/* divider line */}
-            <div className="w-full h-px bg-gray-100" />
+
 
             {/* Topics Section */}
             <div className="flex flex-col gap-4">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-near-black">
-                Topics
+                Topics:
               </h4>
               <ul className="flex flex-col gap-3">
                 {data.topics.map((topic, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <span className="w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="w-5 h-5 rounded-sm bg-[#f2f2f2] flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-3 h-3 text-gray-400" strokeWidth={3} />
                     </span>
-                    <span className="text-list-caption text-gray-mid leading-snug">
+                    <span className="text-list-caption text-black leading-snug">
                       {topic}
                     </span>
                   </li>
@@ -118,15 +117,15 @@ export default function LevelsSection() {
             {/* Skills Section */}
             <div className="flex flex-col gap-4">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-near-black">
-                Practical Skills Modules
+                Practical Skills Modules:
               </h4>
               <ul className="flex flex-col gap-3">
                 {data.skills.map((skill, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <span className="w-5 h-5 rounded-full border border-gray-300 flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="w-5 h-5 rounded-sm bg-[#f2f2f2] flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-3 h-3 text-gray-400" strokeWidth={3} />
                     </span>
-                    <span className="text-list-caption text-gray-mid leading-snug">
+                    <span className="text-list-caption text-black leading-snug">
                       {skill}
                     </span>
                   </li>

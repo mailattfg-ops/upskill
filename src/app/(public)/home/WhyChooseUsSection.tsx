@@ -1,6 +1,8 @@
+import { Gem } from "lucide-react";
+
 export default function WhyChooseUsSection() {
   return (
-    <section id="why-choose-us" className="w-full bg-white py-10 md:py-14 lg:py-16 xl:pt-28 xl:pb-20 px-4 overflow-visible relative z-10">
+    <section id="why-choose-us" className="w-full bg-white py-10 md:py-14 lg:py-16 xl:pt-18 xl:pb-20 px-4 overflow-visible relative z-10">
       {/* Section header text block */}
       <div className="mx-auto flex flex-col items-center gap-6 mb-14 md:mb-28">
         {/* Heading — Figma: Cal Sans 90px, #4879FF */}
@@ -22,11 +24,8 @@ export default function WhyChooseUsSection() {
           style={{ flexShrink: 1 }}
         >
           {/* Clock icon */}
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-white/40 flex items-center justify-center self-start">
-            <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <circle cx="12" cy="12" r="9" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5l3 3" />
-            </svg>
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full  flex items-center justify-start self-start">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="50" fill="#ffffffff" viewBox="0 0 256 256"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H53.39a8,8,0,0,0,7.23-4.57,48,48,0,0,1,86.76,0,8,8,0,0,0,7.23,4.57H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM80,144a24,24,0,1,1,24,24A24,24,0,0,1,80,144Zm136,56H159.43a64.39,64.39,0,0,0-28.83-26.16,40,40,0,1,0-53.2,0A64.39,64.39,0,0,0,48.57,200H40V56H216ZM56,96V80a8,8,0,0,1,8-8H192a8,8,0,0,1,8,8v96a8,8,0,0,1-8,8H176a8,8,0,0,1,0-16h8V88H72v8a8,8,0,0,1-16,0Z"></path></svg>
           </div>
           {/* Content group — Figma: 386×201px */}
           <div className="w-full max-w-[386px]">
@@ -41,19 +40,16 @@ export default function WhyChooseUsSection() {
 
         {/* ── CENTER CARD — White ── */}
         <div
-          className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-white rounded-[40px] md:rounded-[71px] border border-[#D0DCFF] shadow-sm w-full md:max-w-[487px] h-auto mt-0 md:mt-[69px]"
+          className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-white rounded-[40px] md:rounded-[71px] border border-[#0D5FD5] shadow-sm w-full md:max-w-[487px] h-auto mt-0 md:mt-[69px]"
           style={{ flexShrink: 1 }}
         >
           {/* Calendar icon */}
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-[28px] border border-[#D0DCFF] bg-[#F8FAFC] flex items-center justify-center self-start">
-            <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <rect x="3" y="4" width="18" height="18" rx="2" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4" />
-            </svg>
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full  flex items-center justify-start self-start">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#000000" viewBox="0 0 256 256"><path d="M240,192h-8V168a8,8,0,0,0-8-8H160a8,8,0,0,0-8,8v24H40V56H216v80a8,8,0,0,0,16,0V56a16,16,0,0,0-16-16H40A16,16,0,0,0,24,56V192H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16Zm-72-16h48v16H168Z"></path></svg>
           </div>
           {/* Content group */}
           <div className="w-full max-w-[386px]">
-            <h3 className="font-['Cal_Sans'] mt-4 font-normal text-[29px] lg:text-[24px] xl:text-[27px] 2xl:text-[30px] leading-[35px] text-[#0f172a] w-full max-w-[359px] mb-4">
+            <h3 className="font-['Cal_Sans'] mt-4 font-normal text-[29px] lg:text-[24px] xl:text-[27px] 2xl:text-[30px] leading-[35px] text-[#5C5C5C] w-full max-w-[359px] mb-4">
               Classroom Sessions
             </h3>
             <p className="font-sans font-normal text-[17px] lg:text-[15px] xl:text-[16px] 2xl:text-[18px] leading-[21px] text-[#5C5C5C] w-full max-w-[386px]">
@@ -68,13 +64,8 @@ export default function WhyChooseUsSection() {
           style={{ flexShrink: 1 }}
         >
           {/* Cert icon */}
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-white/40 flex items-center justify-center self-start">
-            <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <rect x="3" y="3" width="14" height="11" rx="2" />
-              <circle cx="10" cy="18" r="3" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 21l4-3 4 3" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h6M7 10h4" />
-            </svg>
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full  flex items-center justify-start self-start">
+            <Gem width={60} height={50} />
           </div>
           {/* Content group */}
           <div className="w-full max-w-[386px]">

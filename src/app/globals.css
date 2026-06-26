@@ -18,10 +18,13 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0f172a; /* Slate 900 */
-  --accent-blue: #2563eb; /* Royal blue */
+  --foreground: #0f172a;
+  /* Slate 900 */
+  --accent-blue: #2563eb;
+  /* Royal blue */
   --accent-blue-hover: #1d4ed8;
-  --gray-muted: #475569; /* Slate 600 */
+  --gray-muted: #475569;
+  /* Slate 600 */
   --card-border: rgba(0, 0, 0, 0.05);
   /* Figma design tokens */
   --Brand-Blue: #4879FF;
@@ -73,6 +76,7 @@ body {
 .hover-scale {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .hover-scale:hover {
   transform: translateY(-2px) scale(1.02);
 }
@@ -85,11 +89,12 @@ body {
   .text-display-hero {
     font-family: 'Cal Sans', var(--font-sans);
     font-weight: 400;
-    font-size: 42px; /* Responsive mobile base */
+    font-size: 42px;
+    /* Responsive mobile base */
     line-height: 1.15;
     letter-spacing: 0em;
   }
-  
+
   /* Section Title */
   .text-section-title {
     font-family: 'Cal Sans', var(--font-sans);
@@ -99,10 +104,23 @@ body {
     letter-spacing: 0em;
   }
 
+  .fw-400 {
+    font-weight: 400;
+  }
+
+  .fw-500 {
+    font-weight: 500;
+  }
+
+  .fw-700 {
+    font-weight: 700;
+  }
+
   /* Card Heading */
   .text-card-heading {
     font-family: var(--font-sans);
-    font-weight: 500; /* Medium */
+    font-weight: 500;
+    /* Medium */
     font-size: 24px;
     line-height: 113%;
     letter-spacing: -0.04em;
@@ -120,7 +138,8 @@ body {
   /* Level Number */
   .text-level-number {
     font-family: 'Inter', var(--font-sans);
-    font-weight: 800; /* Extra Bold */
+    font-weight: 800;
+    /* Extra Bold */
     font-size: 30px;
     line-height: 120%;
     letter-spacing: 0em;
@@ -138,7 +157,8 @@ body {
   /* Level Label */
   .text-level-label {
     font-family: 'Inter', var(--font-sans);
-    font-weight: 500; /* Medium */
+    font-weight: 500;
+    /* Medium */
     font-size: 20px;
     line-height: 120%;
     letter-spacing: 0em;
@@ -174,7 +194,8 @@ body {
   /* Nav Links */
   .text-nav-links {
     font-family: 'Inter', var(--font-sans);
-    font-weight: 700; /* Bold */
+    font-weight: 700;
+    /* Bold */
     font-size: 15px;
     line-height: 24px;
     letter-spacing: 0em;
@@ -183,7 +204,8 @@ body {
   /* Footer Nav Links */
   .text-footer-nav {
     font-family: var(--font-sans);
-    font-weight: 700; /* Bold */
+    font-weight: 700;
+    /* Bold */
     font-size: 14.8px;
     line-height: 20px;
     letter-spacing: -0.025em;
@@ -192,7 +214,8 @@ body {
   /* CTA Button */
   .text-cta-btn {
     font-family: 'Inter', var(--font-sans);
-    font-weight: 500; /* Medium */
+    font-weight: 500;
+    /* Medium */
     font-size: 14px;
     line-height: 18px;
     letter-spacing: -0.028em;
@@ -209,39 +232,104 @@ body {
 
   /* ── Responsive scale adjustments ── */
   @media (min-width: 640px) {
-    .text-display-hero  { font-size: 52px; }
-    .text-section-title  { font-size: 44px; }
+    .text-display-hero {
+      font-size: 52px;
+    }
+
+    .text-section-title {
+      font-size: 44px;
+    }
   }
 
   @media (min-width: 1024px) {
-    .text-display-hero  { font-size: 68px; }
-    .text-section-title  { font-size: 54px; }
-    .text-card-heading   { font-size: 32px; }
-    .text-body-large     { font-size: 24px; }
-    .text-body-default   { font-size: 18px; }
+    .text-display-hero {
+      font-size: 68px;
+    }
+
+    .text-section-title {
+      font-size: 54px;
+    }
+
+    .text-card-heading {
+      font-size: 32px;
+    }
+
+    .text-body-large {
+      font-size: 24px;
+    }
+
+    .text-body-default {
+      font-size: 18px;
+    }
   }
 
   @media (min-width: 1280px) {
-    .text-display-hero  { font-size: 78px; }
-    .text-section-title  { font-size: 64px; }
-    .text-card-heading   { font-size: 38px; }
-    .text-body-large     { font-size: 28px; }
-    .text-body-vision    { font-size: 24px; }
-    .text-body-default   { font-size: 20px; }
+    .text-display-hero {
+      font-size: 78px;
+    }
+
+    .text-section-title {
+      font-size: 64px;
+    }
+
+    .text-card-heading {
+      font-size: 38px;
+    }
+
+    .text-body-large {
+      font-size: 28px;
+    }
+
+    .text-body-vision {
+      font-size: 24px;
+    }
+
+    .text-body-default {
+      font-size: 20px;
+    }
   }
 
   /* Exact 1728px Canvas Target Specs */
   @media (min-width: 1600px) {
-    .text-display-hero  { font-size: 90px; }
-    .text-section-title  { font-size: 71px; }
-    .text-card-heading   { font-size: 44px; }
-    .text-sub-heading    { font-size: 40px; }
-    .text-level-number   { font-size: 38px; }
-    .text-body-large     { font-size: 32px; }
-    .text-level-label    { font-size: 28px; }
-    .text-body-vision    { font-size: 28px; }
-    .text-body-default   { font-size: 24px; }
-    .text-list-caption   { font-size: 16.5px; }
+    .text-display-hero {
+      font-size: 90px;
+    }
+
+    .text-section-title {
+      font-size: 71px;
+    }
+
+    .text-card-heading {
+      font-size: 44px;
+    }
+
+    .text-sub-heading {
+      font-size: 40px;
+    }
+
+    .text-level-number {
+      font-size: 38px;
+    }
+
+    .text-body-large {
+      font-size: 32px;
+    }
+
+    .text-level-label {
+      font-size: 28px;
+    }
+
+    .text-body-vision {
+      font-size: 28px;
+    }
+
+    .text-body-default {
+      font-size: 24px;
+    }
+
+    .text-list-caption {
+      font-size: 16.5px;
+    }
   }
 
   /* ─────────────────────────────────────────────────────────
@@ -254,7 +342,8 @@ body {
     font-weight: 400;
     font-style: normal;
     font-size: 30px;
-    line-height: 1.15; /* Adjusted to prevent Cal Sans clipping */
+    line-height: 1.15;
+    /* Adjusted to prevent Cal Sans clipping */
     letter-spacing: 0em;
     text-align: center;
     color: var(--Brand-Blue);
@@ -278,7 +367,8 @@ body {
     font-weight: 400;
     font-style: normal;
     font-size: 34px;
-    line-height: 1.15; /* Adjusted to prevent Cal Sans clipping */
+    line-height: 1.15;
+    /* Adjusted to prevent Cal Sans clipping */
     letter-spacing: 0em;
     text-align: center;
     color: var(--Brand-Blue);
@@ -322,7 +412,8 @@ body {
 
   /* Card body text */
   .card-body {
-    font-family: var(--font-sans); /* Geist */
+    font-family: var(--font-sans);
+    /* Geist */
     font-weight: 400;
     font-style: normal;
     font-size: 17px;
@@ -334,7 +425,8 @@ body {
 
   /* Centre white card body — dark text */
   .card-body-dark {
-    font-family: var(--font-sans); /* Geist */
+    font-family: var(--font-sans);
+    /* Geist */
     font-weight: 400;
     font-style: normal;
     font-size: 17px;
@@ -346,42 +438,115 @@ body {
 
   /* ── Responsive breakpoints ── */
   @media (min-width: 640px) {
-    .hero-heading  { font-size: 36px; }
-    .hero-subtext  { font-size: 13px; }
+    .hero-heading {
+      font-size: 36px;
+    }
+
+    .hero-subtext {
+      font-size: 13px;
+    }
   }
 
   @media (min-width: 1024px) {
-    .hero-heading        { font-size: 40px; }
-    .hero-subtext        { font-size: 13px; }
-    .section-heading     { font-size: 44px; }
-    .section-description { font-size: 15px; }
-    .card-heading        { font-size: 24px; }
-    .card-heading-dark   { font-size: 24px; }
-    .card-body           { font-size: 15px; }
-    .card-body-dark      { font-size: 15px; }
+    .hero-heading {
+      font-size: 40px;
+    }
+
+    .hero-subtext {
+      font-size: 13px;
+    }
+
+    .section-heading {
+      font-size: 44px;
+    }
+
+    .section-description {
+      font-size: 15px;
+    }
+
+    .card-heading {
+      font-size: 24px;
+    }
+
+    .card-heading-dark {
+      font-size: 24px;
+    }
+
+    .card-body {
+      font-size: 15px;
+    }
+
+    .card-body-dark {
+      font-size: 15px;
+    }
   }
 
   @media (min-width: 1280px) {
-    .hero-heading        { font-size: 50px; }
-    .hero-subtext        { font-size: 15px; }
-    .section-heading     { font-size: 54px; }
-    .section-description { font-size: 17px; }
-    .card-heading        { font-size: 27px; }
-    .card-heading-dark   { font-size: 27px; }
-    .card-body           { font-size: 16px; }
-    .card-body-dark      { font-size: 16px; }
+    .hero-heading {
+      font-size: 50px;
+    }
+
+    .hero-subtext {
+      font-size: 15px;
+    }
+
+    .section-heading {
+      font-size: 54px;
+    }
+
+    .section-description {
+      font-size: 17px;
+    }
+
+    .card-heading {
+      font-size: 27px;
+    }
+
+    .card-heading-dark {
+      font-size: 27px;
+    }
+
+    .card-body {
+      font-size: 16px;
+    }
+
+    .card-body-dark {
+      font-size: 16px;
+    }
   }
 
   @media (min-width: 1536px) {
-    .hero-heading        { font-size: 66px; }
-    .hero-subtext        { font-size: 17px; }
-    .section-heading     { font-size: 66px; }
-    .section-description { font-size: 18px; }
-    .card-heading        { font-size: 30px; }
-    .card-heading-dark   { font-size: 30px; }
-    .card-body           { font-size: 18px; }
-    .card-body-dark      { font-size: 18px; }
+    .hero-heading {
+      font-size: 66px;
+    }
+
+    .hero-subtext {
+      font-size: 17px;
+    }
+
+    .section-heading {
+      font-size: 66px;
+    }
+
+    .section-description {
+      font-size: 18px;
+    }
+
+    .card-heading {
+      font-size: 30px;
+    }
+
+    .card-heading-dark {
+      font-size: 30px;
+    }
+
+    .card-body {
+      font-size: 18px;
+    }
+
+    .card-body-dark {
+      font-size: 18px;
+    }
   }
 
 }
-

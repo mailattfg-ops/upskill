@@ -109,7 +109,7 @@ export default function Footer() {
 
         {/* Bottom Copyright */}
         <div className="mt-4 md:mt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[12px] text-gray-mid font-sans pb-2 border-t border-black/10 pt-4">
-          <span>&copy; 2026 Upskill CFA. Made with ✨ for dreamers.</span>
+          <span>&copy; 2026 Upskill Middle East.</span>
           <span>
             Designed & Developed by{" "}
             <Link

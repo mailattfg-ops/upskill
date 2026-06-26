@@ -11,12 +11,36 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
+  const [currentHash, setCurrentHash] = useState("");
+
   useEffect(() => {
     setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  useEffect(() => {
+    if (!mounted) return;
+
+    const updateHash = () => {
+      if (window.location.hash !== currentHash) {
+        setCurrentHash(window.location.hash);
+      }
+    };
+
+    updateHash();
+
+    const intervalId = setInterval(updateHash, 100);
+
+    window.addEventListener('hashchange', updateHash);
+    window.addEventListener('popstate', updateHash);
+
+    return () => {
+      clearInterval(intervalId);
+      window.removeEventListener('hashchange', updateHash);
+      window.removeEventListener('popstate', updateHash);
+    };
+  }, [mounted, pathname, currentHash]);
 
   const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/contact' || pathname === '/blog');
   const useWhiteTheme = isCfaPage && !scrolled;
@@ -24,7 +48,25 @@ export default function Navbar() {
   // Returns true when the given href matches the current page
   const isActive = (href: string) => {
     if (!mounted) return false;
-    if (href === '/') return pathname === '/';
+
+    if (pathname === '/') {
+      if (href === '/') {
+        // Only active if no hash section is selected
+        return currentHash === "" || currentHash === "#";
+      }
+      if (href === '/#about-company') {
+        return currentHash === "#about-company";
+      }
+      if (href === '/#testimonials') {
+        return currentHash === "#testimonials";
+      }
+    } else {
+      // If we are not on the homepage, section links are not active
+      if (href === '/' || href === '/#about-company' || href === '/#testimonials') {
+        return false;
+      }
+    }
+
     return pathname === href || pathname.startsWith(href + '/');
   };
 
@@ -41,9 +83,7 @@ export default function Navbar() {
           : 'text-brand-blue font-semibold after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-brand-blue after:rounded-full'
         : dark
           ? 'text-white/80 hover:text-white'
-          : href === '/'
-            ? 'text-brand-blue hover:text-blue-800'
-            : 'text-gray-700 hover:text-brand-blue',
+          : 'text-gray-700 hover:text-brand-blue',
     ].join(' ');
   };
 
@@ -59,9 +99,7 @@ export default function Navbar() {
           : 'text-blue-600 underline underline-offset-4 decoration-blue-400'
         : dark
           ? 'text-white/80 hover:text-white'
-          : href === '/'
-            ? 'text-blue-600'
-            : 'text-gray-600 hover:text-blue-600',
+          : 'text-gray-600 hover:text-blue-600',
     ].join(' ');
   };
 
