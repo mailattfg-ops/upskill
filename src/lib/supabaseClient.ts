@@ -6,16 +6,4 @@ const supabaseAnonKey =
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 
   "placeholder-key";
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: false,
-  },
-  global: {
-    fetch: (url, options) => {
-      return fetch(url, {
-        ...options,
-        cache: "no-store",
-      });
-    },
-  },
-});
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);

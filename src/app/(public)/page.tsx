@@ -5,6 +5,8 @@ import AboutSection from "./home/AboutSection";
 import PathToCfaSection from "./home/PathToCfaSection";
 import TestimonialsSection from "./home/TestimonialsSection";
 import BlogsSection from "./home/BlogsSection";
+import CfaCtaSection from "./home/CfaCtaSection";
+
 
 const STATIC_TESTIMONIALS = [
   {
@@ -84,16 +86,14 @@ interface Blog {
 
 export default async function Home() {
   // Fetch testimonials
-  let testimonialsList: Testimonial[] | null = null;
+  let testimonialsList: Testimonial[] = [];
   try {
-    const { data, error } = await supabase.from("testimonials").select("*");
-    if (!error) {
-      testimonialsList = (data as Testimonial[]) || [];
-    }
+    const { data } = await supabase.from("testimonials").select("*");
+    testimonialsList = (data as Testimonial[]) || [];
   } catch (err) {
     console.error("Supabase testimonials fetch error:", err);
   }
-  if (testimonialsList === null) {
+  if (testimonialsList.length === 0) {
     testimonialsList = STATIC_TESTIMONIALS;
   }
 
@@ -101,16 +101,14 @@ export default async function Home() {
   const visibleTestimonials = testimonialsList.filter((t) => t.is_visible !== false);
 
   // Fetch blogs
-  let blogsList: Blog[] | null = null;
+  let blogsList: Blog[] = [];
   try {
-    const { data, error } = await supabase.from("blogs").select("*").order("publish_date", { ascending: false }).limit(2);
-    if (!error) {
-      blogsList = (data as Blog[]) || [];
-    }
+    const { data } = await supabase.from("blogs").select("*").order("publish_date", { ascending: false }).limit(2);
+    blogsList = (data as Blog[]) || [];
   } catch (err) {
     console.error("Supabase blogs fetch error:", err);
   }
-  if (blogsList === null) {
+  if (blogsList.length === 0) {
     blogsList = STATIC_BLOGS;
   }
 
@@ -136,10 +134,9 @@ export default async function Home() {
       <WhyChooseUsSection />
       <AboutSection />
       <PathToCfaSection />
-      {showTestimonialsSection && visibleTestimonials.length > 0 && (
-        <TestimonialsSection visibleTestimonials={visibleTestimonials} />
-      )}
-      {blogsList.length > 0 && <BlogsSection blogsList={blogsList} />}
+      {showTestimonialsSection && <TestimonialsSection visibleTestimonials={visibleTestimonials} />}
+      <BlogsSection blogsList={blogsList} />
+      <CfaCtaSection />
     </>
   );
 }
