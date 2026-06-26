@@ -5,6 +5,8 @@ import AboutSection from "./home/AboutSection";
 import PathToCfaSection from "./home/PathToCfaSection";
 import TestimonialsSection from "./home/TestimonialsSection";
 import BlogsSection from "./home/BlogsSection";
+import CfaCtaSection from "./home/CfaCtaSection";
+
 
 const STATIC_TESTIMONIALS = [
   {
@@ -140,6 +142,7 @@ export default async function Home() {
         <TestimonialsSection visibleTestimonials={visibleTestimonials} />
       )}
       {blogsList.length > 0 && <BlogsSection blogsList={blogsList} />}
+      <CfaCtaSection />
     </>
   );
 }
