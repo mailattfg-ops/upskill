@@ -73,7 +73,7 @@ export default function Navbar() {
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${headerBg}`}>
       {/* Desktop Layout */}
-      <div className="mx-auto w-full max-w-[1728px] px-6 lg:px-12 xl:px-[113px] relative hidden xl:flex items-center justify-center pt-[20px]">
+      <div className="mx-auto w-full max-w-[1728px] px-6 lg:px-12 xl:px-[113px] relative hidden xl:flex items-center justify-center">
 
         <div className="w-full max-w-[1503px] h-[77px] flex items-center justify-between bg-transparent">
 
@@ -105,11 +105,10 @@ export default function Navbar() {
           <div className="w-[160px] flex justify-end shrink-0">
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-booking-modal'))}
-              className={`w-[154px] h-[45px] rounded-full flex items-center justify-center transition-all hover:shadow-md z-50 cursor-pointer ${
-                useWhiteTheme
+              className={`w-[154px] h-[45px] rounded-full flex items-center justify-center transition-all hover:shadow-md z-50 cursor-pointer ${useWhiteTheme
                   ? 'bg-white text-brand-blue hover:bg-gray-50'
                   : 'bg-brand-blue text-white hover:bg-blue-700 shadow-sm'
-              }`}
+                }`}
             >
               <span className="text-cta-btn whitespace-nowrap">Book Free Session</span>
             </button>
@@ -119,13 +118,12 @@ export default function Navbar() {
       </div>
 
       {/* Mobile/Tablet Header Bar */}
-      <div className={`xl:hidden w-full px-6 py-4 flex items-center justify-between backdrop-blur-md border-b transition-all duration-300 ${
-        scrolled
+      <div className={`xl:hidden w-full px-6 py-4 flex items-center justify-between backdrop-blur-md border-b transition-all duration-300 ${scrolled
           ? 'bg-white/95 border-gray-200 text-gray-900 shadow-sm'
           : isCfaPage
             ? 'bg-[#4576FF] border-blue-500 text-white'
             : 'bg-transparent border-transparent text-gray-900'
-      }`}>
+        }`}>
         <Link href="/" className="relative w-[110px] h-[36px] block group z-50">
           <Image
             src="/footer_logo.png"
@@ -153,13 +151,12 @@ export default function Navbar() {
 
       {/* Mobile Navigation Panel */}
       {isOpen && (
-        <div className={`xl:hidden border-t px-6 py-4 flex flex-col gap-4 shadow-inner ${
-          scrolled
+        <div className={`xl:hidden border-t px-6 py-4 flex flex-col gap-4 shadow-inner ${scrolled
             ? 'bg-white border-gray-100'
             : isCfaPage
               ? 'bg-[#4576FF] border-blue-500 text-white'
               : 'bg-white border-gray-100'
-        }`}>
+          }`}>
           <Link href="/" onClick={() => setIsOpen(false)} className={mobileLinkClass('/')}>Home</Link>
           <Link href="/#about-company" onClick={() => setIsOpen(false)} className={mobileLinkClass('/#about-company')}>About</Link>
           <Link href="/what-is-cfa" onClick={() => setIsOpen(false)} className={mobileLinkClass('/what-is-cfa')}>What is CFA?</Link>
@@ -169,11 +166,10 @@ export default function Navbar() {
           <Link href="/contact" onClick={() => setIsOpen(false)} className={mobileLinkClass('/contact')}>Contact Us</Link>
           <button
             onClick={() => { setIsOpen(false); window.dispatchEvent(new CustomEvent('open-booking-modal')); }}
-            className={`inline-flex items-center justify-center rounded-full font-bold py-2.5 text-center text-sm shadow-sm mt-2 cursor-pointer ${
-              useWhiteTheme
+            className={`inline-flex items-center justify-center rounded-full font-bold py-2.5 text-center text-sm shadow-sm mt-2 cursor-pointer ${useWhiteTheme
                 ? 'bg-white text-brand-blue hover:bg-gray-50'
                 : 'bg-brand-blue text-white hover:bg-blue-700'
-            }`}
+              }`}
           >
             Book Free Session
           </button>
