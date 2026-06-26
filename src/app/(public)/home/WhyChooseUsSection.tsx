@@ -15,7 +15,7 @@ export default function WhyChooseUsSection() {
       </div>
 
       {/* Outer group — Figma: 1503×547px */}
-      <div className="mx-auto w-full max-w-[1503px] flex flex-col md:flex-row md:items-start gap-6 md:gap-[22px] mt-4 md:mt-[-37px] min-h-none md:min-h-[547px] overflow-visible px-4 md:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[1503px] flex flex-col md:flex-row md:items-start gap-6 md:gap-[22px] mt-4 md:mt-[-37px] min-h-none overflow-visible px-4 md:px-6 lg:px-8">
         {/* ── LEFT CARD — Blue ── */}
         <div
           className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-[#4879FF] text-white rounded-[40px] md:rounded-[71px] w-full md:max-w-[486px] h-auto mt-0 md:-mt-[37px]"
