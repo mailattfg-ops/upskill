@@ -6,12 +6,12 @@ export default function HeroSection() {
     <section className="relative flex flex-col items-center h-auto pt-[96px] sm:pt-[112px] pb-0 md:pt-[120px] lg:pt-[110px] xl:pt-[110px] px-0 overflow-visible bg-white">
       <div className="w-full max-w-[1474px] flex flex-col items-center text-center gap-0 px-6">
         {/* Main Headline */}
-        <h1 className="font-['Cal_Sans'] font-normal text-[36px] sm:text-[36px] lg:text-[40px] xl:text-[50px] 2xl:text-[66px] leading-[1.12] text-[#4879FF] text-center max-w-none animate-fade-in">
+        <h1 className="font-['Cal_Sans'] font-normal text-[44px] sm:text-[36px] lg:text-[40px] xl:text-[50px] 2xl:text-[66px] leading-[1.1] text-[#4879FF] text-center max-w-none animate-fade-in">
           Upskilling <br className="sm:hidden" /> Tomorrow&apos;s <br className="sm:hidden" /> CFA <br /> Charterholder
         </h1>
 
         {/* Subtitle */}
-        <p className="font-sans font-normal text-[13.5px] sm:text-[13px] xl:text-[15px] 2xl:text-[17px] leading-[1.4] text-center text-[#727272] max-w-[928px] w-full px-4 mt-3">
+        <p className="font-sans font-normal text-[12px] sm:text-[13.5px] xl:text-[15px] 2xl:text-[17px] leading-[1.4] text-center text-[#727272] max-w-[928px] w-full px-3 sm:px-4 mt-3 tracking-tight">
           Expert-led offline CFA training designed for ambitious <br className="sm:hidden" /> students, <br className="hidden md:inline" /> professionals, or anyone who aspires to <br className="sm:hidden" /> become a CFA across Saudi Arabia.
         </p>
 
