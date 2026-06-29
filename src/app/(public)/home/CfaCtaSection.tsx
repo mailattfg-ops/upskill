@@ -30,7 +30,7 @@ export default function CfaCtaSection() {
  
             {/* Subtitle — Geist/font-sans, white/90, centered */}
             <p className="w-full max-w-[566px] font-sans font-normal text-[13px] sm:text-[14.4px] md:text-[15px] lg:text-[16px] xl:text-[18px] leading-[1.4] md:leading-[130%] text-white/90 tracking-tight md:tracking-[-0.04em] text-center select-none px-4">
-              Book a free consultation today and build a smarter, <br className="hidden md:inline" /> more structured CFA preparation strategy.
+              Book a free Consultation today and build a smarter, <br className="hidden md:inline" /> more structured CFA preparation strategy.
             </p>
 
             {/* Button — White background, brand blue text */}

@@ -198,7 +198,6 @@ export default function Navbar() {
           <Link href="/" onClick={() => setIsOpen(false)} className={mobileLinkClass('/')}>Home</Link>
           <Link href="/#about-company" onClick={() => setIsOpen(false)} className={mobileLinkClass('/#about-company')}>About</Link>
           <Link href="/what-is-cfa" onClick={() => setIsOpen(false)} className={mobileLinkClass('/what-is-cfa')}>What is CFA?</Link>
-          <Link href="#" onClick={() => setIsOpen(false)} className={mobileLinkClass('#')}>Program</Link>
           <Link href="/#testimonials" onClick={() => setIsOpen(false)} className={mobileLinkClass('/#testimonials')}>Testimonials</Link>
           <Link href="/blogs" onClick={() => setIsOpen(false)} className={mobileLinkClass('/blogs')}>Blog</Link>
           <Link href="/contact" onClick={() => setIsOpen(false)} className={mobileLinkClass('/contact')}>Contact Us</Link>

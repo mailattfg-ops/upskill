@@ -228,10 +228,10 @@ export default function BookingModal() {
                   {/* Modal Header Zone */}
                   <div className="pt-6 px-6 pb-5 lg:pt-[8px] lg:pb-1 lg:px-[24px] flex flex-col gap-1 shrink-0 bg-white">
                     <h3 className="font-sans font-semibold text-[18px] leading-[28px] lg:leading-[22px] text-[#171717]">
-                      Register for a free consultation
+                      Register for a free Consultation
                     </h3>
                     <p className="font-sans font-normal text-[14px] leading-[20px] lg:leading-[18px] text-[#525252]">
-                      Enter the given information to schedule a free consultation.
+                      Enter the given information to schedule a free Consultation.
                     </p>
                   </div>
 
