@@ -12,7 +12,7 @@ export default function HeroSection() {
 
         {/* Subtitle */}
         <p className="font-sans font-normal text-[13.5px] sm:text-[13px] xl:text-[15px] 2xl:text-[17px] leading-[1.4] text-center text-[#727272] max-w-[928px] w-full px-4 mt-3">
-          Expert-led offline CFA training designed for ambitious students, <br className="hidden md:inline" /> professionals, or anyone who aspires to become a CFA across Saudi Arabia.
+          Expert-led offline CFA training designed for ambitious <br className="sm:hidden" /> students, <br className="hidden md:inline" /> professionals, or anyone who aspires to <br className="sm:hidden" /> become a CFA across Saudi Arabia.
         </p>
 
         {/* Action Buttons */}
