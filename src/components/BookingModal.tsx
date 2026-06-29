@@ -218,7 +218,7 @@ export default function BookingModal() {
                 </div>
                 <h3 className="font-sans font-bold text-[22px] text-[#171717] mb-2">Registration Complete!</h3>
                 <p className="font-sans text-[14px] text-[#525252] max-w-[300px]">
-                  Thank you. We have received your booking details and will contact you shortly to confirm your session.
+                  Thank you. We have received your booking details and will contact you shortly to confirm your Consultation.
                 </p>
               </div>
             ) : (

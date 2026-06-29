@@ -148,7 +148,7 @@ export default function Navbar() {
                 : 'bg-brand-blue text-white hover:bg-blue-700 shadow-sm'
                 }`}
             >
-              <span className="text-cta-btn whitespace-nowrap">Book Free Session</span>
+              <span className="text-cta-btn whitespace-nowrap">Book Free Consultation</span>
             </button>
           </div>
 
@@ -208,7 +208,7 @@ export default function Navbar() {
               : 'bg-brand-blue text-white hover:bg-blue-700'
               }`}
           >
-            Book Free Session
+            Book Free Consultation
           </button>
         </div>
       )}
