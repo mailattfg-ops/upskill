@@ -49,20 +49,20 @@ export default function BlogsSection({ blogsList }: BlogsSectionProps) {
               <div className="flex-1 p-3.5 md:p-4 md:pl-6 lg:p-6 lg:pl-8 xl:p-10 xl:pl-12 flex flex-col justify-center bg-white h-[244px] md:h-auto">
                 <div className="flex flex-col gap-[6px] xl:gap-[12px] 2xl:gap-[16px]">
                   {/* Eyebrow */}
-                  <span className="font-sh-grotesk font-normal text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-[#2530FF] whitespace-nowrap">
+                  <span className="font-sh-grotesk font-normal text-[12px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-[#2530FF] whitespace-nowrap">
                     {blog.read_time}
                   </span>
                   {/* Heading */}
-                  <h3 className="font-['Cal_Sans'] font-normal text-[13.5px] md:text-[16px] lg:text-[18px] xl:text-[22px] 2xl:text-[34px] leading-[1.1] text-black tracking-normal mt-0.5 xl:mt-2">
+                  <h3 className="font-['Cal_Sans'] font-normal text-[17px] md:text-[16px] lg:text-[18px] xl:text-[22px] 2xl:text-[34px] leading-[1.1] text-black tracking-normal mt-0.5 xl:mt-2">
                     {blog.title}
                   </h3>
                   {/* Description */}
-                  <p className="font-sans font-normal text-[9.5px] md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[21px] leading-[1.3] text-[#727272] tracking-[-3%] mt-0.5 xl:mt-2">
+                  <p className="font-sans font-normal text-[11px] md:text-[11px] lg:text-[13px] xl:text-[14px] 2xl:text-[21px] leading-[1.3] text-[#727272] tracking-[-3%] mt-0.5 xl:mt-2">
                     {blog.description}
                   </p>
                 </div>
                 {/* Date */}
-                <span className="font-sh-grotesk font-normal text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-2 md:mt-6 xl:mt-8 2xl:mt-12 block">
+                <span className="font-sh-grotesk font-normal text-[11.5px] md:text-[12px] lg:text-[14px] xl:text-[16px] 2xl:text-[21px] leading-[103%] text-black mt-2 md:mt-6 xl:mt-8 2xl:mt-12 block">
                   {formatPublishDate(blog.publish_date)}
                 </span>
               </div>
@@ -74,7 +74,7 @@ export default function BlogsSection({ blogsList }: BlogsSectionProps) {
         <div className="mt-8 md:mt-12 lg:mt-16 flex justify-center z-20">
           <Link
             href="/blogs"
-            className="w-[259px] h-[66px] bg-black hover:bg-black/90 text-white rounded-[20px] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1)] flex items-center justify-center transition-all duration-300 font-['Cal_Sans'] font-normal text-[24px] leading-[100%] tracking-[-0.25px] select-none text-center"
+            className="w-[180px] h-[48px] md:w-[259px] md:h-[66px] bg-black hover:bg-black/90 text-white rounded-[12px] md:rounded-[20px] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1)] flex items-center justify-center transition-all duration-300 font-['Cal_Sans'] font-normal text-[16px] md:text-[24px] leading-[100%] tracking-[-0.25px] select-none text-center"
           >
             View all articles
           </Link>

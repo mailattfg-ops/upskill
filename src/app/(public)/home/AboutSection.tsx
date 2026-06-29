@@ -17,37 +17,33 @@ export default function AboutSection() {
 
       <div className="mx-auto max-w-[1503px] flex flex-col-reverse lg:flex-row gap-6 lg:gap-8 xl:gap-12 items-stretch min-h-[400px] lg:min-h-[450px] xl:min-h-[520px] 2xl:min-h-[668px]">
         {/* Left card with description */}
-        <div className="flex-1 w-full max-w-[378px] mx-auto lg:max-w-none flex flex-col justify-start p-6 md:p-8 lg:p-10 xl:p-12 bg-[#F5F5F5] rounded-[18px] lg:rounded-[30px] h-[401px] lg:h-auto overflow-y-auto">
-          <div className="flex flex-col gap-4 text-[13px] sm:text-sm lg:text-sm xl:text-base leading-[1.6] text-[#5C5C5C] font-sans font-normal text-center">
-            <p>
-              Passing the CFA exam shouldn&apos;t feel like a solo marathon.
-              Yet across Saudi Arabia, thousands of college students and
-              working professionals study in isolation, hoping to be
-              among the 45% who clear the exam. We founded Upskill
-              because we saw too many ambitious aspirants across the
-              Kingdom studying in complete isolation without proper
-              guidance. Every candidate deserves better than generic
-              online portals; they need high-impact, classroom-based
-              training, real-time feedback, and mentors who actually
-              keep them accountable. We knew that self-study portals
-              simply couldn&apos;t replace the immense value of a real
-              classroom and face-to-face mentorship. Today, as Saudi
-              Arabia’s financial landscape expands at an unprecedented
-              pace, the market demand for top-tier, credentialed talent is
-              higher than ever. As Vision 2030 transforms the entire
-              economy, we align our training with national goals to build
-              world-class financial expertise. In this new economic era,
-              the CFA certification is a gold standard. Upskill exists to
-              bridge the gap between your ambition and a passing score.
-            </p>
-            <p>
-              By combining intensive offline training sessions with
-              dedicated mentorship, we provide the structure, expert
-              guidance, and personalized coaching you need to
-              confidently pass your exams and join the next generation of
-              financial leaders in Saudi Arabia.
-            </p>
-          </div>
+        <div className="flex-1 w-full max-w-[378px] mx-auto lg:max-w-none flex flex-col justify-center p-5 md:p-8 lg:p-10 xl:p-12 bg-[#F5F5F5] rounded-[18px] lg:rounded-[30px] h-[401px] lg:h-auto overflow-hidden">
+          <p className="text-[11.5px] sm:text-sm lg:text-sm xl:text-base leading-[1.45] text-[#5C5C5C] font-sans font-normal text-center">
+            Passing the CFA exam shouldn&apos;t feel like a solo marathon.
+            Yet across Saudi Arabia, thousands of college students and
+            working professionals study in isolation, hoping to be
+            among the 45% who clear the exam. We founded Upskill
+            because we saw too many ambitious aspirants across the
+            Kingdom studying in complete isolation without proper
+            guidance. Every candidate deserves better than generic
+            online portals; they need high-impact, classroom-based
+            training, real-time feedback, and mentors who actually
+            keep them accountable. We knew that self-study portals
+            simply couldn&apos;t replace the immense value of a real
+            classroom and face-to-face mentorship. Today, as Saudi
+            Arabia’s financial landscape expands at an unprecedented
+            pace, the market demand for top-tier, credentialed talent is
+            higher than ever. As Vision 2030 transforms the entire
+            economy, we align our training with national goals to build
+            world-class financial expertise. In this new economic era,
+            the CFA certification is a gold standard. Upskill exists to
+            bridge the gap between your ambition and a passing score.
+            By combining intensive offline training sessions with
+            dedicated mentorship, we provide the structure, expert
+            guidance, and personalized coaching you need to
+            confidently pass your exams and join the next generation of
+            financial leaders in Saudi Arabia.
+          </p>
         </div>
 
         {/* Right card with image */}
