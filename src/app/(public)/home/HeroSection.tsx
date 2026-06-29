@@ -3,29 +3,29 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="relative grid h-[95vh] md:h-fit items-end pt-[112px] pb-0 md:pt-[120px] lg:pt-[110px] xl:pt-[110px] px-0 overflow-visible bg-white">
-      <div className="mx-auto max-w-[1474px] flex flex-col items-center text-center gap-0 px-6">
+    <section className="relative flex flex-col items-center h-auto pt-[96px] sm:pt-[112px] pb-0 md:pt-[120px] lg:pt-[110px] xl:pt-[110px] px-0 overflow-visible bg-white">
+      <div className="w-full max-w-[1474px] flex flex-col items-center text-center gap-0 px-6">
         {/* Main Headline */}
-        <h1 className="font-['Cal_Sans'] font-normal text-[30px] sm:text-[36px] lg:text-[40px] xl:text-[50px] 2xl:text-[66px] leading-[1.15] text-[#4879FF] text-center max-w-none animate-fade-in">
-          Upskilling Tomorrow&apos;s CFA <br className="hidden sm:inline" /> Charterholder
+        <h1 className="font-['Cal_Sans'] font-normal text-[36px] sm:text-[36px] lg:text-[40px] xl:text-[50px] 2xl:text-[66px] leading-[1.12] text-[#4879FF] text-center max-w-none animate-fade-in">
+          Upskilling <br className="sm:hidden" /> Tomorrow&apos;s <br className="sm:hidden" /> CFA <br /> Charterholder
         </h1>
 
         {/* Subtitle */}
-        <p className="font-sans font-normal text-[12px] sm:text-[13px] xl:text-[15px] 2xl:text-[17px] leading-[0.95] text-center text-[#727272] max-w-[928px] w-full px-4">
+        <p className="font-sans font-normal text-[13.5px] sm:text-[13px] xl:text-[15px] 2xl:text-[17px] leading-[1.4] text-center text-[#727272] max-w-[928px] w-full px-4 mt-3">
           Expert-led offline CFA training designed for ambitious students, <br className="hidden md:inline" /> professionals, or anyone who aspires to become a CFA across Saudi Arabia.
         </p>
 
         {/* Action Buttons */}
-        <div className="mt-4 flex flex-col sm:flex-row gap-4 w-full sm:w-auto z-10">
+        <div className="mt-6 flex flex-row gap-3 sm:gap-4 w-full max-w-[340px] sm:max-w-none justify-center px-4 sm:px-0 z-10">
           <Link
             href="#book-consultation"
-            className="inline-flex items-center justify-center rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-2 text-base transition-all transform hover:scale-102 active:scale-98 shadow-md hover:shadow-lg shadow-blue-500/10"
+            className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-[14px] bg-[#4576FF] hover:bg-blue-700 text-white font-semibold px-4 sm:px-8 py-3.5 sm:py-2.5 text-[12px] sm:text-base leading-none text-center transition-all transform hover:scale-102 active:scale-98 shadow-md hover:shadow-lg shadow-blue-500/10 whitespace-nowrap"
           >
             Schedule a Free Session
           </Link>
           <Link
             href="#programs"
-            className="inline-flex items-center justify-center rounded-xl border-2 border-blue-600/20 hover:border-blue-600 text-blue-600 font-bold px-8 py-2 text-base bg-white hover:bg-blue-50/50 transition-all transform hover:scale-102 active:scale-98"
+            className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-[14px] border border-[#4576FF] text-[#4576FF] font-semibold px-4 sm:px-8 py-3.5 sm:py-2.5 text-[12px] sm:text-base leading-none text-center bg-white hover:bg-blue-50/50 transition-all transform hover:scale-102 active:scale-98 whitespace-nowrap"
           >
             Explore our programs
           </Link>
@@ -34,11 +34,11 @@ export default function HeroSection() {
 
       {/* Hero Visual Block — Figma: 1474×736px, full-width container with custom gradient */}
       <div
-        className="relative w-full overflow-visible mt-4 sm:mt-6 md:mt-0"
+        className="relative w-full overflow-visible mt-8 sm:mt-10 md:mt-0"
         style={{ background: "linear-gradient(180deg, #FFFFFF 17.6%, #4576FF 100%)" }}
       >
         {/* Outer container holding the height dynamically or aspect ratio 1100:492 at full 2xl width */}
-        <div className="relative mx-auto max-w-[1100px] w-full h-[160px] sm:h-[210px] md:h-[250px] lg:h-[310px] xl:h-[390px] 2xl:h-[492px] overflow-visible">
+        <div className="relative mx-auto max-w-[1100px] w-full h-[260px] sm:h-[300px] md:h-[250px] lg:h-[310px] xl:h-[390px] 2xl:h-[492px] overflow-visible">
           {/* Students cutout — sits on top of the gradient, centered and top-aligned, cropped at bottom */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none flex justify-center">
             <div className="relative w-full h-full">
@@ -47,14 +47,14 @@ export default function HeroSection() {
                 alt="A group of ambitious CFA finance students studying and holding textbooks"
                 fill
                 priority
-                className="object-contain object-bottom"
+                className="object-cover object-top md:object-contain md:object-bottom"
               />
             </div>
           </div>
         </div>
 
         <div
-          className="absolute bottom-0 left-0 right-0 w-full z-10 h-[180px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[309px] pointer-events-none"
+          className="absolute bottom-0 left-0 right-0 w-full z-10 h-[80px] sm:h-[120px] md:h-[200px] lg:h-[260px] xl:h-[280px] 2xl:h-[309px] pointer-events-none"
           style={{
             background: "linear-gradient(180deg, rgba(69, 118, 255, 0) 0%, #4576FF 71.16%)",
           }}
