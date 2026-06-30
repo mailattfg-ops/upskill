@@ -143,7 +143,7 @@ export default function Navbar() {
           <div className="w-[230px] flex justify-end shrink-0">
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-booking-modal'))}
-              className={`px-6 h-[45px] rounded-full flex items-center justify-center transition-all hover:shadow-md z-50 cursor-pointer ${useWhiteTheme
+              className={`px-6 h-[45px] rounded-full flex items-center justify-center transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_8px_16px_rgba(69,118,255,0.2)] hover:scale-[1.02] z-50 cursor-pointer ${useWhiteTheme
                 ? 'bg-white text-brand-blue hover:bg-gray-50'
                 : 'bg-brand-blue text-white hover:bg-blue-700 shadow-sm'
                 }`}
@@ -203,7 +203,7 @@ export default function Navbar() {
           <Link href="/contact" onClick={() => setIsOpen(false)} className={mobileLinkClass('/contact')}>Contact Us</Link>
           <button
             onClick={() => { setIsOpen(false); window.dispatchEvent(new CustomEvent('open-booking-modal')); }}
-            className={`inline-flex items-center justify-center rounded-full font-bold px-6 py-2.5 text-center text-sm shadow-sm mt-2 cursor-pointer ${useWhiteTheme
+            className={`inline-flex items-center justify-center rounded-full font-bold px-6 py-2.5 text-center text-sm shadow-sm mt-2 cursor-pointer transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_8px_16px_rgba(69,118,255,0.2)] hover:scale-[1.02] ${useWhiteTheme
               ? 'bg-white text-brand-blue hover:bg-gray-50'
               : 'bg-brand-blue text-white hover:bg-blue-700'
               }`}

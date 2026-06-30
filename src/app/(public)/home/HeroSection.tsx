@@ -19,16 +19,16 @@ export default function HeroSection() {
         <div className="mt-6 flex flex-row gap-3 sm:gap-4 w-full max-w-[340px] sm:max-w-none justify-center px-4 sm:px-0 z-10">
           <Link
             href="#book-consultation"
-            className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-[14px] bg-[#4576FF] hover:bg-blue-700 text-white font-semibold px-4 sm:px-8 py-3.5 sm:py-2.5 text-[12px] sm:text-base leading-none text-center transition-all transform hover:scale-102 active:scale-98 shadow-md hover:shadow-lg shadow-blue-500/10 whitespace-nowrap"
+            className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-[14px] bg-[#4576FF] hover:bg-blue-700 text-white font-semibold px-4 sm:px-8 py-3.5 sm:py-2.5 text-[12px] sm:text-base leading-none text-center transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_12px_24px_rgba(69,118,255,0.3)] hover:scale-[1.02] active:scale-98 whitespace-nowrap"
           >
             Schedule a Free Consultation
           </Link>
-          <Link
+          {/* <Link
             href="/what-is-cfa"
             className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-[14px] border border-[#4576FF] text-[#4576FF] font-semibold px-4 sm:px-8 py-3.5 sm:py-2.5 text-[12px] sm:text-base leading-none text-center bg-white hover:bg-blue-50/50 transition-all transform hover:scale-102 active:scale-98 whitespace-nowrap"
           >
             Explore our programs
-          </Link>
+          </Link> */}
         </div>
       </div>
 

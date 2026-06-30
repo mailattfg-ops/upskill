@@ -36,7 +36,7 @@ export default function CfaCtaSection() {
             {/* Button — White background, brand blue text */}
             <Link
               href="#book-consultation"
-              className="w-[240px] h-[52px] md:w-[308px] md:h-[66px] bg-white hover:bg-white/95 text-[#4879FF] font-['Cal_Sans'] font-normal text-[16px] md:text-[21px] leading-[100%] tracking-[-0.25px] rounded-[14px] md:rounded-[20px] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1)] flex items-center justify-center transition-all transform hover:scale-102 active:scale-98 select-none text-center"
+              className="w-[240px] h-[52px] md:w-[308px] md:h-[66px] bg-white hover:bg-white/95 text-[#4879FF] font-['Cal_Sans'] font-normal text-[16px] md:text-[21px] leading-[100%] tracking-[-0.25px] rounded-[14px] md:rounded-[20px] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1)] flex items-center justify-center transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_12px_24px_rgba(0,0,0,0.15)] hover:scale-[1.02] active:scale-98 select-none text-center"
             >
               Book a free Consultation
             </Link>

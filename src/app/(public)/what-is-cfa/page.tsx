@@ -13,10 +13,18 @@ export default function WhatIsCfaPage() {
   return (
     <main className="flex flex-col w-full">
       <HeroSection />
-      <EligibilitySection />
-      <RegistrationCriteriaSection />
-      <LevelsSection />
-      <Vision2030Section />
+      <div className="fade-up">
+        <EligibilitySection />
+      </div>
+      <div className="fade-up">
+        <RegistrationCriteriaSection />
+      </div>
+      <div className="fade-up">
+        <LevelsSection />
+      </div>
+      <div className="fade-up">
+        <Vision2030Section />
+      </div>
     </main>
   );
 }

@@ -20,7 +20,7 @@ export default function WhyChooseUsSection() {
       <div className="mx-auto w-full max-w-[1503px] flex flex-col md:flex-row md:items-start gap-6 md:gap-[22px] mt-4 md:mt-[-37px] min-h-none overflow-visible px-4 md:px-6 lg:px-8">
         {/* ── LEFT CARD — Blue ── */}
         <div
-          className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-[#4879FF] text-white rounded-[40px] md:rounded-[71px] w-full md:max-w-[486px] h-auto mt-0 md:-mt-[37px]"
+          className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-[#4879FF] text-white rounded-[40px] md:rounded-[71px] w-full md:max-w-[486px] h-auto mt-0 md:-mt-[37px] transition-all duration-300 hover:translate-y-[-8px] hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
           style={{ flexShrink: 1 }}
         >
           {/* Clock icon */}
@@ -40,7 +40,7 @@ export default function WhyChooseUsSection() {
 
         {/* ── CENTER CARD — White ── */}
         <div
-          className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-white rounded-[40px] md:rounded-[71px] border border-[#0D5FD5] shadow-sm w-full md:max-w-[487px] h-auto mt-0 md:mt-[69px]"
+          className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-white rounded-[40px] md:rounded-[71px] border border-[#0D5FD5] shadow-sm w-full md:max-w-[487px] h-auto mt-0 md:mt-[69px] transition-all duration-300 hover:translate-y-[-8px] hover:shadow-[0_20px_40px_rgba(13,95,213,0.08)]"
           style={{ flexShrink: 1 }}
         >
           {/* Calendar icon */}
@@ -60,7 +60,7 @@ export default function WhyChooseUsSection() {
 
         {/* ── RIGHT CARD — Blue ── */}
         <div
-          className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-[#4879FF] text-white rounded-[40px] md:rounded-[71px] w-full md:max-w-[486px] h-auto mt-0 md:-mt-[37px]"
+          className="flex-1 flex flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10 xl:p-12 bg-[#4879FF] text-white rounded-[40px] md:rounded-[71px] w-full md:max-w-[486px] h-auto mt-0 md:-mt-[37px] transition-all duration-300 hover:translate-y-[-8px] hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)]"
           style={{ flexShrink: 1 }}
         >
           {/* Cert icon */}

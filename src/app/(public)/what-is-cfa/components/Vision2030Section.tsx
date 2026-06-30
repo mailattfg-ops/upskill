@@ -19,10 +19,10 @@ export default function Vision2030Section() {
 
         {/* Left Text Box: 804px wide on desktop */}
         <div className="flex-1 flex flex-col justify-center py-6 md:py-8 lg:py-10 xl:py-12 px-8 md:px-32  bg-[#F5F5F5] rounded-[30px]">
-          <p className="text-xs sm:text-sm lg:text-sm xl:text-base leading-relaxed text-gray-600 font-sans font-normal text-center">
+          <p className="text-xs sm:text-sm lg:text-sm xl:text-base leading-relaxed text-gray-600 font-sans font-normal text-justify">
             The transformation brought about by Saudi Arabia's Vision 2030 entails one of the most revolutionary changes being implemented by a nation in recent times. Saudi Arabia transformed from reliance on oil to establishing itself as one of the top nations in the world, creating investment opportunities. We are witnessing a strong momentum in non-oil industries such as tech, green energy, tourism, start-ups, real estate, and finance. The country is creating a more welcoming environment for foreign investors with smarter regulatory updates and privatization. This shift is unlocking new pathways in venture capital, private equity, and the public markets.
           </p>
-          <p className="text-xs sm:text-sm lg:text-sm xl:text-base leading-relaxed text-gray-600 font-sans font-normal text-center">
+          <p className="text-xs sm:text-sm lg:text-sm xl:text-base leading-relaxed text-gray-600 font-sans font-normal text-justify">
             The financial sector in Saudi Arabia is continuously developing, and the market needs well-rounded finance professionals who truly understand and uphold professional ethics. The Certified Financial Analyst (CFA) charter is a prestigious professional credential that provides candidates with knowledge about the complex world of finance. Upskill is here to help you navigate this transition. We offer structured, offline CFA training designed to help you build the exact knowledge and ethical foundation required by today's finance industry
           </p>
         </div>

@@ -72,7 +72,8 @@ export default function ContactPage() {
       </section>
 
       {/* Form & Map Section */}
-      <section className="relative z-10 w-full max-w-[1728px] mx-auto px-6 lg:px-12 xl:pl-[80px] xl:pr-[48px] 2xl:pl-[141px] 2xl:pr-[65px] flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-[60px] 2xl:gap-[82px] justify-between items-start pb-24">
+      <div className="fade-up w-full">
+        <section className="relative z-10 w-full max-w-[1728px] mx-auto px-6 lg:px-12 xl:pl-[80px] xl:pr-[48px] 2xl:pl-[141px] 2xl:pr-[65px] flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-[60px] 2xl:gap-[82px] justify-between items-start pb-24">
 
         {/* Contact Form Column (Width 959px on desktop) */}
         <div className="w-full lg:max-w-[640px] xl:max-w-[780px] 2xl:max-w-[959px] flex-1">
@@ -146,7 +147,7 @@ export default function ContactPage() {
               <div className="w-full flex justify-start">
                 <button
                   type="submit"
-                  className="bg-[#4a3aff] hover:bg-blue-700 text-white font-inter font-semibold text-[16px] sm:text-[18px] 2xl:text-[22px] tracking-normal rounded-[37px] py-3 px-5 sm:py-[12px] sm:px-[20px] 2xl:py-[16px] 2xl:px-[25px] inline-flex items-center justify-center transition-colors cursor-pointer"
+                  className="bg-[#4a3aff] hover:bg-blue-700 text-white font-inter font-semibold text-[16px] sm:text-[18px] 2xl:text-[22px] tracking-normal rounded-[37px] py-3 px-5 sm:py-[12px] sm:px-[20px] 2xl:py-[16px] 2xl:px-[25px] inline-flex items-center justify-center transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_12px_24px_rgba(74,58,255,0.25)] hover:scale-[1.02] cursor-pointer"
                   style={{
                     borderRadius: "37px",
                   }}
@@ -169,9 +170,11 @@ export default function ContactPage() {
           />
         </div>
       </section>
-
+      </div>
+ 
       {/* Section 3: Contact Info (Surface Blue bg-[#DBE5FF], 430px tall) */}
-      <section className="relative z-10 w-full bg-[#DBE5FF] py-16 xl:py-24 px-6 md:px-12 lg:px-[80px] xl:px-[120px] 2xl:px-[181px] flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-[60px] 2xl:gap-[102px] min-h-[430px] md:items-center">
+      <div className="fade-up w-full">
+        <section className="relative z-10 w-full bg-[#DBE5FF] py-16 xl:py-24 px-6 md:px-12 lg:px-[80px] xl:px-[120px] 2xl:px-[181px] flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-[60px] 2xl:gap-[102px] min-h-[430px] md:items-center">
         {/* Left Column (x:181) */}
         <div className="flex flex-col gap-6 max-w-[500px]">
           <span className="font-inter font-normal text-[16px] text-black uppercase tracking-wider">
@@ -213,6 +216,7 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+      </div>
     </main>
   );
 }

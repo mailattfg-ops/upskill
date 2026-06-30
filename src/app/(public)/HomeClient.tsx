@@ -89,14 +89,28 @@ export default function HomeClient() {
   return (
     <>
       <HeroSection />
-      <WhyChooseUsSection />
-      <AboutSection />
-      <PathToCfaSection />
+      <div className="fade-up">
+        <WhyChooseUsSection />
+      </div>
+      <div className="fade-up">
+        <AboutSection />
+      </div>
+      <div className="fade-up">
+        <PathToCfaSection />
+      </div>
       {showTestimonials && testimonials.length > 0 && (
-        <TestimonialsSection visibleTestimonials={testimonials} />
+        <div className="fade-up">
+          <TestimonialsSection visibleTestimonials={testimonials} />
+        </div>
       )}
-      {blogs.length > 0 && <BlogsSection blogsList={blogs} />}
-      <CfaCtaSection />
+      {blogs.length > 0 && (
+        <div className="fade-up">
+          <BlogsSection blogsList={blogs} />
+        </div>
+      )}
+      <div className="fade-up">
+        <CfaCtaSection />
+      </div>
     </>
   );
 }

@@ -35,7 +35,7 @@ export default function BlogsSection({ blogsList }: BlogsSectionProps) {
             <Link
               key={blog.id || idx}
               href={`/blog?id=${blog.id}`}
-              className="flex flex-row flex-1 w-[340px] max-w-full md:w-auto md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] h-[244px] md:h-auto bg-white border-[0.44px] md:border border-[#C0C0C0] rounded-[8.82px] md:rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300 cursor-pointer mx-auto"
+              className="flex flex-row flex-1 w-[340px] max-w-full md:w-auto md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] h-[244px] md:h-auto bg-white border-[0.44px] md:border border-[#C0C0C0] rounded-[8.82px] md:rounded-[20px] overflow-hidden hover:translate-y-[-8px] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] transition-all duration-300 cursor-pointer mx-auto"
             >
               {/* Image Box */}
               <div className="relative w-[166.7px] md:w-[49%] h-[244px] md:h-auto md:min-h-[320px] lg:min-h-[350px] xl:min-h-[420px] 2xl:min-h-[554px] flex-shrink-0 bg-[#EEEEEE]">
@@ -74,7 +74,7 @@ export default function BlogsSection({ blogsList }: BlogsSectionProps) {
         <div className="mt-8 md:mt-12 lg:mt-16 flex justify-center z-20">
           <Link
             href="/blogs"
-            className="w-[180px] h-[48px] md:w-[259px] md:h-[66px] bg-black hover:bg-black/90 text-white rounded-[12px] md:rounded-[20px] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1)] flex items-center justify-center transition-all duration-300 font-['Cal_Sans'] font-normal text-[16px] md:text-[24px] leading-[100%] tracking-[-0.25px] select-none text-center"
+            className="w-[180px] h-[48px] md:w-[259px] md:h-[66px] bg-black hover:bg-black/90 text-white rounded-[12px] md:rounded-[20px] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.1)] flex items-center justify-center transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_12px_24px_rgba(0,0,0,0.2)] hover:scale-[1.02] font-['Cal_Sans'] font-normal text-[16px] md:text-[24px] leading-[100%] tracking-[-0.25px] select-none text-center"
           >
             View all articles
           </Link>

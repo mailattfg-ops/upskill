@@ -430,13 +430,13 @@ export default function BookingModal() {
                     <button
                       type="button"
                       onClick={() => setIsOpen(false)}
-                      className="w-full sm:w-[210px] h-[44px] lg:h-[36px] rounded-[8px] bg-white border border-[#d4d4d4] text-[#404040] font-sans font-semibold text-[14px] leading-[20px] transition-all hover:bg-gray-50 flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.05)] cursor-pointer select-none"
+                      className="w-full sm:w-[210px] h-[44px] lg:h-[36px] rounded-[8px] bg-white border border-[#d4d4d4] text-[#404040] font-sans font-semibold text-[14px] leading-[20px] transition-all duration-300 hover:bg-gray-50 hover:translate-y-[-2px] hover:shadow-[0_8px_16px_rgba(0,0,0,0.05)] hover:scale-[1.01] flex items-center justify-center cursor-pointer select-none"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="w-full sm:w-[210px] h-[44px] lg:h-[36px] rounded-[8px] bg-[#7f56d9] border-[#7f56d9] text-white font-sans font-semibold text-[14px] leading-[20px] transition-all hover:bg-[#693cb8] flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.05)] cursor-pointer select-none"
+                      className="w-full sm:w-[210px] h-[44px] lg:h-[36px] rounded-[8px] bg-[#7f56d9] border-[#7f56d9] text-white font-sans font-semibold text-[14px] leading-[20px] transition-all duration-300 hover:bg-[#693cb8] hover:translate-y-[-2px] hover:shadow-[0_8px_16px_rgba(127,86,217,0.2)] hover:scale-[1.01] flex items-center justify-center cursor-pointer select-none"
                     >
                       Confirm
                     </button>
