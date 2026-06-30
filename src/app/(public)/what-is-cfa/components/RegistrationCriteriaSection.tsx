@@ -5,7 +5,7 @@ export default function RegistrationCriteriaSection() {
       {/* Title & Sub-copy */}
       <div className="text-center mb-[60px] max-w-[928px] flex flex-col items-center gap-[16px]">
         <h3 className="font-['Cal_Sans'] text-[30px] leading-[1.15] tracking-[0em] fw-400 sm:text-[36px] lg:text-[40px] xl:text-[50px] 2xl:text-[66px] text-[#161c2d]">
-          Registration Criteria <br /> and Requirements
+          CFA Charterholder < br /> Eligibility
         </h3>
         <p className="text-body-default text-gray-mid max-w-[800px]">
           To become a CFA charterholder, your professional work experience must meet the <br /> following criteria.
@@ -80,7 +80,26 @@ export default function RegistrationCriteriaSection() {
             </div>
           </div>
         </div>
-
+        {/* Row 1: Minimum Work Hours */}
+        <div className="relative w-full md:h-[117px] bg-brand-blue text-white rounded-[28px] flex flex-col md:flex-row items-center overflow-hidden shadow-sm transition-all duration-300 hover:translate-y-[-2px]">
+          {/* Left Icon Area: 157px wide, flush to left, light blue fill */}
+          <div className="absolute left-0 top-0 w-full md:w-[157px] h-[80px] md:h-full bg-light-blue-tint rounded-t-[28px] md:rounded-t-none md:rounded-l-[28px] flex items-center justify-center shrink-0">
+            {/* Strategy / Decision SVG */}
+            <svg xmlns="http://www.w3.org/2000/svg" width="88" height="61" fill="#4879FF" viewBox="0 0 256 256"><path d="M200,75.64V40a16,16,0,0,0-16-16H72A16,16,0,0,0,56,40V76a16.07,16.07,0,0,0,6.4,12.8L114.67,128,62.4,167.2A16.07,16.07,0,0,0,56,180v36a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V180.36a16.09,16.09,0,0,0-6.35-12.77L141.27,128l52.38-39.6A16.05,16.05,0,0,0,200,75.64ZM184,216H72V180l56-42,56,42.35Zm0-140.36L128,118,72,76V40H184Z"></path></svg>          </div>
+          {/* Content Zone: Offset by 197px from left on desktop */}
+          <div className="w-full h-full flex flex-col md:flex-row md:items-center pt-[90px] md:pt-0 pb-6 md:pb-0 pl-6 md:pl-[197px] pr-6 md:pr-10 gap-4 md:gap-[40px]">
+            <div className="md:w-[420px] shrink-0">
+              <h3 className="font-['Cal_Sans'] font-normal text-[29px] lg:text-[26px] xl:text-[29px] 2xl:text-[32px] leading-[35px] text-white w-full max-w-[359px] mb-4">
+                Minimum <br /> Work Hours
+              </h3>
+            </div>
+            <div className="flex-1">
+              <p className="text-body-vision text-white/90 font-light leading-snug">
+                At least 4,000 hours of investment-related work experience completed over 3 years.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -24,7 +24,7 @@ export default function TestimonialsSection({ visibleTestimonials }: Testimonial
 
         {/* Subtitle — Figma: DM Sans 24px, #5C5C5C */}
         <p className="font-sans font-normal text-[14px] md:text-[18px] lg:text-[22px] leading-[19.2px] md:leading-[32px] tracking-[-0.03em] md:tracking-[0em] text-center text-[#5C5C5C] w-full max-w-[1128px] overflow-visible px-4">
-          Pass your CFA exams with Upskill and join the elite community of CFA charter holders.
+          Pass your CFA exams with Upskill and join the community of CFA charter holders.
         </p>
       </div>
 
