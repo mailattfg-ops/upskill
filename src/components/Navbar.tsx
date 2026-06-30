@@ -140,10 +140,10 @@ export default function Navbar() {
           </nav>
 
           {/* CTA Button */}
-          <div className="w-[160px] flex justify-end shrink-0">
+          <div className="w-[230px] flex justify-end shrink-0">
             <button
               onClick={() => window.dispatchEvent(new CustomEvent('open-booking-modal'))}
-              className={`w-[154px] h-[45px] rounded-full flex items-center justify-center transition-all hover:shadow-md z-50 cursor-pointer ${useWhiteTheme
+              className={`px-6 h-[45px] rounded-full flex items-center justify-center transition-all hover:shadow-md z-50 cursor-pointer ${useWhiteTheme
                 ? 'bg-white text-brand-blue hover:bg-gray-50'
                 : 'bg-brand-blue text-white hover:bg-blue-700 shadow-sm'
                 }`}
@@ -203,7 +203,7 @@ export default function Navbar() {
           <Link href="/contact" onClick={() => setIsOpen(false)} className={mobileLinkClass('/contact')}>Contact Us</Link>
           <button
             onClick={() => { setIsOpen(false); window.dispatchEvent(new CustomEvent('open-booking-modal')); }}
-            className={`inline-flex items-center justify-center rounded-full font-bold py-2.5 text-center text-sm shadow-sm mt-2 cursor-pointer ${useWhiteTheme
+            className={`inline-flex items-center justify-center rounded-full font-bold px-6 py-2.5 text-center text-sm shadow-sm mt-2 cursor-pointer ${useWhiteTheme
               ? 'bg-white text-brand-blue hover:bg-gray-50'
               : 'bg-brand-blue text-white hover:bg-blue-700'
               }`}

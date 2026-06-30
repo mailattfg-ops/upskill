@@ -410,18 +410,16 @@ export default function AdminPage() {
     setBlogUploadFeedback({ type: "", text: "" });
     setFormSubTab("general");
 
-    let blogSections = [
-      { id: "preparation", tocTitle: "Introduction", bodyTitle: "CFA Exam Preparation", content: "" },
-      { id: "networking", tocTitle: "Start with yacht size and layout", bodyTitle: "Networking Opportunities", content: "" },
-      { id: "format", tocTitle: "Duration matters more than many realize", bodyTitle: "Exam Format and Structure", content: "" },
-      { id: "career", tocTitle: "Services you can tailor", bodyTitle: "Career Opportunities Post-CFA", content: "" },
-    ];
-
+    let blogSections = [];
     if (blog.sections && Array.isArray(blog.sections) && blog.sections.length > 0) {
-      blogSections = blogSections.map(defSec => {
-        const found = blog.sections.find((s: any) => s.id === defSec.id);
-        return found ? { ...defSec, ...found } : defSec;
-      });
+      blogSections = blog.sections;
+    } else {
+      blogSections = [
+        { id: "preparation", tocTitle: "Introduction", bodyTitle: "CFA Exam Preparation", content: "" },
+        { id: "networking", tocTitle: "Start with yacht size and layout", bodyTitle: "Networking Opportunities", content: "" },
+        { id: "format", tocTitle: "Duration matters more than many realize", bodyTitle: "Exam Format and Structure", content: "" },
+        { id: "career", tocTitle: "Services you can tailor", bodyTitle: "Career Opportunities Post-CFA", content: "" },
+      ];
     }
 
     setBlogFormData({
@@ -444,6 +442,52 @@ export default function AdminPage() {
         alert("Error deleting blog: " + err.message);
       }
     }
+  };
+
+  const addBlogSection = () => {
+    const newSec = {
+      id: `section_${Date.now()}`,
+      tocTitle: "New Section",
+      bodyTitle: "New Section Title",
+      content: "",
+    };
+    setBlogFormData({
+      ...blogFormData,
+      sections: [...(blogFormData.sections || []), newSec],
+    });
+  };
+
+  const deleteBlogSection = (index: number) => {
+    const updated = (blogFormData.sections || []).filter((_, i) => i !== index);
+    setBlogFormData({
+      ...blogFormData,
+      sections: updated,
+    });
+  };
+
+  const moveBlogSectionUp = (index: number) => {
+    if (index === 0) return;
+    const updated = [...(blogFormData.sections || [])];
+    const temp = updated[index];
+    updated[index] = updated[index - 1];
+    updated[index - 1] = temp;
+    setBlogFormData({
+      ...blogFormData,
+      sections: updated,
+    });
+  };
+
+  const moveBlogSectionDown = (index: number) => {
+    const sections = blogFormData.sections || [];
+    if (index === sections.length - 1) return;
+    const updated = [...sections];
+    const temp = updated[index];
+    updated[index] = updated[index + 1];
+    updated[index + 1] = temp;
+    setBlogFormData({
+      ...blogFormData,
+      sections: updated,
+    });
   };
 
   // Testimonial CRUD
@@ -843,12 +887,50 @@ export default function AdminPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-5 max-h-[500px] overflow-y-auto pr-1">
+                  <div className="space-y-4 max-h-[500px] overflow-y-auto pr-1">
+                    <div className="flex justify-between items-center bg-slate-100 p-2.5 rounded-lg border border-slate-200">
+                      <span className="text-xs font-bold text-slate-700">Manage Sections ({blogFormData.sections?.length || 0})</span>
+                      <button
+                        type="button"
+                        onClick={addBlogSection}
+                        className="px-3 py-1 bg-[#4576FF] hover:bg-blue-700 text-white font-bold rounded-lg text-xs cursor-pointer flex items-center gap-1 transition-all"
+                      >
+                        <span>+</span> Add Section
+                      </button>
+                    </div>
+
                     {blogFormData.sections && blogFormData.sections.map((sec, index) => (
                       <div key={sec.id} className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
-                        <span className="block text-[10px] font-bold text-[#4576FF] uppercase tracking-wider">
-                          Section {index + 1}: {sec.id === "preparation" ? "Intro" : sec.id}
-                        </span>
+                        <div className="flex justify-between items-center border-b border-slate-200 pb-1">
+                          <span className="block text-[10px] font-bold text-[#4576FF] uppercase tracking-wider">
+                            Section {index + 1}: {sec.id === "preparation" ? "Intro" : (sec.id.startsWith("section_") ? "Custom" : sec.id)}
+                          </span>
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              disabled={index === 0}
+                              onClick={() => moveBlogSectionUp(index)}
+                              className="px-1.5 py-0.5 border border-slate-200 bg-white rounded text-[10px] font-semibold hover:bg-slate-100 disabled:opacity-30 cursor-pointer"
+                            >
+                              ▲ Up
+                            </button>
+                            <button
+                              type="button"
+                              disabled={index === blogFormData.sections.length - 1}
+                              onClick={() => moveBlogSectionDown(index)}
+                              className="px-1.5 py-0.5 border border-slate-200 bg-white rounded text-[10px] font-semibold hover:bg-slate-100 disabled:opacity-30 cursor-pointer"
+                            >
+                              ▼ Down
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => deleteBlogSection(index)}
+                              className="px-1.5 py-0.5 bg-red-50 text-red-600 border border-red-100 rounded text-[10px] font-semibold hover:bg-red-100 cursor-pointer"
+                            >
+                              ✕ Delete
+                            </button>
+                          </div>
+                        </div>
                         <div>
                           <label className="block text-[10px] font-semibold text-slate-500 mb-0.5">
                             TOC Link Title
@@ -893,7 +975,7 @@ export default function AdminPage() {
                               updated[index] = { ...updated[index], content: e.target.value };
                               setBlogFormData({ ...blogFormData, sections: updated });
                             }}
-                            placeholder="Enter section content (leave blank to use default fallback)..."
+                            placeholder="Enter section content..."
                             className="w-full p-2 border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none focus:border-[#4576FF] resize-none"
                           />
                         </div>
