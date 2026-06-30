@@ -71,20 +71,14 @@ export default function HomeClient() {
         console.error("Error loading home page client data:", err);
       } finally {
         setLoading(false);
+        setTimeout(() => {
+          window.dispatchEvent(new Event("dom-update"));
+        }, 100);
       }
     }
 
     fetchData();
   }, []);
-
-  if (loading) {
-    return (
-      <div className="w-full min-h-[400px] flex flex-col items-center justify-center pt-24 pb-20">
-        <div className="w-12 h-12 rounded-full border-4 border-[#4576FF] border-t-transparent animate-spin" />
-        <p className="mt-4 text-slate-500 font-sans text-sm font-semibold">Loading content...</p>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -99,18 +93,14 @@ export default function HomeClient() {
         <PathToCfaSection />
       </div>
       {showTestimonials && testimonials.length > 0 && (
-        <div className="fade-up">
-          <TestimonialsSection visibleTestimonials={testimonials} />
-        </div>
+        <TestimonialsSection visibleTestimonials={testimonials} />
       )}
       {blogs.length > 0 && (
         <div className="fade-up">
           <BlogsSection blogsList={blogs} />
         </div>
       )}
-      <div className="fade-up">
-        <CfaCtaSection />
-      </div>
+      <CfaCtaSection />
     </>
   );
 }

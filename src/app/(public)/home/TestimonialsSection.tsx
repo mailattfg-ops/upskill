@@ -16,7 +16,7 @@ export default function TestimonialsSection({ visibleTestimonials }: Testimonial
   return (
     <section id="testimonials" className="w-full bg-white pt-[78px] pb-24 md:pb-32 px-6 overflow-hidden  px-6 md:px-8 lg:px-12">
       {/* Section Header */}
-      <div className="mx-auto flex flex-col items-center gap-6 md:gap-[23px] mb-14 md:mb-16">
+      <div className="mx-auto flex flex-col items-center gap-6 md:gap-[23px] mb-14 md:mb-16 fade-up">
         {/* Heading — Figma: Cal Sans 90px, #4879FF */}
         <h2 className="font-['Cal_Sans'] font-normal text-[40px] lg:text-[46px] xl:text-[54px] 2xl:text-[66px] leading-[1.15] text-[#4879FF] text-center w-full max-w-[800px]">
           Hear From <br /> Our Students
@@ -32,7 +32,7 @@ export default function TestimonialsSection({ visibleTestimonials }: Testimonial
         {visibleTestimonials.map((t, idx) => (
           <div
             key={t.id || idx}
-            className="flex flex-col w-full max-w-[476.43px] p-6 md:px-[31.31px] md:py-[32px] bg-white border-[1.36px] border-[#D5D5D5] rounded-[44px] shadow-xs hover:shadow-md transition-all duration-300"
+            className="flex flex-col w-full max-w-[476.43px] p-6 md:px-[31.31px] md:py-[32px] bg-white border-[1.36px] border-[#D5D5D5] rounded-[44px] shadow-xs hover:shadow-md transition-all duration-300 fade-up"
           >
             {/* Header: Avatar & Name/Role */}
             <div className="flex items-center gap-[23.14px]">

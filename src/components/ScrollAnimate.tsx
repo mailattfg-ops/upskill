@@ -11,13 +11,26 @@ export default function ScrollAnimate() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-            observed.delete(entry.target);
-          }
-        });
+        // Filter entries that are intersecting
+        const intersectingEntries = entries.filter((entry) => entry.isIntersecting);
+
+        if (intersectingEntries.length > 0) {
+          // Sort intersecting elements by DOM order (source order)
+          const sortedElements = intersectingEntries.map((e) => e.target).sort((a, b) => {
+            return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+          });
+
+          // Stagger class addition one-by-one
+          sortedElements.forEach((el, index) => {
+            setTimeout(() => {
+              el.classList.add("is-visible");
+            }, index * 150);
+
+            // Clean up observation immediately so they only animate once
+            observer.unobserve(el);
+            observed.delete(el);
+          });
+        }
       },
       {
         threshold: 0.1,
@@ -35,22 +48,19 @@ export default function ScrollAnimate() {
       });
     };
 
-    // Run observation check on initial load
+    // Run initial check
     updateObservation();
 
-    // Set up MutationObserver to detect dynamically mounted components (e.g. after Supabase fetch)
-    const mutationObserver = new MutationObserver(() => {
-      updateObservation();
-    });
+    // Listen to domestic updates (e.g. dynamic testimonial/blog loads)
+    window.addEventListener("dom-update", updateObservation);
 
-    mutationObserver.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
+    // Backup timer to handle hydration/loading delays
+    const backupTimer = setTimeout(updateObservation, 800);
 
     return () => {
       observer.disconnect();
-      mutationObserver.disconnect();
+      window.removeEventListener("dom-update", updateObservation);
+      clearTimeout(backupTimer);
     };
   }, [pathname]);
 

@@ -173,8 +173,7 @@ export default function ContactPage() {
       </div>
  
       {/* Section 3: Contact Info (Surface Blue bg-[#DBE5FF], 430px tall) */}
-      <div className="fade-up w-full">
-        <section className="relative z-10 w-full bg-[#DBE5FF] py-16 xl:py-24 px-6 md:px-12 lg:px-[80px] xl:px-[120px] 2xl:px-[181px] flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-[60px] 2xl:gap-[102px] min-h-[430px] md:items-center">
+      <section className="relative z-10 w-full bg-[#DBE5FF] py-16 xl:py-24 px-6 md:px-12 lg:px-[80px] xl:px-[120px] 2xl:px-[181px] flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-[60px] 2xl:gap-[102px] min-h-[430px] md:items-center">
         {/* Left Column (x:181) */}
         <div className="flex flex-col gap-6 max-w-[500px]">
           <span className="font-inter font-normal text-[16px] text-black uppercase tracking-wider">
@@ -184,7 +183,7 @@ export default function ContactPage() {
             We are always happy to assist you
           </h2>
         </div>
-
+ 
         {/* Right Column (x:825) */}
         <div className="flex flex-col sm:flex-row gap-8 lg:gap-[60px] 2xl:gap-[102px] items-start w-full lg:w-auto">
           {/* Email Address block */}
@@ -200,7 +199,7 @@ export default function ContactPage() {
               Assistance hours:<br />Monday - Friday 6 am to 8 pm EST
             </p>
           </div>
-
+ 
           {/* Number block */}
           <div className="flex flex-col gap-3 w-full sm:w-[220px]">
             <span className="font-inter font-semibold text-[16px] leading-[24px] text-black tracking-[-0.025em] uppercase">
@@ -216,7 +215,6 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-      </div>
     </main>
   );
 }
