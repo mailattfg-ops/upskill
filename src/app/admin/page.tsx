@@ -335,7 +335,9 @@ export default function AdminPage() {
 
       if (error) {
         // 2. Fallback: If Supabase Auth is not set up / users table empty, check local override credentials
-        if (email === "admin@upskill.com" && password === "admin123") {
+        const secureEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || "admin@upskillmiddleeast.com";
+        const securePassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "cirsU8-xiwzuc-doxces";
+        if (email === secureEmail && password === securePassword) {
           localStorage.setItem("upskill_local_admin", "true");
           setIsLocalAdmin(true);
         } else {
@@ -612,12 +614,6 @@ export default function AdminPage() {
               {authLoading ? "Logging in..." : "Log In"}
             </button>
           </form>
-
-          <div className="pt-4 border-t border-slate-100 text-center">
-            <p className="text-xs text-slate-400">
-              Fallback demo login: <strong className="text-slate-600">admin@upskill.com / admin123</strong>
-            </p>
-          </div>
         </div>
       </div>
     );

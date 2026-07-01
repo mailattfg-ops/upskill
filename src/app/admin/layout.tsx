@@ -3,6 +3,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Admin Portal | Upskill",
   description: "Upskill CFA Admin Portal for managing blogs and testimonials",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
 };
 
 export default function AdminLayout({
