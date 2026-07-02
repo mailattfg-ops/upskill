@@ -32,19 +32,19 @@ export default function HeroSection() {
       />
 
       {/* Content Container (overlaid directly on top of fader boundaries) */}
-      <div className="relative z-20 w-full max-w-[1474px] mx-auto flex flex-col items-center text-center pt-[96px] sm:pt-[110px] md:pt-[120px] lg:pt-[130px] xl:pt-[140px] 2xl:pt-[150px] px-6">
+      <div className="relative z-20 w-full max-w-[1474px] mx-auto flex flex-col items-center text-center pt-[96px] sm:pt-[110px] md:pt-[120px] lg:pt-[100px] px-6">
         {/* Main Headline */}
         <h1 className="font-['Cal_Sans'] font-normal text-[36px] sm:text-[38px] md:text-[44px] lg:text-[50px] xl:text-[56px] 2xl:text-[70px] leading-[1.08] text-[#4879FF] text-center max-w-[1200px] animate-fade-in">
           Upskilling Tomorrow&apos;s <br /> CFA Charterholder
         </h1>
 
         {/* Subtitle */}
-        <p className="font-sans font-normal text-[11px] sm:text-[12px] md:text-[13px] lg:text-[15px] xl:text-[17px] 2xl:text-[18px] leading-[1.35] text-center text-[#2f2f2f] max-w-[960px] w-full px-3 sm:px-4 mt-3 sm:mt-4 tracking-tight">
-          Expert-led offline CFA training designed for ambitious students, professionals, or anyone who aspires to become a CFA across Saudi Arabia.
+        <p className="font-sans font-normal text-[11px] sm:text-[12px] md:text-[13px] lg:text-[15px] xl:text-[17px] 2xl:text-[18px] leading-[1.35] text-center text-[#2f2f2f] max-w-[960px] w-full px-3 sm:px-4 mt-3 sm:mt-2 tracking-tight">
+          Expert-led offline CFA training designed for ambitious<br /> students, professionals, or anyone who aspires to become a CFA across Saudi Arabia.
         </p>
 
         {/* Action Buttons */}
-        <div className="mt-6 sm:mt-8 flex flex-row gap-3 sm:gap-5 w-full max-w-[340px] sm:max-w-none justify-center px-4 sm:px-0">
+        <div className="mt-4 flex flex-row gap-3 sm:gap-5 w-full max-w-[340px] sm:max-w-none justify-center px-4 sm:px-0">
           <Link
             href="#book-consultation"
             className="flex-1 sm:flex-none inline-flex items-center justify-center rounded-[12px] sm:rounded-[16px] bg-[#4576FF] hover:bg-blue-700 text-white font-semibold px-4 sm:px-8 py-3 sm:py-3.5 text-[12px] sm:text-[16px] leading-none text-center transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[0_12px_24px_rgba(69,118,255,0.35)] hover:scale-[1.02] active:scale-98 whitespace-nowrap"
