@@ -15,9 +15,9 @@ export default function HeroSection() {
         <h1 className="font-['Cal_Sans'] font-normal text-[30px] sm:text-[36px] lg:text-[40px] xl:text-[50px] 2xl:text-[66px] leading-[1.15] text-[#4879FF] text-center max-w-none animate-fade-in">
           What is CFA?
         </h1>
-        {/* Description: 24px body text */}
-        <p className="font-sans font-normal text-[12px] sm:text-[13px] xl:text-[15px] 2xl:text-[17px] leading-[0.95] text-center text-[#727272] max-w-[928px] w-full px-4">
-          The chartered financial analyst (CFA) charter is a professional designation offered by the <br /> CFA Institute. The CFA Institute is an organization that measures and certifies the <br /> competence and integrity of financial analysts.
+        {/* Description: premium typography with relaxed wrapping */}
+        <p className="font-sans font-normal text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] leading-[1.5] text-center text-[#5C5C5C] max-w-[928px] w-full px-4 mt-2">
+          The chartered financial analyst (CFA) charter is a professional designation offered by the CFA Institute. The CFA Institute is an organization that measures and certifies the competence and integrity of financial analysts.
         </p>
       </div>
     </section>
