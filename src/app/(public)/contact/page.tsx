@@ -42,6 +42,17 @@ export default function ContactPage() {
       console.error("Supabase insert exception:", err);
     }
 
+    // Construct the formatted WhatsApp message
+    const whatsappNumber = "966500000000";
+    const textMessage = `*New Contact Message*\n\n*Name:* ${formData.name}\n*Email:* ${formData.email}\n*Phone:* ${formData.phone || "N/A"}\n*CFA Level:* ${formData.cfaLevel || "N/A"}\n\n*Message:*\n${formData.message}`;
+    const encodedText = encodeURIComponent(textMessage);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedText}`;
+
+    // Open WhatsApp in a new tab
+    if (typeof window !== "undefined") {
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    }
+
     setTimeout(() => {
       setSubmitted(false);
       setFormData({
