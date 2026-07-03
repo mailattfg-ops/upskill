@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="w-full bg-[#F1F1F1] text-[#1b1b1b] select-none z-30 font-sans">
       <div className="mx-auto max-w-[1920px] px-6 md:px-12 lg:px-[113px] py-8 md:py-10 flex flex-col gap-8">
         {/* Columns Flex Layout */}
-        <div className="flex flex-col md:flex-row items-start w-full gap-8 md:gap-12 lg:gap-[80px]">
+        <div className="lg:flex flex-col md:flex-row items-start w-full gap-8 md:gap-12 lg:gap-[80px]">
 
           {/* Column 1: Logo & Tagline */}
           <div className="flex flex-col gap-5 flex-shrink-0 w-full md:w-auto md:max-w-[320px]">

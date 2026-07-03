@@ -2,7 +2,7 @@ export default function EligibilitySection() {
   return (
     <section className="relative w-full px-6 py-8 md:py-12 flex justify-center z-10 px-6 md:px-8 lg:px-12">
       {/* Container: 1503px max-width */}
-      <div className="max-w-[1503px] w-full grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch md:items-start">
+      <div className="max-w-[1503px] w-full grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch md:items-start px-0 md:px-15 lg:px-0">
 
         {/* Card 1: Complete a valid bachelor's degree */}
         <div className="flex flex-col justify-start p-8 md:p-10 bg-brand-blue text-white rounded-[32px] shadow-sm transition-all duration-300 hover:translate-y-[-4px] min-h-[350px] md:h-[380px] md:self-start">

@@ -32,7 +32,7 @@ export default function HeroSection() {
       />
 
       {/* Content Container (overlaid directly on top of fader boundaries) */}
-      <div className="relative z-20 w-full max-w-[1474px] mx-auto flex flex-col items-center text-center pt-[96px] sm:pt-[110px] md:pt-[120px] lg:pt-[100px] px-6 hero-content-landscape">
+      <div className="relative z-20 w-full max-w-[1474px] mx-auto flex flex-col items-center text-center pt-[60px] md:pt-[60px] lg:pt-[100px] px-6 hero-content-landscape">
         {/* Main Headline */}
         <h1 className="font-['Cal_Sans'] font-normal text-[36px] sm:text-[38px] md:text-[44px] lg:text-[50px] xl:text-[56px] 2xl:text-[70px] leading-[1.08] text-[#4879FF] text-center max-w-[1200px] animate-fade-in hero-title-landscape">
           Upskilling Tomorrow&apos;s <br /> CFA Charterholder

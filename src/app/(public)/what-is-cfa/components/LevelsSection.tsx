@@ -74,7 +74,7 @@ export default function LevelsSection() {
       </div>
 
       {/* Cards Container: 1512px max width on desktop, 37.8px gap between cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 items-stretch justify-center gap-6 lg:gap-[37.8px] w-full max-w-[1512px]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 items-stretch justify-center gap-6 lg:gap-[37.8px] w-full max-w-[1512px] px-0 md:px-15 lg:px-0">
         {levelsData.map((data, idx) => (
           <div
             key={idx}

@@ -109,7 +109,7 @@ export default function Navbar() {
     : 'bg-transparent';
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${headerBg}`}>
+    <header className={`lg:fixed top-0 left-0 w-full z-50 transition-all duration-300 ${headerBg}`}>
       {/* Desktop Layout */}
       <div className="mx-auto w-full max-w-[1728px] px-6 lg:px-12 xl:px-[113px] relative hidden xl:flex items-center justify-center">
 
