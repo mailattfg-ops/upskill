@@ -20,8 +20,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "UP SKILL | CFA Exam Preparation",
-  description: "Pass your CFA exams with UP SKILL. Saudi Arabia's premier CFA prep course offering expert study guidance, comprehensive mock exams, and rich prep resources.",
+  title: "UPSKILL | CFA Exam Preparation",
+  description: "Pass your CFA exams with UPSKILL. Saudi Arabia's premier CFA prep course offering expert study guidance, comprehensive mock exams, and rich prep resources.",
 };
 
 export default function RootLayout({
