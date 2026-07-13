@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,11 +13,30 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const [currentHash, setCurrentHash] = useState("");
+  const [showTestimonials, setShowTestimonials] = useState(true);
 
   useEffect(() => {
     setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Fetch testimonials visibility settings
+    const fetchVisibility = async () => {
+      try {
+        const { data: settingData } = await supabase
+          .from("site_settings")
+          .select("value")
+          .eq("key", "testimonials_visible")
+          .single();
+        if (settingData) {
+          setShowTestimonials(settingData.value !== "false");
+        }
+      } catch (err) {
+        console.error("Error fetching testimonials visibility in Navbar:", err);
+      }
+    };
+    fetchVisibility();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   useEffect(() => {
@@ -41,6 +61,28 @@ export default function Navbar() {
       window.removeEventListener('popstate', updateHash);
     };
   }, [mounted, pathname, currentHash]);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (pathname === '/') {
+      if (href === '/' || href.startsWith('/#')) {
+        e.preventDefault();
+        const hash = href.includes('#') ? href.substring(href.indexOf('#')) : '';
+        
+        window.history.pushState(null, '', href);
+        setCurrentHash(hash);
+        
+        if (hash) {
+          const element = document.getElementById(hash.substring(1));
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        setIsOpen(false);
+      }
+    }
+  };
 
   const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/contact' || pathname === '/blog');
   const useWhiteTheme = isCfaPage && !scrolled;
@@ -130,11 +172,13 @@ export default function Navbar() {
 
           {/* Centered Nav Links */}
           <nav className="flex items-center z-50 gap-[24px]">
-            <Link href="/" className={desktopLinkClass('/')}>Home</Link>
-            <Link href="/#about-company" className={desktopLinkClass('/#about-company')}>About</Link>
+            <Link href="/" onClick={(e) => handleNavClick(e, '/')} className={desktopLinkClass('/')}>Home</Link>
+            <Link href="/#about-company" onClick={(e) => handleNavClick(e, '/#about-company')} className={desktopLinkClass('/#about-company')}>About</Link>
             <Link href="/what-is-cfa" className={desktopLinkClass('/what-is-cfa')}>What is CFA?</Link>
             {/* <Link href="#" className={desktopLinkClass('#')}>Program</Link> */}
-            <Link href="/#testimonials" className={desktopLinkClass('/#testimonials')}>Testimonials</Link>
+            {showTestimonials && (
+              <Link href="/#testimonials" onClick={(e) => handleNavClick(e, '/#testimonials')} className={desktopLinkClass('/#testimonials')}>Testimonials</Link>
+            )}
             <Link href="/blogs" className={desktopLinkClass('/blogs')}>Blog</Link>
             <Link href="/contact" className={desktopLinkClass('/contact')}>Contact Us</Link>
           </nav>
@@ -195,10 +239,12 @@ export default function Navbar() {
             ? 'bg-[#4576FF] border-blue-500 text-white'
             : 'bg-white border-gray-100'
           }`}>
-          <Link href="/" onClick={() => setIsOpen(false)} className={mobileLinkClass('/')}>Home</Link>
-          <Link href="/#about-company" onClick={() => setIsOpen(false)} className={mobileLinkClass('/#about-company')}>About</Link>
+          <Link href="/" onClick={(e) => handleNavClick(e, '/')} className={mobileLinkClass('/')}>Home</Link>
+          <Link href="/#about-company" onClick={(e) => handleNavClick(e, '/#about-company')} className={mobileLinkClass('/#about-company')}>About</Link>
           <Link href="/what-is-cfa" onClick={() => setIsOpen(false)} className={mobileLinkClass('/what-is-cfa')}>What is CFA?</Link>
-          <Link href="/#testimonials" onClick={() => setIsOpen(false)} className={mobileLinkClass('/#testimonials')}>Testimonials</Link>
+          {showTestimonials && (
+            <Link href="/#testimonials" onClick={(e) => handleNavClick(e, '/#testimonials')} className={mobileLinkClass('/#testimonials')}>Testimonials</Link>
+          )}
           <Link href="/blogs" onClick={() => setIsOpen(false)} className={mobileLinkClass('/blogs')}>Blog</Link>
           <Link href="/contact" onClick={() => setIsOpen(false)} className={mobileLinkClass('/contact')}>Contact Us</Link>
           <button
