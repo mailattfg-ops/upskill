@@ -1,0 +1,21 @@
+{
+  "crons": [
+    {
+      "path": "/api/ping",
+      "schedule": "0 0 */3 * *"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "upskillmiddleeast.com"
+        }
+      ],
+      "destination": "https://www.upskillmiddleeast.com/$1",
+      "permanent": true
+    }
+  ]
+}

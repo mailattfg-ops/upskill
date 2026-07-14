@@ -20,6 +20,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.upskillmiddleeast.com"),
   title: "UPSKILL | CFA Exam Preparation",
   description: "Pass your CFA exams with UPSKILL. Saudi Arabia's premier CFA prep course offering expert study guidance, comprehensive mock exams, and rich prep resources.",
 };

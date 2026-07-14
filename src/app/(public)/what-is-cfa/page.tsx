@@ -7,6 +7,9 @@ import Vision2030Section from "./components/Vision2030Section";
 export const metadata = {
   title: "What is CFA? | UP SKILL",
   description: "Learn about the CFA charter, eligibility requirements, and how it aligns with Saudi Vision 2030.",
+  alternates: {
+    canonical: "/what-is-cfa",
+  },
 };
 
 export default function WhatIsCfaPage() {

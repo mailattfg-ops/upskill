@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabaseClient";
 export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://upskillmiddleeast.com";
+  const baseUrl = "https://www.upskillmiddleeast.com";
 
   // Define the base public routes
   const staticRoutes: MetadataRoute.Sitemap = [
