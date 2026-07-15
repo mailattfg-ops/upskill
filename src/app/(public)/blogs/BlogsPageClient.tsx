@@ -70,7 +70,7 @@ export default function BlogsPageClient() {
               {blogsList.map((blog, idx) => (
                 <Link
                   key={blog.id || idx}
-                  href={`/blog?id=${blog.id}`}
+                  href={`/blog/${blog.id}`}
                   className="flex flex-col sm:flex-row bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300 cursor-pointer"
                 >
                   {/* Image Box */}

@@ -84,7 +84,7 @@ export default function Navbar() {
     }
   };
 
-  const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/contact' || pathname === '/blog');
+  const isCfaPage = mounted && (pathname === '/what-is-cfa' || pathname === '/contact' || pathname === '/blog' || pathname.startsWith('/blog/'));
   const useWhiteTheme = isCfaPage && !scrolled;
 
   // Returns true when the given href matches the current page

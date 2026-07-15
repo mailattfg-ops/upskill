@@ -23,6 +23,19 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.upskillmiddleeast.com"),
   title: "UPSKILL | CFA Exam Preparation",
   description: "Pass your CFA exams with UPSKILL. Saudi Arabia's premier CFA prep course offering expert study guidance, comprehensive mock exams, and rich prep resources.",
+  keywords: [
+    "CFA course",
+    "CFA course Saudi Arabia",
+    "Upskill",
+    "Upskill Middle East",
+    "CFA Exam Preparation",
+    "CFA training Riyadh",
+    "CFA course Jeddah",
+    "Finance certification Saudi Arabia",
+  ],
+  alternates: {
+    canonical: "./",
+  },
 };
 
 export default function RootLayout({

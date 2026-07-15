@@ -3,9 +3,8 @@ import path from "path";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: "export", // Enables static HTML export
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: true,
   },
   turbopack: {
     root: path.resolve(process.cwd()),

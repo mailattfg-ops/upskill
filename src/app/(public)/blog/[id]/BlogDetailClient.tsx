@@ -1,46 +1,34 @@
 "use client";
 
-import { Suspense, useState, useEffect, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
 import { formatPublishDate } from "@/lib/utils";
 
-const STATIC_BLOGS = [
-  {
-    id: "static-blog-1",
-    title: "How to Start Preparing for CFA Level I While Working Full-Time",
-    description: "Learn practical strategies to balance your study schedule with a demanding career.",
-    read_time: "5 min read",
-    publish_date: "March 17, 2025",
-    image: "/blog_laptop_charts.webp",
-  },
-  {
-    id: "static-blog-2",
-    title: "Top Mistakes CFA Candidates Make During Exam Preparation",
-    description: "Avoid common study habits that slow down progress and affect exam performance.",
-    read_time: "8 Min Read",
-    publish_date: "March 17, 2025",
-    image: "/blog_exam_writing.webp",
-  }
-];
+interface BlogSection {
+  id: string;
+  tocTitle: string;
+  bodyTitle: string;
+  content: string;
+}
 
-// const sections = [
-//   { id: "preparation", tocTitle: "Introduction", bodyTitle: "CFA Exam Preparation" },
-//   { id: "networking", tocTitle: "Start with yacht size and layout", bodyTitle: "Networking Opportunities" },
-//   { id: "format", tocTitle: "Duration matters more than many realize", bodyTitle: "Exam Format and Structure" },
-//   { id: "career", tocTitle: "Services you can tailor", bodyTitle: "Career Opportunities Post-CFA" },
-// ];
+interface Blog {
+  id: string;
+  title: string;
+  description: string;
+  read_time: string;
+  publish_date: string;
+  image: string;
+  sections?: BlogSection[];
+}
 
-function BlogDetailContent() {
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id") || "static-blog-1";
+interface BlogDetailClientProps {
+  blog: Blog;
+  blogsList: Blog[];
+}
 
+export default function BlogDetailClient({ blog, blogsList }: BlogDetailClientProps) {
   const [activeSection, setActiveSection] = useState("preparation");
-  const [blog, setBlog] = useState<any>(null);
-  const [blogsList, setBlogsList] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
 
   // Resolve active sections for the blog
   const blogSections = useMemo(() => {
@@ -50,81 +38,6 @@ function BlogDetailContent() {
     // Only return sections that actually have content
     return blog.sections.filter((s: any) => s && s.content && s.content.trim() !== "");
   }, [blog]);
-
-  // Fetch specific blog and related blogs
-  useEffect(() => {
-    async function loadBlogDetails() {
-      // Validate if ID is a valid UUID
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      const isValidUUID = uuidRegex.test(id);
-
-      if (!isValidUUID) {
-        // Safe instant fallback for static blogs
-        const staticMatch = STATIC_BLOGS.find((b) => b.id === id) || STATIC_BLOGS[0];
-        setBlog(staticMatch);
-
-        // Fetch top 2 blogs from database as related content, or fallback to static
-        try {
-          const { data: relatedData } = await supabase
-            .from("blogs")
-            .select("*")
-            .order("publish_date", { ascending: false })
-            .limit(2);
-
-          if (relatedData && relatedData.length > 0) {
-            setBlogsList(relatedData);
-          } else {
-            setBlogsList(STATIC_BLOGS.filter(b => b.id !== id).slice(0, 2));
-          }
-        } catch (relatedErr) {
-          console.error("Error fetching related blogs for static post:", relatedErr);
-          setBlogsList(STATIC_BLOGS.filter(b => b.id !== id).slice(0, 2));
-        } finally {
-          setLoading(false);
-        }
-        return;
-      }
-
-      setLoading(true);
-      try {
-        // 1. Fetch current blog details
-        const { data, error } = await supabase
-          .from("blogs")
-          .select("*")
-          .eq("id", id);
-
-        if (data && data.length > 0) {
-          setBlog(data[0]);
-        } else {
-          // Fallback to static blog details
-          const staticMatch = STATIC_BLOGS.find((b) => b.id === id) || STATIC_BLOGS[0];
-          setBlog(staticMatch);
-        }
-
-        // 2. Fetch related blogs (excluding current UUID)
-        const { data: relatedData } = await supabase
-          .from("blogs")
-          .select("*")
-          .neq("id", id)
-          .order("publish_date", { ascending: false })
-          .limit(2);
-
-        if (relatedData && relatedData.length > 0) {
-          setBlogsList(relatedData);
-        } else {
-          setBlogsList(STATIC_BLOGS.filter(b => b.id !== id).slice(0, 2));
-        }
-      } catch (err) {
-        console.error("Error loading blog details from database:", err);
-        const staticMatch = STATIC_BLOGS.find((b) => b.id === id) || STATIC_BLOGS[0];
-        setBlog(staticMatch);
-        setBlogsList(STATIC_BLOGS.filter(b => b.id !== id).slice(0, 2));
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadBlogDetails();
-  }, [id]);
 
   useEffect(() => {
     if (blogSections.length === 0) return;
@@ -175,15 +88,6 @@ function BlogDetailContent() {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
-
-  if (loading) {
-    return (
-      <div className="w-full min-h-[400px] flex flex-col items-center justify-center pt-24 pb-20">
-        <div className="w-12 h-12 rounded-full border-4 border-[#4576FF] border-t-transparent animate-spin" />
-        <p className="mt-4 text-slate-500 font-sans text-sm font-semibold">Loading article details...</p>
-      </div>
-    );
-  }
 
   if (!blog) {
     return (
@@ -300,18 +204,5 @@ function BlogDetailContent() {
         </div>
       )}
     </main>
-  );
-}
-
-export default function BlogDetailPage() {
-  return (
-    <Suspense fallback={
-      <div className="w-full min-h-screen bg-white text-gray-900 flex flex-col items-center justify-center pt-24">
-        <div className="w-12 h-12 rounded-full border-4 border-[#4576FF] border-t-transparent animate-spin" />
-        <p className="mt-4 text-slate-500 font-sans text-sm font-semibold">Loading article...</p>
-      </div>
-    }>
-      <BlogDetailContent />
-    </Suspense>
   );
 }

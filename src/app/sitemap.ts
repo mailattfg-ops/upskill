@@ -19,6 +19,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === "" ? 1.0 : 0.8,
   }));
 
+  const staticBlogIds = ["static-blog-1", "static-blog-2"];
+  const staticBlogRoutes: MetadataRoute.Sitemap = staticBlogIds.map((id) => ({
+    url: `${baseUrl}/blog/${id}`,
+    lastModified: new Date("2025-03-17"),
+    changeFrequency: "weekly",
+    priority: 0.6,
+  }));
+
   try {
     // Dynamically retrieve published blogs to populate sitemap URLs
     const { data: blogs } = await supabase
@@ -28,17 +36,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     if (blogs && blogs.length > 0) {
       const dynamicBlogRoutes: MetadataRoute.Sitemap = blogs.map((blog) => ({
-        url: `${baseUrl}/blog?id=${blog.id}`,
+        url: `${baseUrl}/blog/${blog.id}`,
         lastModified: blog.publish_date ? new Date(blog.publish_date) : new Date(),
         changeFrequency: "weekly",
         priority: 0.6,
       }));
 
-      return [...staticRoutes, ...dynamicBlogRoutes];
+      return [...staticRoutes, ...staticBlogRoutes, ...dynamicBlogRoutes];
     }
   } catch (err) {
     console.error("Error fetching dynamic routes for sitemap.xml:", err);
   }
 
-  return staticRoutes;
+  return [...staticRoutes, ...staticBlogRoutes];
 }
