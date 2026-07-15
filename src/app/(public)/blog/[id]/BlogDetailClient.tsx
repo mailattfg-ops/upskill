@@ -203,6 +203,58 @@ export default function BlogDetailClient({ blog, blogsList }: BlogDetailClientPr
           </article>
         </div>
       )}
+
+      {/* Suggested Blogs Section */}
+      {blogsList && blogsList.length > 0 && (
+        <section className="w-full bg-[#F9FAFB] border-t border-slate-100 py-16 md:py-20 px-6 overflow-hidden flex flex-col items-center">
+          <div className="w-full max-w-[934px]">
+            <h2 className="font-['Cal_Sans'] font-normal text-[28px] sm:text-[34px] md:text-[40px] leading-tight text-black mb-8 text-left">
+              Suggested Articles
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
+              {blogsList.map((suggestedBlog) => (
+                <Link
+                  key={suggestedBlog.id}
+                  href={`/blog/${suggestedBlog.id}`}
+                  className="flex flex-col bg-white border border-[#C0C0C0]/60 rounded-[20px] overflow-hidden hover:shadow-[0_12px_24px_rgba(0,0,0,0.06)] hover:border-[#4879FF]/50 transition-all duration-300 hover:translate-y-[-4px] cursor-pointer group"
+                >
+                  {/* Image Box */}
+                  <div className="relative w-full aspect-[16/10] bg-[#EEEEEE] overflow-hidden">
+                    <Image
+                      src={suggestedBlog.image}
+                      alt={suggestedBlog.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 450px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  {/* Details Box */}
+                  <div className="flex-1 p-6 md:p-8 flex flex-col justify-between min-h-[220px]">
+                    <div className="flex flex-col gap-2">
+                      {/* Read Time */}
+                      <span className="font-sans font-semibold text-[13px] text-[#2530FF] uppercase tracking-wider">
+                        {suggestedBlog.read_time}
+                      </span>
+                      {/* Title */}
+                      <h3 className="font-['Cal_Sans'] font-normal text-[18px] sm:text-[22px] leading-snug text-black group-hover:text-[#4879FF] transition-colors line-clamp-2 mt-1">
+                        {suggestedBlog.title}
+                      </h3>
+                      {/* Description */}
+                      <p className="font-sans font-normal text-[14px] leading-relaxed text-[#727272] line-clamp-3 mt-1.5">
+                        {suggestedBlog.description}
+                      </p>
+                    </div>
+                    {/* Publish Date */}
+                    <span className="font-sans font-medium text-[13px] text-black mt-6 block">
+                      {formatPublishDate(suggestedBlog.publish_date)}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </main>
   );
 }
