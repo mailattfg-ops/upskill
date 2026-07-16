@@ -26,3 +26,26 @@ export function formatPublishDate(dateString: string): string {
     return dateString;
   }
 }
+
+export function getBlogSlug(blog: any): string {
+  if (!blog) return "";
+
+  // 1. Check metadata section slug
+  if (blog.sections && Array.isArray(blog.sections)) {
+    const meta = blog.sections.find((s: any) => s && s.id === "metadata");
+    if (meta && meta.slug) {
+      return meta.slug;
+    }
+  }
+
+  // 2. Default fallback: slugify the title
+  if (blog.title) {
+    return blog.title
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+
+  return blog.id || "";
+}

@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { supabase } from "@/lib/supabaseClient";
+import { getBlogSlug } from "@/lib/utils";
 
 export const dynamic = "force-static";
 
@@ -31,12 +32,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Dynamically retrieve published blogs to populate sitemap URLs
     const { data: blogs } = await supabase
       .from("blogs")
-      .select("id, publish_date")
+      .select("id, title, sections, publish_date")
       .order("publish_date", { ascending: false });
 
     if (blogs && blogs.length > 0) {
       const dynamicBlogRoutes: MetadataRoute.Sitemap = blogs.map((blog) => ({
-        url: `${baseUrl}/blog/${blog.id}`,
+        url: `${baseUrl}/blog/${getBlogSlug(blog)}`,
         lastModified: blog.publish_date ? new Date(blog.publish_date) : new Date(),
         changeFrequency: "weekly",
         priority: 0.6,

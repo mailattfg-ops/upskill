@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { formatPublishDate } from "@/lib/utils";
+import { formatPublishDate, getBlogSlug } from "@/lib/utils";
 
 interface BlogSection {
   id: string;
@@ -215,7 +215,7 @@ export default function BlogDetailClient({ blog, blogsList }: BlogDetailClientPr
               {blogsList.map((suggestedBlog) => (
                 <Link
                   key={suggestedBlog.id}
-                  href={`/blog/${suggestedBlog.id}`}
+                  href={`/blog/${getBlogSlug(suggestedBlog)}`}
                   className="flex flex-col bg-white border border-[#C0C0C0]/60 rounded-[20px] overflow-hidden hover:shadow-[0_12px_24px_rgba(0,0,0,0.06)] hover:border-[#4879FF]/50 transition-all duration-300 hover:translate-y-[-4px] cursor-pointer group"
                 >
                   {/* Image Box */}

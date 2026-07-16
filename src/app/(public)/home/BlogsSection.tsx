@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatPublishDate } from "@/lib/utils";
+import { formatPublishDate, getBlogSlug } from "@/lib/utils";
 
 interface Blog {
   id: string;
@@ -9,6 +9,7 @@ interface Blog {
   read_time: string;
   publish_date: string;
   image: string;
+  sections?: any[];
 }
 
 interface BlogsSectionProps {
@@ -34,7 +35,7 @@ export default function BlogsSection({ blogsList }: BlogsSectionProps) {
           {blogsList.map((blog, idx) => (
             <Link
               key={blog.id || idx}
-              href={`/blog/${blog.id}`}
+              href={`/blog/${getBlogSlug(blog)}`}
               className="flex flex-row flex-1 w-[340px] max-w-full md:w-auto md:max-w-[520px] lg:max-w-[580px] xl:max-w-[680px] 2xl:max-w-[771px] h-[244px] md:h-auto bg-white border-[0.44px] md:border border-[#C0C0C0] rounded-[8.82px] md:rounded-[20px] overflow-hidden hover:translate-y-[-8px] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] transition-all duration-300 cursor-pointer mx-auto"
             >
               {/* Image Box */}

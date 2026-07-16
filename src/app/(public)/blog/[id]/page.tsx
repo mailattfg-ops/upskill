@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { supabase } from "@/lib/supabaseClient";
 import BlogDetailClient from "./BlogDetailClient";
+import { getBlogSlug } from "@/lib/utils";
 
 const STATIC_BLOGS = [
   {
@@ -24,25 +25,37 @@ const STATIC_BLOGS = [
 type Params = Promise<{ id: string }>;
 
 async function getBlogData(id: string) {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-  const isValidUUID = uuidRegex.test(id);
-
-  if (!isValidUUID) {
-    return STATIC_BLOGS.find((b) => b.id === id) || STATIC_BLOGS[0];
-  }
+  // Check static blogs first
+  const staticBlog = STATIC_BLOGS.find((b) => b.id === id);
+  if (staticBlog) return staticBlog;
 
   try {
-    const { data } = await supabase
-      .from("blogs")
-      .select("*")
-      .eq("id", id);
-    if (data && data.length > 0) {
-      return data[0];
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const isValidUUID = uuidRegex.test(id);
+
+    if (isValidUUID) {
+      const { data } = await supabase
+        .from("blogs")
+        .select("*")
+        .eq("id", id);
+      if (data && data.length > 0) {
+        return data[0];
+      }
+    } else {
+      // If it's a slug, query all database blogs and match by slug
+      const { data } = await supabase
+        .from("blogs")
+        .select("*");
+      
+      if (data && data.length > 0) {
+        const matchingBlog = data.find((blog) => getBlogSlug(blog) === id);
+        if (matchingBlog) return matchingBlog;
+      }
     }
   } catch (err) {
     console.error("Error fetching blog data on server:", err);
   }
-  return STATIC_BLOGS.find((b) => b.id === id) || STATIC_BLOGS[0];
+  return STATIC_BLOGS[0];
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
@@ -56,6 +69,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     };
   }
 
+  const slug = getBlogSlug(blog);
+
   return {
     title: `${blog.title} | UP SKILL`,
     description: blog.description || "CFA exam prep tips, resources, and insights from UP SKILL.",
@@ -67,7 +82,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       blog.title.toLowerCase()
     ],
     alternates: {
-      canonical: `/blog/${blog.id}`,
+      canonical: `/blog/${slug}`,
     },
     openGraph: {
       title: `${blog.title} | UP SKILL`,
@@ -89,10 +104,10 @@ export async function generateStaticParams() {
   try {
     const { data: blogs } = await supabase
       .from("blogs")
-      .select("id");
+      .select("id, title, sections");
     
     if (blogs && blogs.length > 0) {
-      const dbPaths = blogs.map((blog) => ({ id: blog.id }));
+      const dbPaths = blogs.map((blog) => ({ id: getBlogSlug(blog) }));
       return [...staticPaths, ...dbPaths];
     }
   } catch (err) {

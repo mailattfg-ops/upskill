@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import CfaCtaSection from "../home/CfaCtaSection";
-import { formatPublishDate } from "@/lib/utils";
+import { formatPublishDate, getBlogSlug } from "@/lib/utils";
 
 interface Blog {
   id: string;
@@ -14,6 +14,7 @@ interface Blog {
   read_time: string;
   publish_date: string;
   image: string;
+  sections?: any[];
 }
 
 export default function BlogsPageClient() {
@@ -70,7 +71,7 @@ export default function BlogsPageClient() {
               {blogsList.map((blog, idx) => (
                 <Link
                   key={blog.id || idx}
-                  href={`/blog/${blog.id}`}
+                  href={`/blog/${getBlogSlug(blog)}`}
                   className="flex flex-col sm:flex-row bg-white border border-[#C0C0C0] rounded-[20px] overflow-hidden hover:shadow-md transition-all duration-300 cursor-pointer"
                 >
                   {/* Image Box */}
